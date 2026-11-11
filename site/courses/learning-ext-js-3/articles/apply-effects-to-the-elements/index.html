@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Apply effects to the Elements - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Apply effects to the Elements
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                The user is the most important part of our applications and we must ensure a good impression. Ext JS has different visual effects that allow us get the user's attention to inform the system status, in this chapter we will talk about the effects that are available.
+
+The class Ext.Fx is the one who's responsible to add effects to <a href="/2009/04/getting-to-know-the-object-element/" rel="nofollow" target="_blank">the object Element</a>, we can use the methods of the class Fx through the instances of the object Element.
+
+<h3>Packaging the tutorial</h3>
+Before we start the tutorial we need to package the code, we already know what are the advantages of doing it.
+
+<pre class="prettyprint">Ext.namespace('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Fx = {
+	init: function(){
+		//The code of this tutorial goes here
+	}
+}
+//Executing the function "init" when the DOM is ready to be used
+Ext.onReady(com.quizzpot.tutorial.Fx.init,com.quizzpot.tutorial.Fx);
+</pre>
+<h3>Fading</h3>
+The first visual effect we will talk about is called "fade" and there are two different types, fadeIn and fadeOut, this visual effect disappears or displays an element slowly. For this tutorial we are going to create a button for every visual effect and when we click on that button we will execute the visual effect on the element, so go ahead and download <a href="/wp-content/uploads/2009/04/fx.zip" rel="nofollow" target="_blank">the resources</a> for this tutorial.
+
+<pre class="prettyprint">//Getting the element
+var el = Ext.get('element');
+el.center(); //we center the element on the screen
+
+//when we click on the button with the id fadeInFx
+Ext.get('fadeInFx').on('click',function(){
+	el.setOpacity(0); //we will give 0 opacity to the element
+	el.fadeIn(); //so it will be displayed slowly
+});
+//when we click on the button fadeOutFx
+Ext.get('fadeOutFx').on('click',function(){
+	el.fadeOut(); //the element will disappear slowly
+});
+</pre>
+
+You can use this visual effect when you remove or add a row in a table or panel, this will catch the user's attention by informing that something's happening.
+ 
+<h3>Frame</h3>
+The visual effect "frame" generates an outline around the element that will increase and disappear at the same time. 
+
+<pre class="prettyprint">Ext.get('frameFx').on('click',function(){
+	el.frame();
+});
+</pre>
+
+This visual effect can be used to catch the user's attention to a certain part of the screen; we can change the color that has by default to another color like red or yellow to indicates a warning or error, also we can specify the number of times we want to repeat the visual effect, for this example we will repeat the effect 3 times.
+
+<pre class="prettyprint">Ext.get('frameFx').on('click',function(){
+	el.frame('ff0000',3);
+});
+</pre>
+<h3>Ghost</h3>
+Normally this visual effect is used to remove elements from the screen, as it makes the element disappear slowly and slide it to the chosen direction, by default the direction is down.
+
+<pre class="prettyprint">Ext.get('ghostFx').on('click',function(){
+	el.ghost();
+});
+</pre>
+<h3>Highlight</h3>
+This visual effect is used to show messages to the users, in this way the user's attention is taken to the message you want to show, by default the element is highlighted in yellow, but you can change the color.
+
+<pre class="prettyprint">Ext.get('highlightFx').on('click',function(){
+	el.highlight('00ff77'); // changing the color
+	Ext.fly('msg').highlight(); //the element will be highlighted in yellow
+});
+</pre>
+<h3>Puff</h3>
+This visual effect disappears an element by making it "explode" and fade slowly.
+
+<pre class="prettyprint">Ext.get('puffFx').on('click',function(){
+	el.puff();
+});
+</pre>
+
+It's very useful when you want to delete an element for example in a shopping cart or in a gallery when you want to delete an image.
+ 
+<h3>Scale</h3>
+We can resize an element with this visual effect by making a transition of the current measurements to new ones.
+
+<pre class="prettyprint">Ext.get('scaleFx').on('click',function(){
+	el.scale(50,50);
+});
+Ext.get('scale2Fx').on('click',function(){
+	el.scale(100,100);
+});
+</pre>
+
+The first parameter of this method is the "width" of the element and the second parameter is the "height" of the element.
+
+<h3>Slide</h3>
+There are two different types of "slide", "slideIn" and "slideOut", these effects allow us to display and disappear elements from the screen in a striking manner, it can be an alternative for some of the previous effects.
+
+<pre class="prettyprint">Ext.get('slideInFx').on('click',function(){
+	el.slideIn(); //displaying the element
+});
+Ext.get('slideOutFx').on('click',function(){
+	el.slideOut(); //the element disappears
+});
+</pre>
+
+This visual effect can be used to create a cool menu, gallery, image transition, etc. the only limit is your imagination.
+
+<h3>Shift</h3>
+This visual effect can change the position, dimension and/or opacity at the same time, it's perfect if you want to change different properties at the same time.
+
+<pre class="prettyprint">Ext.get('shiftFx').on('click',function(){
+	el.shift({
+		x: 100,
+		y: 200,
+		width: 200,
+		height: 200
+	});
+});
+</pre>
+
+It's important to remember that you need to specify the property you want to change because if you don't, the method will be executed without arguments and you won't see any visual effect.
+ 
+<h3>Positions</h3>
+Most of the visual effects mentioned support the following directions in the effects:
+
+tl:     The top left corner
+t:      The center of the top edge
+tr:     The top right corner
+l:      The center of the left edge
+r:      The center of the right edge
+bl:     The bottom left corner
+b:      The center of the bottom edge
+br:     The bottom right corner
+
+<h3>Easing</h3>
+To apply acceleration or deceleration on the effects we can specify some kind of "easing" of the following list:
+
+easeNone
+easeIn
+easeOut
+easeBoth
+easeInStrong
+easeOutStrong
+easeBothStrong
+elasticIn
+elasticOut
+elasticBoth
+backIn
+backOut
+backBoth
+bounceIn
+bounceOut
+bounceBoth
+
+<pre class="prettyprint">Ext.get('scale3Fx').on('click',function(){
+	el.scale(200,200,{
+		easing:'elasticOut',duration:2
+	});
+});
+</pre>
+
+By using this visual effect we make the striking animations, giving the user a better experience when using our applications.
+
+<h3>Conclusions</h3>
+The visual effects are a very important because it improves the user's experience, some developers can think that is a waste of time, but the reality is that the small details make a big difference between success and failure.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/doom/fx.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

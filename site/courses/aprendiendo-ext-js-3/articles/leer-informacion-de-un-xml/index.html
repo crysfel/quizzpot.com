@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Leer información de un XML - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Leer información de un XML
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>11</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                El día de hoy veremos como leer el contenido de un XML mediante un “reader” y lograr manipular la información mediante un Store, vamos a utilizar Ajax para cargar la información dentro del Store y trabajar con ella más adelante.
+
+<h3>Material de apoyo</h3>
+Para continuar es necesario descargar el <a href="/wp-content/uploads/2009/04/xml.zip" rel="nofollow" target="_blank">material de apoyo</a>, descomprimir y copiar los tres archivos que contiene el zip a la carpeta “ajax” (la misma del tutorial anterior) que se encuentra en el servidor Web que instalamos en el primer capitulo del curso.
+
+Para este tema vamos a utilizar el mismo código que escribimos en el tutorial anterior, esto quiere decir que haremos (visual y funcionalmente) lo mismo que en el tutorial anterior, la diferencia es que vamos a cambiar el Store para que pueda cargar la información mediante una llamada Ajax al servidor el cual regresará el contenido en formato XML.
+
+No voy a explicar el código que viene en el material de apoyo pues ya lo hice el día de ayer, si tienes dudas sobre su funcionamiento te recomiendo repasar lo explicado anteriormente.
+
+<h3>Estructura general</h3>
+Vamos a editar el archivo “xml.js” veremos algo semejante a esto:
+
+<pre class="prettyprint">//the namespace for this tutorial
+Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Store = {
+	init: function(){
+		
+		//we will write code only between the asterisks
+		//*************************************************************//
+		//code here the record
+		
+		//code here the xml reader
+		
+		//code here the proxy
+		
+		//code here the Store
+		
+		//load the data with an Ajax call
+		
+		//*************************************************************//	
+		//the next code is the same as the last tutorial
+		//listeners for the buttons
+		Ext.fly('personBtn').on('click',this.find,this);
+		Ext.fly('txt').on('keyup',function(event,cmd){
+			if(event.getKey() === event.ENTER){ //when press ENTER
+				this.find(); // perform the search
+			}
+		},this);
+		Ext.fly('ascBtn').on('click',this.orderAsc,this);
+		Ext.fly('descBtn').on('click',this.orderDesc,this);
+		Ext.fly('older2030Btn').on('click',this.query,this);
+		Ext.fly('older30Btn').on('click',this.filter,this);
+		Ext.fly('countBtn').on('click',this.count,this);
+		
+	},
+	
+	orderAsc: function(){
+		this.store.sort('name','ASC'); // sort the store ASC
+		this.store.each(function(record){
+			this.log(record.get('name')); //print each name
+		},this);
+		this.log('___________________________________');
+	},
+	
+	orderDesc: function(){
+		this.store.sort('name','DESC'); //sort the store DESC
+		this.store.each(function(record){
+			this.log(record.get('name')); //print each name
+		},this);
+		this.log('___________________________________');
+	},
+	
+	filter: function(){
+		//filter people...
+		this.store.filterBy(function(record,id){
+			return record.get('age') &gt;= 30; //older than 30 years old
+		});
+		
+		this.store.each(function(record){
+			//print on screen
+			this.log(record.get('name')+' is older than 30 '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age'));
+		},this);
+		//clear the filters
+		this.store.clearFilter();
+		this.log('___________________________________');
+	},
+	
+	query: function(){
+		//query the store, search for people older than 20 and younger than 30
+		var collection = this.store.queryBy(function(record,id){
+			return record.get('age') &gt;20 &amp;&amp; record.get('age')&lt;30;
+		});
+		
+		//for each item found...
+		collection.each(function(item,index){
+			//print the info on the screen
+			this.log(item.get('name')+' is '+item.get('age')+ ' and '+(item.get('gender')=='f'?'she':'he')+' is younger than 30');
+		},this);
+		this.log('___________________________________');
+	},
+	
+	count: function(){
+		//count the records in the store
+		this.log('&lt;strong&gt;Total records: '+this.store.getCount()+'&lt;/strong&gt;');
+	},
+	
+	find: function(){
+		var value = Ext.fly('txt').getValue();
+		if(Ext.isEmpty(value)) return;
+		//if the value is a number
+		if(/^\d+$/.test(value)){
+			//find by ID
+			var record = this.store.getById(value);
+			if(!Ext.isEmpty(record)){
+				//if found, log it
+				this.log(record.get('name')+' work as a '+record.get('occupation')+' and '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age')+' years old');
+			}else{
+				//alert the user if nothing is found
+				this.log('&lt;strong&gt;Record with id: '+value+' was not found!&lt;/strong&gt;');
+			}
+		}else{
+			//if it is text, search the name property
+			var index = this.store.find('name',value,0,true,false);
+			//if something is found...
+			if(index&gt;=0){
+				//get the record by the index...
+				var record = this.store.getAt(index);
+				//and print the information
+				this.log(record.get('name')+' work as a '+record.get('occupation')+' and '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age')+' years old');
+			}else{
+				//alert the user if nothing is found
+				this.log('&lt;strong&gt;'+value+' not found!&lt;/strong&gt;');
+			}
+		}
+	},
+	
+	log: function(txt){
+		var el = Ext.get('response'); // get the LOG
+		el.select('p.newest').removeClass('newest'); // remove last update
+		Ext.DomHelper.append(el,'&lt;p class="newest"&gt;'+txt+'&lt;/p&gt;'); //update the log
+		el.scrollTo('top',el.dom.scrollHeight); //scroll down
+		el.select('p.newest').highlight('F5FC49',{duration:0.5}); //highlight the last message
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.Store.init,com.quizzpot.tutorial.Store);
+</pre>
+
+El código anterior está debidamente empaquetado, y cuenta con métodos donde se invoca al store, el cual no hemos definido aún, por lo tanto si en este momento das clic sobre cualquier botón en el HTML aparecerá un error.
+
+Para este tutorial vamos a escribir el código solo entre los asteriscos que se encuentran al inicio, he puesto comentarios de lo que vamos a ir realizando paso a paso.
+
+<h3>El XML a utilizar</h3>
+Ext JS nos proporciona una manera muy fácil de manipular la información contenida en un XML, no tenemos que movernos por el árbol generado para acceder a las propiedades y atributos ni recorrer los nodos mediante ciclos, esto es una gran ventaja pues nos ahorra mucho tiempo en el desarrollo.
+
+El XML que vamos a utilizar para este tutorial esta contenido en el archivo “data.php” donde únicamente se están modificando las cabeceras para la respuesta e imprimiendo la información en XML, en el mundo real la información saldría de una base de datos, de un servicio Web o de alguna otra fuente, por cuestiones de aprendizaje lo he dejado así de simple:
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/xml"); 
+	
+	echo '&lt;?xml version="1.0" encoding="UTF-8"?&gt;';
+?&gt;
+
+&lt;dataset&gt;
+	&lt;results&gt;9&lt;/results&gt;
+	&lt;person active="true"&gt;
+		&lt;id&gt;1&lt;/id&gt;
+		&lt;name&gt;Crysfel&lt;/name&gt;
+		&lt;occupation&gt;Software developer&lt;/occupation&gt;
+		&lt;gender&gt;m&lt;/gender&gt;
+		&lt;age&gt;25&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="false"&gt;
+		&lt;id&gt;2&lt;/id&gt;
+		&lt;name&gt;Sasha&lt;/name&gt;
+		&lt;occupation&gt;Figure skater&lt;/occupation&gt;
+		&lt;gender&gt;f&lt;/gender&gt;
+		&lt;age&gt;24&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="true"&gt;
+		&lt;id&gt;3&lt;/id&gt;
+		&lt;name&gt;Jack&lt;/name&gt;
+		&lt;occupation&gt;Software Architect&lt;/occupation&gt;
+		&lt;gender&gt;m&lt;/gender&gt;
+		&lt;age&gt;35&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="true"&gt;
+		&lt;id&gt;4&lt;/id&gt;
+		&lt;name&gt;John&lt;/name&gt;
+		&lt;occupation&gt;JavaScript developer&lt;/occupation&gt;
+		&lt;gender&gt;f&lt;/gender&gt;
+		&lt;age&gt;24&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="true"&gt;
+		&lt;id&gt;5&lt;/id&gt;
+		&lt;name&gt;Sara&lt;/name&gt;
+		&lt;occupation&gt;Designer&lt;/occupation&gt;
+		&lt;gender&gt;f&lt;/gender&gt;
+		&lt;age&gt;31&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="true"&gt;
+		&lt;id&gt;6&lt;/id&gt;
+		&lt;name&gt;Nicole&lt;/name&gt;
+		&lt;occupation&gt;Tester&lt;/occupation&gt;
+		&lt;gender&gt;f&lt;/gender&gt;
+		&lt;age&gt;28&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="false"&gt;
+		&lt;id&gt;7&lt;/id&gt;
+		&lt;name&gt;Carl&lt;/name&gt;
+		&lt;occupation&gt;Photographer&lt;/occupation&gt;
+		&lt;gender&gt;m&lt;/gender&gt;
+		&lt;age&gt;45&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="true"&gt;
+		&lt;id&gt;8&lt;/id&gt;
+		&lt;name&gt;Will&lt;/name&gt;
+		&lt;occupation&gt;Actor&lt;/occupation&gt;
+		&lt;gender&gt;m&lt;/gender&gt;
+		&lt;age&gt;32&lt;/age&gt;
+	&lt;/person&gt;
+	&lt;person active="false"&gt;
+		&lt;id&gt;9&lt;/id&gt;
+		&lt;name&gt;Penny&lt;/name&gt;
+		&lt;occupation&gt;Waitress&lt;/occupation&gt;
+		&lt;gender&gt;f&lt;/gender&gt;
+		&lt;age&gt;29&lt;/age&gt;
+	&lt;/person&gt;
+&lt;/dataset&gt;
+</pre>
+
+A continuación se explican los pasos que son necesarios para poder manipular la información contenida en el XML.
+
+<h3>Paso 1: Crear el registro Person</h3>
+Lo primero que debemos hacer es definir los campos que tendrán los registros, además necesitamos indicarle a cada registro de donde proviene el contenido que tendrá.
+
+<pre class="prettyprint">//create the "Person" record
+var Person = Ext.data.Record.create([
+	{name: 'active', mapping:'@active', type:'boolean'}, // mapping an attribute and setting a type for this field
+	{name: 'name', mapping: 'name'},// "mapping" property not needed if it's the same as "name"
+	{name: 'occupation'}, // This field will use "occupation" as the mapping.
+	{name: 'age', type:'float'}, // this field will use "age" as the mapping and its a float type
+	{name: 'gender'}
+]);
+</pre>
+
+Para crear un registro se utiliza el método “create” del objeto “Ext.data.Record”, el cual recibe un arreglo con los campos que contendrá, mediante la propiedad “name” se le indica el nombre que se le dará al campo, también se le puede especificar el tipo de dato que será (boolean, date, float, etc...) y de ser necesario utilizar la propiedad “mapping” para hacer la relación con la información en el XML.
+
+Algo que quiero resaltar es que la propiedad “active” tiene un “mapping” el cual ha sido relacionado con un atributo que está en el nodo “person” del XML, hay que notar que para indicar que es un atributo y no un nodo es necesario anteponer una arroba (@).
+
+<h3>Paso 2: Crear el “reader” para XML</h3>
+Una vez que definimos las propiedades del registro necesitamos crear el “reader” que se encargará de manipular el XML.
+
+<pre class="prettyprint">//creates the reader for the XML data
+var reader = new Ext.data.XmlReader({
+   totalRecords: "results", // The element which contains the total dataset size (optional)
+   record: "person",        // The repeated element which contains row information
+   id: "id"                 // The element within the row that provides an ID for the record (optional)
+}, Person);
+</pre>
+
+El constructor del “XmlReader” recibe como primer parámetro un objeto de configuración en el cual se define el nodo donde se encuentra el total de registros mediante la propiedad “totalRecords”, ese  nodo debe estar en el XML; se define también el “id” que será utilizado para los registros y lo más importante, la propiedad “record” que es el nodo del XML de donde toma la información para llenar los registros, es importante mencionar que en esta propiedad es donde en el paso uno de este tutorial, se definieron las propiedades de los registros. Como segundo parámetro recibe el registro que será utilizado y llenado con la información.
+
+<h3>Paso 3: Crear el Proxy</h3>
+Si queremos que mediante llamadas Ajax se cargue la información dentro del store tenemos que definir el lugar de donde se solicitará la información y opcionalmente el método HTTP usado para realizar la llamada Ajax (GET o POST).
+
+<pre class="prettyprint">//creates the proxy
+var proxy = new Ext.data.HttpProxy({
+	method:'POST', //configure the http method GET or POST
+	url: 'data.php' //the URL for the Ajax call
+});
+</pre>
+
+El código anterior define el método usado y la URL que será invocada.
+
+<h3>Paso 4: Crear el Store</h3>
+Después de definir el “reader” y el “proxy” podemos crear el store de la siguiente manera:
+
+<pre class="prettyprint">//creates the Ext.data.Store
+this.store = new Ext.data.Store({
+	proxy: proxy, //setting the proxy
+	reader: reader //setting the reader
+});
+</pre>
+
+Con eso es suficiente por ahora, es necesario aclarar que el Store acepta diferentes implementaciones de “readers”, por ejemplo el JsonReader o en este caso XmlReader.
+
+<h3>Paso 5: Cargar la información en el Store</h3>
+Por último vamos a solicitar mediante Ajax la información al servidor de la siguiente manera:
+
+<pre class="prettyprint">//loading the data
+this.store.load({params:{param1:'value'}});
+</pre>
+
+El método “load” realiza la petición al servidor utilizando Ajax, opcionalmente podemos pasarle los parámetros que necesitemos mediante un objeto que contenga la propiedad “params”, esto es muy útil si la información que solicitamos es variante, por ejemplo aquí podría enviarle al servidor el “id” de una persona para que sólo ese registro sea regresado.
+
+A continuación voy a poner un mensaje de espera para avisarle al usuario que la información se está cargando, como la carga es muy rápida voy a ponerle un “delay” para que veamos por más tiempo el mensaje.
+
+<pre class="prettyprint">//loading the data
+Ext.Msg.wait('Loading... please wait!','Wait');
+this.store.load({params:{param1:'value'}});
+this.store.on('load',function(){
+	//delay the message 2 seconds
+	setTimeout(function(){ 
+		Ext.Msg.hide(); // just to see the waiting message XD (don't do it in the real world)
+	},2000);
+});
+</pre>
+
+Nota que he creado un “listener” para el evento “load” del store, donde definí una función que será ejecutada tan pronto como la información sea cargada en el store, dentro de esta función escondo el mensaje.
+
+<h3>Conclusiones</h3>
+En este tema además de mostrar como manipular un XML también se demostró la modularidad del Framework, si lo notaste, el código del tutorial anterior no fue modificado en lo absoluto, esto es por que estamos usando la misma información pero ahora esta contenida en un XML, así que simplemente se cambia la fuente de información y el resto de la aplicación sigue funcionando como si nada pasara, estas son una de las ventajas de utilizar Ext JS.
+
+Dudas, comentarios y sugerencias son bienvenidas y te pedimos de favor que votes por este tutorial en alguna de las redes sociales, con esto nos ayudas mantener este proyecto.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/ajax/xml.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

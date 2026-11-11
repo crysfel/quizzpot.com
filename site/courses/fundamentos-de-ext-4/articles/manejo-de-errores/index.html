@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Manejo de Errores - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Fundamentos de Ext 4</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Manejo de Errores
+            <a class="bubble-tag article-header-link-videos" href="/courses/fundamentos-de-ext-4/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="385" mozallowfullscreen="" src="https://player.vimeo.com/video/69003218" webkitallowfullscreen="" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>2</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>35.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En este tutorial veremos como crear una clase para manejar los errores en las peticiones Ajax que realicemos a nuestro servidor. Esto nos permitirá concentrar toda la lógica en una sola clase que podremos mantener de una manera más sencilla.</p>
+<h3>Estandarizando las respuestas del servidor</h3>
+<p>Es muy importante definir un estandar para todas las respuestas del servidor, ya sea en caso de éxito o en caso de errores, debemos definir alguna manera de comunicarle al cliente que algo ha fallado en el servidor, para este ejemplo definiremos las siguientes respuestas para éxito y para fallo.</p>
+<pre class="prettyprint">//para el caso de éxito
+{
+    "control" : {
+        "success" : true
+    },
+    "output" : {<br/>        "users" : [{
+            "id"      : 1,
+            "name"    : "John",
+            "lastname": "Doe",
+            "dob"     : "1980-05-21 17:23:03"
+        },{
+            "id"      : 2,
+            "name"    : "Susan",
+            "lastname": "Smith",
+            "dob"     : "1980-10-16 17:23:03"
+        },{
+            "id"      : 3,
+            "name"    : "Peter",
+            "lastname": "File",
+            "dob"     : "1983-08-03 17:23:03"
+        }]
+   }
+}
+</pre>
+<pre class="prettyprint">//para el caso de errores
+{
+    "control" : {
+        "success" : false,
+        "errors"  : [{
+            "code"    : 404,
+            "message" : "El recurso no se encontro en este servidor."
+        }]
+    },
+    "output" : {}
+}
+</pre>
+<p>Para este ejemplo definimos el objeto <i>control</i> que nos define si la petición fue exitosa o no, la propiedad <i>success</i> es la responsable de indicarnos esto, en caso de error se regresa un arreglo con los errores que se ocasionaron, pueden ser de validación o cualquier otro tipo de error, estos mensajes los podemos mostrar al usuario final si es necesario.</p><p>Si la respuesta es exitosa entonces el objeto <i>output</i> contendrá la información solicitada, en este ejemplo es un arreglo de usuarios pero podría contener cualquier cosa.</p>
+<h3>Clase abstracta</h3>
+<p>En el tema anterior vimos que la clase <i>Ext.data.Connection</i> es la responsable de realizar las peticiones Ajax, por lo tanto si queremos agregar código para manejar los errores que nuestro servidor nos estará enviando debemos extender de esa clase.</p>
+<pre class="prettyprint">Ext.define('MyApp.abstract.data.Connection',{
+    extend      : 'Ext.data.Connection'
+});</pre>
+<p>Lo primero que haremos será sobre-escribir el método <i>request</i> para poder definir nuestros propios callbacks de éxito y fallo donde manejaremos los errores de manera adecuada.</p><pre class="prettyprint">Ext.define('MyApp.abstract.data.Connection',{
+    extend      : 'Ext.data.Connection',
+
+    request     : function(options){
+        options.originalCallbacks = {  //step 1
+            scope   : options.scope || this,
+            success : options.success || Ext.emptyFn,
+            failure : options.failure || Ext.emptyFn
+        };
+
+        options.scope = this;   //step 2
+        options.success = this.successCallback;
+        options.failure = this.failureCallback;
+
+        this.callParent([options]);   //step 3
+    }
+});</pre>
+<ul><li>En el paso 1 creamos un objeto llamado <i>originalCallbacks</i> donde almacenaremos temporalmente los callbacks originales ya que los necesitamos llamar más adelante.</li><li>En el paso 2 sobre-escribimos los callbacks originales con las funciones que necesitamos ejecutar para manejar las respuestas de manera adecuada.</li><li>En el paso 3 ejecutamos el método <i>request</i> de la super clase, el cual ejecuta la petición Ajax.</li></ul>
+<p>Lo siguiente es definir la función <i>successCallback</i> la cual se encargará de manejar el caso de éxito y la función <i>failureCallback</i> que se encargará de manejar el caso de fracaso.</p><pre class="prettyprint">Ext.define('MyApp.abstract.data.Connection',{
+    extend      : 'Ext.data.Connection',
+
+    request     : function(options){
+        //...
+    },
+
+    successCallback : function(response,options){
+        console.log('success', options);
+    }    
+
+    failureCallback(response,options){
+        console.log(options);
+    }
+});</pre>Por el momento solo vamos a imprimir el objeto <i>options</i> en la consola y vamos a crear el HTML para probar el ejemplo. Vamos a llamar el HTML 02-custom-ajax.html y vamos a importar la clase que acabamos de crear: <i>Connection.js</i>.<br/><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;title&gt;Custom Ajax&lt;/title&gt;
+    &lt;link rel="stylesheet" href="/courses/fundamentos-de-ext-4/ext-4.2.1/resources/css/ext-all.css"/&gt;
+    &lt;script type="text/javascript" src="/courses/fundamentos-de-ext-4/ext-4.2.1/ext-all-dev.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="/courses/fundamentos-de-ext-4/articles/Connection.js"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+        
+    var Ajax = Ext.create('MyApp.abstract.data.Connection');  //paso 1
+
+    Ajax.request({  //paso 2
+        url : 'serverside/errores.json',
+        success : function(data){  //paso 3
+            console.log('Success en el Ajax');
+        },
+        failure : function(){
+            console.log('Failure en el Ajax');
+        }
+    });
+
+
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre><ul><li>En el paso 1 creamos una instancia de la clase <i>Connection</i>.</li><li>En el paso 2 usamos el método <i>request</i> de la clase para hacer una petición a la url que le asignamos.</li><li>En el paso 3 definimos el callback de <i>success</i> y <i>failure</i> que por el momento solo imprimen un mensaje en la consola. Estos callbacks no van a ser ejecutados ya que en la clase de <i>Connection</i> los hemos sobre-escrito, aunque como en los callbacks de esa clase estamos imprimiendo lo que tiene el objeto <i>options</i>, vamos a poder ver las funcione originales.</li></ul>Si probamos el ejemplo en el navegador vamos a ver que se imprimió el objeto <i>options</i> y en la propiedad <i>originalCallbacks</i> vamos a ver las funciones originales de <i>success</i> y <i>failure</i>. <br/>Vamos a cambiar el contenido del método <i>successCallback</i> de la clase <i>Connection</i>, quitamos la impresión a la consola y escribimos el siguiente código:<br/><pre class="prettyprint">successCallback : function(response,options){
+    try{
+        info = Ext.decode(response.responseText);   //paso 1 
+    }catch(e){
+        info = {control:{success:false}};
+    }
+
+    if(info.control.success){ //paso 2
+        options.originalCallbacks.success.call(options.originalCallbacks.scope,info);
+    }else{
+        this.failureCallback(response,options);  //paso 3
+    }
+},</pre><ul><li>En el paso 1 estamos decodificando lo que tiene la propiedad <i>responseText</i>, que es básicamente es la respuesta del servidor en formato texto. Lo que hace el método <i>decode</i> es convertir ese texto a objetos de JavaScript. Es necesario que esta parte vaya dentro de un bloque <i>try/catch</i> en caso de que la respuesta del servidor no sea en formato Json, ya que el método <i>decode</i> fallaría y se ejecutaría el método <i>catch</i>. En el método <i>catch</i> solo vamos a definir que <i>success</i> es falso en el objeto <i>control</i>.</li><li>En el paso 2 checamos si la propiedad <i>success</i> es verdadera para poder ejecutar el callback original. Le estamos pasando como parámetro el scope y la respuesta del servidor.</li><li>En el paso 3 si la propiedad <i>success</i> es falsa entonces ejecutamos el método failureCallback que vamos a definir en un momento.</li></ul>Ya que estamos mandando la respuesta del servidor como parámetro, necesitamos agregar ese parámetro al callback original. En el archivo HTML vamos a modificar la función <i>success</i>:<br/><pre class="prettyprint">success : function(data){
+    console.log('Success en el Ajax',data.output.users);
+},</pre>De esta forma estamos imprimiendo la respuesta del servidor en objetos JavaScript. <br/>Ya que definimos el callback de success es necesario definir el callback de failure en la clase <i>Connection</i>.<br/><pre class="prettyprint">failureCallback : function(response,options){
+    var info,error;
+    try{
+        info = Ext.decode(response.responseText);  //paso 1
+    }catch(e){
+        info = {control:{success:false}};
+    } 
+
+    if(info.control.errors){  //paso 2
+        for(var i=0,len=info.control.errors.length;i&lt;len;i++){
+            error = info.control.errors[i];  //paso 3
+
+            if(error.code === 401){
+                this.fireEvent('sessionexpired',error);
+            }else{
+                this.fireEvent('ajaxerror',error);
+            }
+                           
+        }
+    }else{  //paso 4
+        error = {};
+        switch(response.status){
+            case 0   : error.message = 'Verifica tu conexión, es posible que este fallando.';
+                    break;
+            case 401 : error.message = 'Tu sesión ha expirado.';
+                  this.fireEvent('sessionexpired',error);
+                  break;
+            case 403 : error.message = 'No tienes permisos para acceder este recurso.';
+                  break;
+            case 404 : error.message = 'Recurso no encontrado';
+                  break;
+            case 500 : error.message = 'Error en el servidor';
+                  break;
+            default : error.message = response.statusText;
+        }
+        this.fireEvent('ajaxerror',error);
+    }
+
+    options.originalCallbacks.failure.call(options.originalCallbacks.scope,error);  //paso 5
+}
+</pre><ul><li>En el paso 1 decodificamos la respuesta del servidor a objetos JavaScript dentro de un bloque <i>try/catch</i> por si el servidor nos manda un error que no sea Json.</li><li>En el paso 2 verificamos si existe el objeto errors dentro del objeto control, si existe significa que el servidor regresó los errores de manera adecuada en un arreglo.</li><li>En el paso 3 estamos iterando el arreglo errors y por cada error que haya se dispara un evento. Si el error ocurrió porque terminó la sesión disparamos el evento <i>sessionexpired</i>, de lo contrario disparamos el evento <i>ajaxerror</i>.</li><li>En el paso 4 utilizamos un <i>switch</i> donde estamos diferenciando los tipos de errores que nos mandó el servidor utilizando el <i>status</i> de la respuesta; por cada error especificamos un mensaje. Al finalizar el bloque switch disparamos el evento de <i>ajaxerror</i>.</li><li>En el paso 5 simplemente estamos ejecutando el callback original del failure.</li></ul>Antes de probar el ejemplo vamos a crear un <i>listener</i> del evento <i>ajaxerror</i> en el archivo HTML. Agregamos el siguiente código antes de hacer el request:<br/><pre class="prettyprint">MyApp.Ajax.on('ajaxerror',function(error){
+      Ext.Msg.alert('Error',error.message);
+});</pre>Básicamente lo que hicimos en el código anterior es escuchar el evento y mandar un mensaje de alerta cada vez que se genere un error.<br/>Ahora si podemos probar el ejemplo. Vamos a hacer que se ejecuten los callbacks de <i>failure</i>, para hacer eso vamos a cambiar en el archivo <i>errores.json</i>, la propiedad:<br/><pre class="prettyprint">"success" : false</pre><span>Al ejecutar el ejemplo nos debe aparecer un mensaje en la pantalla con el mensaje de error. Este ejemplo nos muestra que podemos crear nuestro propio sistema de errores con Ext.<i><br/></i></span>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/fundamentos-de-ext-4/">Fundamentos de Ext 4</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es Ingeniero de Software con más de 7+ años de experiencia profesional, durante 5 de los cuales ha estado desarrollando con Ext JS. Es autor del libro "Learning Ext JS 4" publicado por Packt Publishing en enero del 2013.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/fundamentos-ext4/15-custom-ajax/02-custom-ajax.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

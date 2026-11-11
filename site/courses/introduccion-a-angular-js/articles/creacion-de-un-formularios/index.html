@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Creación de un formularios - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Introducción a Angular JS</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Creación de un formularios
+            <a class="bubble-tag article-header-link-videos" href="/courses/introduccion-a-angular-js/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/IH_sLPL1Ncg" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>9</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>11.57 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En el tema anterior <a href="/courses/introduccion-a-angular-js/articles/integracion-con-bootstrap/" title="Link: https://quizzpot.com/courses/introduccion-a-angular-js/articles/integracion-con-bootstrap">integramos Bootstrap a nuestro proyecto</a> y creamos el layout, en este tema veremos como crear un formulario sobre una ventana modal de Bootstrap, definiremos los campos necesarios para crear o editar un Bookmark.</p><p>Lo primero que haremos será abrir una ventana modal cuando el usuario de click sobre el botón <i>New Bookmark</i>, para eso necesitamos agregar el siguiente html en el index.html.</p><pre class="prettyprint">&lt;!-- Bookmark form --&gt;
+&lt;div class="modal fade" id="bookmarkModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"&gt;
+  &lt;div class="modal-dialog"&gt;
+    &lt;div class="modal-content"&gt;
+      &lt;div class="modal-header"&gt;
+        &lt;button type="button" class="close" data-dismiss="modal"&gt;&lt;span aria-hidden="true"&gt;&amp;times;&lt;/span&gt;&lt;span class="sr-only"&gt;Close&lt;/span&gt;&lt;/button&gt;
+        &lt;h4 class="modal-title" id="myModalLabel"&gt;Bookmark&lt;/h4&gt;
+      &lt;/div&gt;
+      &lt;div class="modal-body"&gt;
+        
+        
+      &lt;!-- Main content here --&gt;
+
+      &lt;/div&gt;
+      &lt;div class="modal-footer"&gt;
+        &lt;button type="button" class="btn btn-default" data-dismiss="modal"&gt;Close&lt;/button&gt;
+        &lt;button type="button" class="btn btn-primary"&gt;Save changes&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;<br/></pre><p>Aquí unicamente estamos definiendo el markup para un modal de Bootstrap, este código lo sacamos de <a href="http://getbootstrap.com/javascript/#modals">la documentación de Bootstrap</a>, solo se cambió el título de la ventana y el ID del nodo principal.</p><p>Para poder desplegar esta ventana, necesitamos agregar la acción al botón, Bootstrap nos lo permite hacer de una manera muy sencilla.</p><pre class="prettyprint">&lt;a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#bookmarkModal"&gt;
+  &lt;i class="glyphicon glyphicon-plus-sign"&gt;&lt;/i&gt; 
+  New bookmark
+&lt;/a&gt;<br/></pre><p>Aquí solo estamos agregando la propiedad <i>data-toggle</i> y <i>data-target</i> al link, con esto es suficiente para desplegar la ventana modal cada vez que se de click sobre el botón. Para que todo funcione bien, es necesario asignar el target adecuadamente, en este caso asignamos el ID de la ventana modal, que es <i>bookmarkModal</i>.</p>
+<div class="example"><img alt="Bootstrap modal window en angular js" src="https://s3.amazonaws.com/quizzpot/images/115-angular-bootstrap-modal-window.png" title="Image: https://s3.amazonaws.com/quizzpot/images/115-angular-bootstrap-modal-window.png"/><p>Ventana modal de bootstrap</p></div><p>Con esto veremos como aparece una ventana modal vacía, lo que necesitamos hacer es crear el formulario que usaremos para agregar o editar un bookmark. Iniciamos agregando la etiqueta form dentro del body de la ventana modal.</p><pre class="prettyprint">&lt;form id="bookmarkForm"&gt;
+  &lt;p&gt;Please enter the title and the url for your bookmark, all fields are required.&lt;/p&gt;
+  
+
+&lt;/form&gt;<br/></pre><p>Aquí solamente tenemos el <i>form</i> con un ID, este identificador lo usaremos más adelante para realizar las validaciones, por ahora simplemente lo definimos, ahora vamos a crear las cajas de texto para el título y la URL, colocamos el siguiente código dentro del formulario.</p><pre class="prettyprint">&lt;div class="form-group"&gt;
+  &lt;label for="title"&gt;Title&lt;/label&gt;
+  &lt;div class="input-group"&gt;
+    &lt;div class="input-group-addon"&gt;
+      &lt;i class="glyphicon glyphicon-bookmark"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;input ng-model="bookmark.title" id="title" class="form-control" type="text" placeholder="Enter the title"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="form-group"&gt;
+  &lt;label for="url"&gt;URL&lt;/label&gt;
+  &lt;div class="input-group"&gt;
+    &lt;div class="input-group-addon"&gt;
+      &lt;i class="glyphicon glyphicon-link"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;input ng-model="bookmark.url" id="url" class="form-control" type="url" placeholder="Enter the URL"&gt;
+  &lt;/div&gt;
+&lt;/div&gt;<br/></pre><p>Este markup lo hemos sacado de la librería de bootstrap, <a href="http://getbootstrap.com/css/#forms" title="Link: http://getbootstrap.com/css/#forms">revisa la documentación</a> si tienes algunas dudas, básicamente estamos agregando los <i>inputs</i> con un <i>label</i> e icono en la parte lateral del input.</p><p>Lo interesante del código anterior es la propiedad <i>ng-model </i>que definimos para cada <i>input</i>, esta propiedad será la responsable de asignar el valor de cada <i>textfield</i> al objeto <i>bookmark</i>, para el título usamos <i>bookmark.title</i> y para la url usamos <i>bookmark.url</i>, eso significa que tendremos lo que el usuario capture en esas propiedades del objeto <i>bookmark</i>. </p><p>Si refrescamos el navegador tendremos algo como la siguiente imagen.</p>
+<div class="example"><img alt="Formularios en Angular JS" src="https://s3.amazonaws.com/quizzpot/images/127-angular-forms.png" title="Image: https://s3.amazonaws.com/quizzpot/images/127-angular-forms.png"/><p>Formularios en Angular JS</p></div>
+<p>Lo siguiente que haremos es definir un combobox, esto puede ser un poco enredado ya que tenemos que usar el arreglo de categorías que tenemos en nuestro controler para desplegar las opciones a seleccionar.</p><pre class="prettyprint">&lt;div class="form-group"&gt;
+  &lt;label for="category"&gt;Category&lt;/label&gt;
+  &lt;div class="input-group"&gt;
+    &lt;div class="input-group-addon"&gt;
+      &lt;i class="glyphicon glyphicon-folder-open"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+    &lt;select ng-model="bookmark.category" ng-options="value for value in categories" id="category" class="form-control"&gt;
+    &lt;/select&gt;
+  &lt;/div&gt;
+&lt;/div&gt;<br/></pre><p>El markup es muy semejante a lo que hicimos en los ejemplos anteriores, la diferencia es que ahora usamos un <i>select</i> para desplegar las categorías, en el <i>ng-model</i> definimos que guardaremos lo que el usuario selecciones sobre la propiedad <i>category</i> del objeto <i>bookmark</i>, ese mismo objeto que estamos usando en los <i>textfields</i> anteriores.</p><ol><li>Lo interesante aquí es la directiva <i>ng-options</i>, esta directiva acepta una expresión un tanto rara, vamos a entenderla poco a poco. Primero necesitamos definir la colección que vamos a iterar, osea, aquella que contenga las opciones que vamos a desplegar, en este caso <i>categories</i>. </li><li>Luego debemos asignar cada elemento de la colección sobre una variable, en este caso le hemos llamado <i>value</i>, pero podemos llamarle como se nos ocurra, entonces la expresión <i>value in categories</i>, lo único que hace es iterar la colección <i>categories</i>.</li><li>El tercer paso es definir el label que vamos a desplegar, por ejemplo si tuviéramos objetos y quisiéramos desplegar como <i>label</i> una propiedad de cada objeto, la expresión podría quedar como <i>value.name for value in categories</i>, con eso indicaríamos que la propiedad <i>name</i> del objeto <i>value</i> sería el <i>label</i> a desplegar en cada <i>option</i> del <i>select</i>, como en este ejemplo son solo <i>strings</i> la expresión queda como <i>value for value in categories</i>, esto significa que para el <i>label</i> vamos a desplegar cada elemento de la lista.</li></ol><p>Te sugiero revisar <a href="https://docs.angularjs.org/api/ng/directive/select">la documentación</a> de la directiva <i>ng-options</i> ya que tiene algunas otras opciones más, si tienes alguna duda <a href="https://quizzpot.com/forum/questions">puedes hacerla en los foros</a> y con gusto te podré ayudar.</p><p>Si refrescamos el navegador veremos algo como lo siguiente.</p>
+<div class="example"><img alt="ng-options" src="https://s3.amazonaws.com/quizzpot/images/128-directiva-ng-options.png" title="Image: https://s3.amazonaws.com/quizzpot/images/128-directiva-ng-options.png"/><p>Directiva ng-options</p></div>
+<p>Una vez que tenemos definido el formulario vamos a agregar la acción guardar, para eso debemos crear una función en el controlador de la siguiente manera.</p><pre class="prettyprint">$scope.save = function(bookmark){
+    console.log(bookmark);
+}<br/></pre><p>Aquí solo vamos a desplegar en consola el objeto bookmark, esto para ver que lo que capturamos esta correctamente asignado al objeto. Ahora en el view necesitamos invocar esta función cuando se de click sobre el botón <i>Save Changes</i>. </p><pre class="prettyprint">&lt;button ng-click="save(bookmark)" type="button" class="btn btn-primary"&gt;Save changes&lt;/button&gt;<br/></pre><p>Mediante la directiva <i>ng-click</i> invocamos la función <i>save</i> que recién creamos en el controlador, ahora si probamos nuestra app en el navegador, capturamos alguna información y damos click sobre el botón guardar, veremos que en la consola aparecerá un objeto conteniendo exactamente lo que introducimos en los inputs.</p><p>Si has venido siguiendo el curso desde el principio, sabrás que estamos usando GIT para llevar el control de versiones de nuestro código, es hora de hacer el commit necesario.</p><pre class="prettyprint">$ git add .
+$ git commit -m 'Adding the bookmark form'</pre><p>En el siguiente tutorial veremos como agregar validaciones a los formularios, hacer campos requeridos, desplegar errores al usuario entre otras cosas más.<span style="line-height: 18.5714302062988px;"> </span></p><p><span style="line-height: 18.5714302062988px;">Recuerda subscribirte al curso para recibir nuevos tutoriales en tu correo, seguirme en twitter, facebook o google+. Si tienes dudas puedes usar el foro donde frecuentemente lo reviso para resolver dudas.</span></p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/introduccion-a-angular-js/">Introducción a Angular JS</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Ha participado en varios proyectos con Angular y es participante activo del grupo de Angular NYC.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/intro-angularjs/07-forms/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

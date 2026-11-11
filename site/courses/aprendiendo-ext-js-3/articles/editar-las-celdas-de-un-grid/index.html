@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Editar las celdas de un grid - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Editar las celdas de un grid
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>26</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                El día de hoy aprenderemos como editar las celdas de un Grid de una manera muy sencilla, realmente te sorprenderás cuán fácil y rápido es.
+
+Ya sabemos como crear un Grid utilizando una llamada Ajax para llenar el contenido, lo que vamos hacer hoy es agregar la funcionalidad de poder editar el contenido de una celda, para ello cuando el usuario de doble clic sobre una celda aparecerá una caja de texto donde podrá capturar el nuevo contenido.
+
+<h3>Demostración</h3>
+Si quieres ver el ejemplo que haremos al final de este tutorial te invito a <a href="/demos/extjs/editorgrid/editorgrid.html/" rel="nofollow" target="_blank">probar la demostración</a> que he preparado.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid1.jpg"/><p>Demostración del ejemplo</p></div>
+<h3>Material de apoyo</h3>
+Para continuar es necesario descargar el <a href="/wp-content/uploads/2009/08/editorgrid.zip" rel="nofollow" target="_blank">material de apoyo</a> que usaremos para este ejemplo, luego de hacerlo asegúrate de copiarlo al servidor web donde hemos estado trabajando, ahí crea una carpeta que se llame “editorgrid” y pega los tres archivos dentro de esta. Asegúrate de que las rutas a la librería de Ext JS sean las correctas en el “html” que has descargado.
+
+<h3>El servidor</h3>
+Antes de seguir adelante quiero mostrar el contenido del archivo “editorgrid.php” (viene en el <a href="/wp-content/uploads/2009/08/editorgrid.zip" rel="nofollow" target="_blank">material de apoyo</a>).
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$data = array(
+		'success'=&gt;true,
+		'total'=&gt;11,
+		'data'=&gt;array(
+			array('city'=&gt;'Mexico city','visits'=&gt;684,'pageVisits'=&gt;4.11,'averageTime'=&gt;'00:06:53','time'=&gt;date('U')),
+			array('city'=&gt;'La Victoria','visits'=&gt;443,'pageVisits'=&gt;4.39,'averageTime'=&gt;'00:07:28','time'=&gt;date('U')),
+			array('city'=&gt;'Madrid','visits'=&gt;380,'pageVisits'=&gt;3.11,'averageTime'=&gt;'00:05:22','time'=&gt;date('U')),
+			array('city'=&gt;'Providencia','visits'=&gt;204,'pageVisits'=&gt;3.83,'averageTime'=&gt;'00:08:20','time'=&gt;date('U')),
+			array('city'=&gt;'Bogota','visits'=&gt;204,'pageVisits'=&gt;3.26,'averageTime'=&gt;'00:04:57','time'=&gt;date('U')),
+			array('city'=&gt;'Puerto Madero','visits'=&gt;192,'pageVisits'=&gt;3.56,'averageTime'=&gt;'00:05:07','time'=&gt;date('U')),
+			array('city'=&gt;'Monterrey','visits'=&gt;174,'pageVisits'=&gt;3.90,'averageTime'=&gt;'00:06:06','time'=&gt;date('U')),
+			array('city'=&gt;'Barcelona','visits'=&gt;145,'pageVisits'=&gt;3.28,'averageTime'=&gt;'00:05:39','time'=&gt;date('U')),
+			array('city'=&gt;'Caracas','visits'=&gt;132,'pageVisits'=&gt;4.55,'averageTime'=&gt;'00:06:27','time'=&gt;date('U')),
+			array('city'=&gt;'Rosario','visits'=&gt;116,'pageVisits'=&gt;2.44,'averageTime'=&gt;'00:04:30','time'=&gt;date('U')),
+			array('city'=&gt;'Oaxaca','visits'=&gt;108,'pageVisits'=&gt;1.73,'averageTime'=&gt;'00:02:37','time'=&gt;date('U'))
+		)
+	);
+	
+	
+	echo json_encode($data);
+?&gt;
+</pre>
+
+En el código anterior la información está contenida en un arreglo, quiero aclarar que puede estar en una base de datos o en cualquier otro lugar, pero lo hice de esta forma para hacer más sencillo el tutorial.
+
+Lo que debemos tomar en cuenta del código anterior es la manera en que se esta imprimiendo el JSON, pues ese formato debemos definirlo en el store que crearemos a continuación.
+
+<h3>Definiendo el “JsonStore”</h3>
+Vamos a utilizar <a href="/2009/04/que-es-un-store-y-como-funciona/" rel="nofollow" target="_blank">un JsonStore</a> para almacenar la información que el servidor nos provee y poder manipularla en el grid.
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'editorgrid.php',
+	root: 'data',
+	fields: ['city',{name:'visits',type:'float'},{name:'pageVisits',type:'float'},{name:'averageTime',type:'date',dateFormat: 'H:i:s'},
+	{name:'time',type:'date', dateFormat: 'U'}]
+});
+</pre>
+
+El código anterior debe ser muy familiar para nosotros a estas alturas del curso, pues lo hemos utilizado <a href="/2009/07/informacion-contenida-en-formato-json/" rel="nofollow" target="_blank">muchas veces</a> en los <a href="/2009/07/paginado-remoto-en-un-grid/" rel="nofollow" target="_blank">tutoriales anteriores</a> e inclusive dedicamos un <a href="/2009/04/que-es-un-store-y-como-funciona/" rel="nofollow" target="_blank">tutorial al respecto</a>.
+
+<h3>Crear el Grid</h3>
+Ahora vamos a crear el grid que mostrará la información, para esto vamos a utilizar el componente “Ext.grid.EditorGridPanel” el cual nos permite editar las celdas, la configuración del componente será exactamente igual a la configuración de un Grid normal.
+
+<pre class="prettyprint">var grid = new Ext.grid.EditorGridPanel({
+	store: store,
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'City', dataIndex:'city',sortable: true},
+		{header:'Visits', dataIndex:'visits',sortable: true},
+		{header:'Page/Visits', dataIndex:'pageVisits',sortable: true},
+		{header:'Average Time', dataIndex:'time', width:150,sortable: true,renderer: Ext.util.Format.dateRenderer('H:i:s')}
+	],
+	border: false,
+	stripeRows: true
+});
+</pre>
+
+Al ver el código anterior nos damos cuenta que no hay diferencia alguna en las configuraciones con respecto a un “Grid”, hasta aquí no debe haber ninguna duda, si es así te recomiendo leer el tutorial donde <a href="/2009/06/una-tabla-basica-con-informacion-cargada-de-un-array/" rel="nofollow" target="_blank">hablamos sobre el Grid</a>.
+
+<h3>Mostrar la ventana contenedora</h3>
+Hasta ahora no hemos visto nada en la pantalla del navegador, esto es porque en ningún momento hemos “renderizado” el grid, así que vamos a utilizar <a href="/2009/05/una-ventana-flotante/" rel="nofollow" target="_blank">una ventana</a> que contenga al grid anterior.
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title: 'Editor Grid example',
+	layout: 'fit',
+	width: 510,
+	height:350,
+	items: grid  //Le asignamos el grid
+});
+
+win.show(); //mostramos la ventana y su contenido
+</pre>
+
+Si todo ha salido bien deberíamos ver algo semejante a la siguiente imagen.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid2.jpg"/><p>Ventana con Grid vacio</p></div>
+<h3>Cargar la información en el “Grid”</h3>
+Pero, ¿Dónde esta la información? Si te das cuenta todavía no hemos realizado la llamada Ajax al servidor solicitando la información que tendrá el Grid, así que vamos hacerlo de la siguiente manera.
+
+<pre class="prettyprint">//Solicitar la información al servidor
+store.load();
+
+</pre>
+
+Ejecutando el método “load” del store recogemos la información, esto ya lo hemos estudiado anteriormente, pero es bueno recordarlo para aquellos que apenas comienzan.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid3.jpg"/><p>Grid con información cargada con Ajax</p></div>
+
+Es interesante notar que al dar clic sobre una celda ésta se selecciona, en un grid normal (con la misma configuración que tenemos en este ejemplo) se debería seleccionar toda la fila por defecto.
+
+<h3>Mostrar una caja de texto al dar doble clic</h3>
+Ahora viene lo interesante de este tutorial, vamos hacer que al dar doble clic sobre una celda aparezca una <a href="/2009/06/formularios-y-campos-comunes-en-ext-js/" rel="nofollow" target="_blank">caja de texto</a> donde podamos escribir y modificar la información.
+
+Primero necesitamos crear la caja de texto de la siguiente manera:
+
+<pre class="prettyprint">//creamos el texfield antes de crear el grid
+var textField = new Ext.form.TextField();
+</pre>
+
+Después debemos asignársela a la columna donde deseamos que aparezca al dar doble clic sobre alguna de sus celdas, para esto utilizamos la propiedad “editor” en la columna.
+
+<pre class="prettyprint">//asignamos el texfield anterior a la columnas deseada
+{header:'City', dataIndex:'city',sortable: true,editor:textField},
+</pre>
+
+Esto es suficiente para lograr nuestro objetivo, actualiza tu explorador y da doble clic sobre alguna celda de la columna “city” y observa lo que sucede.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid4.jpg"/><p>Editar una celda al dar doble clic</p></div>
+<h3>Filtrar solamente números</h3>
+Podemos también asignarle a la propiedad “editor” algún otro componente de captura de información, en este caso vamos a crear un “NumberField” para capturar solamente números, adicionalmente vamos a configurarlos para forzar al usuario a introducir algún valor y que no deje vacío el campo.
+
+<pre class="prettyprint">var numberField = new Ext.form.NumberField({allowBlank:false});
+</pre>
+
+Lo siguiente es asignárselos a las columnas que necesitemos.
+
+<pre class="prettyprint">//reutilizamos el componentente en varias columnas
+{header:'Visits', dataIndex:'visits',sortable: true, editor:numberField},
+{header:'Page/Visits', dataIndex:'pageVisits',sortable: true, editor:numberField},
+</pre>
+
+Al hacer esto vemos como ahora valida que el usuario escriba algo en la caja de texto, además de que solamente permite capturar números.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid5.jpg"/><p>Filtrar solo números</p></div>
+<h3>Campos sucios</h3>
+Cuando modificamos la información original contenida en las celdas aparece un ícono en la parte superior izquierda de la celda, este ícono nos indica que la celda ha sido modificada, Ext JS denomina a estos registros como “Dirty” que traducido al español siginifica “Sucio”, esta funcionalidad es propia del componente y no debemos hacer nada para que aparezca.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid61.jpg"/><p>Campos "Dirty"</p></div>
+<h3>Navegación con el teclado</h3>
+Una de las funcionalidades que vale la pena mencionar es que podemos movernos entre las celdas usando el teclado, simplemente utiliza las flechas del teclado para moverte y si estás editando una celda presiona la tecla “Tab” para pasar a editar la siguiente celta, o bien presiona “Shift + Tab” para pasar a editar la celda anterior, para entrar a editar una celda presiona “Enter” y para salir del modo edición puede presionar “Enter” o “Esc”.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/08/editorgrid7.jpg"/><p>Usando el teclado para movernos en el Grid</p></div>
+<h3>Conclusiones</h3>
+En este tema vimos como editar las celdas utilizando cajas de texto, realmente es algo sumamente sencillo; en futuros tutoriales mostraré como utilizar combos y algunos otros componentes, además de cómo guardar la información capturada ya que no nos sirve de nada editarla si no la podemos guardar.
+
+Si tienes alguna duda o comentario puedes hacerlo en los foros o en este mismo post, además recuerda seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> para estar al tanto de las actualizaciones.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/editorgrid/editorgrid.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

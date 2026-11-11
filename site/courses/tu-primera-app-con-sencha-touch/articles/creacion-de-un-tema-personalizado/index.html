@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Creación de un tema personalizado - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Tu primera app con Sencha Touch</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Creación de un tema personalizado
+            <a class="bubble-tag article-header-link-videos" href="/courses/tu-primera-app-con-sencha-touch/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>Ya vimos que <a href="/courses/tu-primera-app-con-sencha-touch/articles/utilizar-los-temas-existentes-en-sencha-touch/" title="Link: https://quizzpot.com/courses/tu-primera-app-con-sencha-touch/articles/utilizar-los-temas-existentes-en-sencha-touch">Sencha Touch cuenta con varios temas</a> que podemos utilizar en nuestras aplicaciones, los temas que vienen son muy semejantes a las UIs de los sistemas operativos nativos, pero la realidad es que siempre queremos tener algo único, si tenemos un diseñador en nuestro proyecto seguramente el look and feel de nuestra app no será para nada semejante a los temas por default.</p><p>En este tutorial iniciaremos a crear nuestro propio tema desde cero, vamos a estilizar por completo todos los componentes que estamos utilizando, para dar un look and feel a nuestra app completamente personalizado.</p><p>Lo primero que haremos será extender del tema <i>base</i>, este tema lo único que aporta son las dimensiones, paddings, algunos márgenes y cosas muy básicas realmente, la idea es que a partir de este comenzamos a realizar nuestros temas. En el archivo <i>resources/sass/app.scss</i> definimos que extenderemos del tema básico.</p><pre class="prettyprint">// The following two lines import the default Sencha Touch theme. If you are building
+// a new theme, remove them and the add your own CSS on top of the base CSS (which
+// is already included in your app.json file).
+@import 'sencha-touch/base'; //&lt;-----
+@import 'sencha-touch/base/all'; //&lt;-----
+
+// Custom code goes here..
+@import 'includes/grid';
+
+// Examples of using the icon mixin:
+// @include icon('user');</pre><p>Con esto es suficiente para iniciar, <span>es necesario <a href="http://compass-style.org/install/" rel="nofollow" target="_blank" title="Link: http://compass-style.org/install/">tener instalado compass</a> para poder compilar el CSS.</span> Para compilar los estilos debemos estar dentro del folder <i>resources/sass</i> y ejecutar el siguiente comando en la terminal:</p><pre class="prettyprint">$ cd resources/sass/
+$ compass compile app.scss</pre><p>Si actualizamos el navegador donde está nuestra app podremos ver que los estilos de los componentes son muy básicos. ¡Ahora es cuando comienza la diversión!</p>
+<div class="example"><img alt="Temas personalizados" src="https://s3.amazonaws.com/quizzpot/images/83-custom-theme.png" title="Image: https://s3.amazonaws.com/quizzpot/images/83-custom-theme.png"/><p>Temas personalizados</p></div>
+<h3>Cambiando el color de fondo</h3><p>Lo primero que haremos será quitar ese color azul feo del fondo, también cambiaremos el color de la animación de carga porque actualmente es color blanco y se perderá con el fondo que usaremos.</p><p>Para cambiar el fondo necesitamos abrir el archivo <i>index.html</i> en el directorio raíz de nuestra aplicación, aquí sobre la línea 14 le asignamos un color claro:</p><pre class="prettyprint">html, body {
+    height: 100%;
+    background-color: #f5f5f5;
+}<br/></pre><p>Ese color de fondo es un gris muy claro, casi blanco por lo tanto la animación que se mira cuando la aplicación se está cargando se perderá. Para cambiar el color de los tres puntos que aparecen al inicio lo hacemos sobre este mismo archivo en la línea 32.</p><pre class="prettyprint">#appLoadingIndicator &gt; * {
+    background-color: #6dc2f4;
+    //...
+}</pre><p>Aquí estamos usando un color azul claro, si refrescamos el navegador veremos que la el fondo de la aplicación así como la animación han cambiado de color correctamente.</p>
+<div class="example"><img alt="Cambiar color de fondo y animacion" src="https://s3.amazonaws.com/quizzpot/images/84-custom-theme-2.png" title="Image: https://s3.amazonaws.com/quizzpot/images/84-custom-theme-2.png"/><p>Cambiar el color de fondo y animación de carga</p></div>
+<p>Ahora bien, posiblemente te preguntarás porque definir estos estilos directamente en el html, ¿no sería mejor ponerlos en un archivo diferente con todos los otros estilos? Sucede que el HTML es el primer archivo que se carga y el que incluye a todos los demás, por lo tanto necesitamos desplegar la animación de carga tan pronto como sea posible y evitar esperar hasta que se cargue una hoja de estilos por separado. La idea aquí es que el usuario en ningún momento vea una página completamente en blanco.</p><h3>Estilos para el header</h3><p>Para agregar estilos a componentes específicos podemos usar la propiedad <i>cls</i>, esta configuración nos permite definir una clase CSS al componente, de esta manera podemos agregas todos los estilos necesarios a ese componente específicamente.</p><p>Para este caso necesitamos agregar esta configuración al header y al player, así que dentro del archivo <i>app/view/Header.js</i> agregamos las siguientes líneas de código.</p><pre class="prettyprint">Ext.define('Itunes.view.Header', {
+    extend  : 'Ext.Container',
+    xtype   : 'header', 
+    requires: [
+        'Itunes.view.Player'
+    ],
+
+    config: {
+        height  : 120,
+        layout  : 'hbox',
+        cls     : 'itunes-header', //&lt;---- Step 1
+        items   : [{
+            xtype   : 'container',
+            flex    : 1,
+            layout  : {
+                type    : 'hbox',
+                align   : 'center'
+            },
+            defaults: {
+                xtype : 'button',
+                width : 40,
+                height: 40,
+                margin: 5
+            },
+            items   : [{
+                text  : '&lt;&lt;'
+            },{
+                width : 60,  //&lt;---- Step 2
+                height: 60,
+                text  : '&gt;'
+            },{
+                text  : '&gt;&gt;'
+            },{
+                xtype       : 'sliderfield',
+                width       : null,
+                height      : null,
+                flex        : 1,
+                value       : 60,
+                minValue    : 0,
+                maxValue    : 100
+            }]
+        },{
+            xtype   : 'player',
+            cls     : 'itunes-player',  //&lt;---- Step 3
+            flex    : 1
+        },{
+            xtype   : 'container',
+            flex    : 1,
+            layout  : {
+                type    : 'hbox',
+                align   : 'center'
+            },
+            items   : [{
+                xtype   : 'textfield',
+                name    : 'query',
+                flex    : 1,
+                margin  : 20
+            }]
+        }]
+    }
+});<br/></pre><ol><li>En el paso uno agregamos la clase <span><i>itunes-header</i> mediante la propiedad <i>cls</i>, con esto ya podemos aplicar todo el CSS que necesitemos a este componente.</span></li><li>Aprovechando que estamos editando este archivo, vamos a modificar el tamaño del botón play, aquí solamente aumentamos la anchura y altura por 60, esto hará que el botón se vea más grande con respecto a los otros.</li><li>En el paso tres agregamos la clase <span><i>itunes-player</i> al reproductor.</span></li></ol><p>Por el momento no veremos ningún cambio significativo, esto porque todavía no definimos nada sobre las clases CSS que asignamos a los componentes, lo siguiente que haremos será crear el archivo <i>resources/sass/includes/_header.scss</i>, aquí vamos a definir los estilos para la cabecera de nuestra aplicación.</p><pre class="prettyprint">.itunes-header{
+    @include background-image(linear-gradient(#27333a,#344047)); //Step 1
+
+    .x-button{  //Step 2
+        background-color:#1d262a;
+        border:1px solid #43555f;
+        color:#f5f5f5;
+        @include border-radius(30px);
+    }
+
+    .itunes-player{ //Step 3
+        padding: 15px 0;
+
+        .x-innerhtml{ //Step 4
+            background-color:#374e5b;
+            padding:10px;
+            @include border-radius(10px);
+            color:#f5f5f5;
+        }
+    }
+}<br/></pre><ol><li>En el paso uno definimos un ligero gradiente, vamos a hacer un diseño <i>flat</i>, así que este gradiente casi no se percibe, aquí estamos <a href="http://compass-style.org/examples/compass/css3/gradient/" rel="nofollow" target="_blank">usando un mixing de compass</a> para el gradiente, por eso es que agregamos el <i>@include</i> al inicio de la línea.</li><li>En el paso dos definimos los colores de los botones que están e el header, si te das cuenta estamos usando la sintaxis de compass para definir las reglas CSS, al compilar el CSS esto se convertirá en <i>.itunes-header .x-button{...}</i>, también usamos un mixing para definir el borde redondeado de los botones.</li><li>En el paso tres solo agregamos un padding, colores de fondo, color de fuente del reproductor.</li></ol><p>Antes de compilar nuestros cambios necesitamos incluir este nuevo archivo dentro del <i>resources/sass/app.scss</i>.</p><pre class="prettyprint">//...
+
+// Custom code goes here..
+@import 'includes/grid';
+@import 'includes/header'; //&lt;----<br/></pre><p>Ya sabemos cual es el comando para compilar el CSS con compass, pero es un tanto molesto estar ejecutándolo una y otra vez para probar cada cambio, compass viene con una utilería que nos permite estar vigilando los cambios en los archivos y cuando detecta un cambio automáticamente compila. En la terminal dentro del folder <i>resources/sass/</i> ejecutaremos el siguiente comando.</p><pre class="prettyprint">$ compass watch app.scss</pre><p>Con eso cada vez que hagamos un cambio el CSS se compilará de manera automática. Si refrescamos nuestro navegador veremos algo como la siguiente imagen.</p>
+<div class="example"><img alt="Temas personalizados" src="https://s3.amazonaws.com/quizzpot/images/85-custom-theme-3.png" title="Image: https://s3.amazonaws.com/quizzpot/images/85-custom-theme-3.png"/><p>Modificando los estilos del header</p></div>
+<p>Cada vez va tomando forma nuestra aplicación, como se puede observar es sencillo modificar los estilos y hacer algo completamente único, si has utilizado compass anteriormente te será aún más fácil, si no este es un buen momento para aprender.</p><h3>Experimenta</h3><p>Intenta agregar estilos al player, <a href="/courses/tu-primera-app-con-sencha-touch/articles/que-vamos-a-hacer/">revisa los wireframes</a> para que te des una idea de como debe quedar el layout de ese componente.</p><p>Si has venido utilizando GIT, es hora de hacer el commit para guardar los cambios en el historial, si no lo has usado te recomiendo lo hagas, tenemos un curso de GIT que puedes poner en práctica en este proyecto.</p><pre class="prettyprint">$ git add .
+$ git commit -m 'Styling the header'</pre><p>En el próximo tema veremos como agregar los estilos al player, al slider, al textfield y los botones. Recuerda registrarte al curso para recibir los próximos tutoriales en tu correo. También recuerda compartir este curso con tus conocidos y en las redes sociales, eso me ayudará mucho.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/tu-primera-app-con-sencha-touch/">Tu primera app con Sencha Touch</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>He desarrollado varias aplicaciones con Sencha Touch, algunas las puedes encontrar en el App Store de apple.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/senchatouch-itunes/step12/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

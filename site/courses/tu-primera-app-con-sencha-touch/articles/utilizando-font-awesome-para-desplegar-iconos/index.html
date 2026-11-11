@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Utilizando font-awesome para desplegar iconos - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Tu primera app con Sencha Touch</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Utilizando font-awesome para desplegar iconos
+            <a class="bubble-tag article-header-link-videos" href="/courses/tu-primera-app-con-sencha-touch/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>5</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>Cuando desarrollamos para dispositivos con retina display debemos considerar que usar imágenes quizás no sea lo mejor, si queremos mostrar una buena calidad en estos dispositivos una buena técnica es utilizar fonts como iconos.</p><p>Sencha Touch por defecto <a href="http://docs.sencha.com/touch/2.3.2/#!/example/icons" rel="nofollow" target="_blank">cuenta con algunos iconos</a> que podríamos usar, pero generalmente no son suficientes para lo que necesitamos. Además existen servicios como <a href="https://icomoon.io/" rel="nofollow" target="_blank">icomoon</a> que nos permitirán seleccionar los iconos que necesitemos.</p><p>Para este tutorial utilizaremos <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow" target="_blank">font-awesome</a>, pero la técnica que usaremos para utilizar estos iconos en nuestra app aplica para cualquier otra fuente. De la carpeta que descargamos copiamos el folder <i>fonts</i> a la carpeta <i>resources</i> que tenemos en <a href="/courses/tu-primera-app-con-sencha-touch/articles/generando-la-estructura-inicial/" rel="nofollow" target="_blank">nuestro proyecto</a>; también copiamos el folder <i>scss</i> hacia <i>resources/sass/includes</i>. </p><p>Lo siguiente es incluir los nuevos estilos a nuestra aplicación; esto lo hacemos en el archivo <i>resources/sass/app.scss</i> de la siguiente manera.</p><pre class="prettyprint">// The following two lines import the default Sencha Touch theme. If you are building
+// a new theme, remove them and the add your own CSS on top of the base CSS (which
+// is already included in your app.json file).
+@import 'sencha-touch/base';
+@import 'sencha-touch/base/all';
+
+// Custom code goes here..
+@import 'includes/scss/font-awesome'; //&lt;-----
+@import 'includes/grid';
+@import 'includes/header';
+@import 'includes/slider';
+@import 'includes/textfield';
+@import 'includes/filters';
+
+// Examples of using the icon mixin:
+// @include icon('user');<br/></pre><p>Una vez incluida necesitamos compilar los estilos, en la terminal ejecutamos el siguiente comando dentro de la carpeta <i>resources/sass</i>.</p><pre class="prettyprint">$ compass compile app.scss</pre><p><span> Ahora estamos listos para comenzar a usar los iconos en nuestra aplicación! Lo primero que haremos es remplazar los iconos del reproductor; en el archivo <i>app/view/Header.js</i> hacemos los siguientes cambios:</span></p><pre class="prettyprint">/**
+ * @class Itunes.view.Header
+ * @extends Ext.Container
+ * The application header
+ */
+Ext.define('Itunes.view.Header', {
+    extend  : 'Ext.Container',
+    xtype   : 'header', 
+    requires: [
+        'Itunes.view.Player'
+    ],
+
+    config: {
+        height  : 120,
+        layout  : 'hbox',
+        cls     : 'itunes-header',
+        items   : [{
+            xtype   : 'container',
+            flex    : 1,
+            layout  : {
+                type    : 'hbox',
+                align   : 'center'
+            },
+            defaults: {
+                xtype : 'button',
+                width : 40,
+                height: 40,
+                margin: 5
+            },
+            items   : [{
+                text  : '&lt;i class="fa fa-backward"&gt;&lt;/i&gt;' //&lt;---
+            },{
+                width : 60,
+                height: 60,
+                text  : '&lt;i class="fa fa-play"&gt;&lt;/i&gt;'  //&lt;---<br/>
+            },{
+                text  : '&lt;i class="fa fa-forward"&gt;&lt;/i&gt;'  //&lt;---<br/>
+            },{
+                xtype       : 'sliderfield',
+                width       : null,
+                height      : null,
+                flex        : 1,
+                value       : 60,
+                minValue    : 0,
+                maxValue    : 100,
+                label       : '&lt;i class="fa fa-volume-up"&gt;&lt;/i&gt;',  //&lt;---
+                labelWidth  : '20px'
+            }]
+        },{
+            xtype   : 'player',
+            cls     : 'itunes-player',
+            flex    : 1
+        },{
+            xtype   : 'container',
+            flex    : 1,
+            layout  : {
+                type    : 'hbox',
+                align   : 'center'
+            },
+            items   : [{
+                xtype   : 'textfield',
+                name    : 'query',
+                flex    : 1,
+                margin  : 20
+            }]
+        }]
+    }
+});<br/></pre><p>Pa agregar los iconos utilizamos la clase <i>fa</i> seguida de la clase que representa al icono, por ejemplo <i>fa-volume-up</i>. Para el slider se ha agregado la propiedad <i>label</i> y <i>labelWidth</i>. Si refrescamos el navegador deberíamos ver algo como la siguiente imagen.</p>
+<div class="example"><img alt="Agregando font-awesome a Sencha Touch" src="https://s3.amazonaws.com/quizzpot/images/91-sencha-touch-font-awesome.png"/><p>Usando font-awesome</p></div>
+<p>Como se puede observar ya se están desplegando iconos dentro de los botones, necesitamos centrarlos un poco, también cambiar el color de la bocina. En el archivo <i>resources/sass/includes/_header.scss</i> agregamos el siguiente código CSS.</p><pre class="prettyprint">.itunes-header{
+    //...
+
+    .x-button{
+        //...
+
+        .fa-backward{           //Step 1
+            margin-left: -4px; 
+        }
+
+        .fa-forward{            //Step 1
+            margin-left: 5px;
+        }
+
+        .fa-play{               //Step 1
+            margin-left: 6px;
+            font-size: 33px;
+        }
+    }
+
+    .x-button-pressing{        //Step 2
+        background-color:#374e5b;
+    }
+
+    .itunes-player{
+       //...
+    }
+}</pre><ol><li>En el paso uno agregamos los márgenes adecuados para centrar los iconos en los botones de manera adecuada.</li><li>En el paso dos agregamos estilos a la clase x-button-pressing, esta clase se agrega de manera automática cuando el usuario presiona el botón. En este caso solamente le cambiamos el color de fondo al botón.</li></ol><p>Ahora vamos a modificar el icono de la bocina, necesitamos hacer más pequeño el ancho del label y cambiar el color de la bocina. En el archivo <i>resources/sass/includes/_slider.scss</i> agregamos el siguiente código.</p><pre class="prettyprint">.x-slider-field{
+    
+    //...
+
+    .x-form-label{
+        color:#e6f9ff;
+    }
+}<br/></pre><p>Para cambiar el color del icono lo hacemos exactamente igual como si fuese una tipografía, usando la propiedad <i>color</i> de CSS.</p><p>Por último vamos agregar iconos a los filtros que tenemos definidos debajo de la cabecera de nuestra aplicación. Dentro del archivo app/view/Filters.js agregamos el siguiente código.</p><pre class="prettyprint">Ext.define('Itunes.view.Filters', {
+    extend: 'Ext.SegmentedButton',  //Step 1
+    xtype : 'filters',
+
+    config: {
+        cls         : 'main-filters',
+        layout: {
+            type    : 'hbox',
+            pack    : 'center'
+        },
+        defaults    : {
+            xtype   :'button'
+        },
+        items : [
+            //Step 2
+            {text:'&lt;i class="fa fa-music"&gt;&lt;/i&gt; Music', pressed:true,itemId:'music'},<br/>            //Step 3
+            {text:'&lt;i class="fa fa-video-camera"&gt;&lt;/i&gt; Movies',itemId:'movies'},
+            {text:'&lt;i class="fa fa-film"&gt;&lt;/i&gt; Short Films',itemId:'films'},
+            {text:'&lt;i class="fa fa-youtube-play"&gt;&lt;/i&gt; Shows',itemId:'shows'},
+            {text:'&lt;i class="fa fa-book"&gt;&lt;/i&gt; Books',itemId:'books'},
+            {text:'&lt;i class="fa fa-desktop"&gt;&lt;/i&gt; Software',itemId:'software'}
+        ]
+    }
+});</pre><ol><li>En el paso uno cambiamos la clase de la que heredamos, originalmente estábamos extendiendo de <i>Ext.Container</i>, ahora extendemos de <i>Ext.SegmentedButton</i> ya que esta clase nos da la funcionalidad de agrupar los botones y seleccionar uno a la vez.</li><li>En el paso dos agregamos el icono de la misma manera que lo hicimos con los botones, también definimos la propiedad <i>pressed</i> para que este botón este seleccionado por defecto.<br/></li><li>En el paso tres solamente agregamos los iconos al resto de los botones.</li></ol><p>Ahora modificamos los estilos para darle un poco de marge a cada icono y cambiar algunos colores. En el archivo resources/sass/includes/_filters.scss agregamos el siguiente código.</p><pre class="prettyprint">.main-filters{
+    background-color:rgba(52,64,71,0.05); //Step 1
+
+    .x-button{
+        
+        //...
+
+        .x-button-label{
+            padding:5px 15px;
+
+            i{
+                margin-right: 5px; //Step 2
+            }
+        }
+    }
+
+    //...
+}<br/></pre><ol><li>En el paso uno simplemente le agregamos transparencia al fondo, es el mismo color representado en decimal (antes: #344047).</li><li>En el paso dos agregamos cinco pixeles de margen a la derecha de cada icono.</li></ol><p>Al refrescar el navegador (se debe probar en un navegador webkit), veremos algo como la siguiente imagen.</p>
+<div class="example"><img alt="Iconos con font-awesome" src="https://s3.amazonaws.com/quizzpot/images/92-sencha-touch-font-awesome-icons.png"/><p>Desplegando iconos con Font-Awesome</p></div><p>Cada vez se va viendo mucho mejor, ya casi terminamos los estilos de nuestra app, solo nos falta estilizar el grid y comenzaremos a agregar funcionalidad utilizando el patrón MVC.</p><h3>Preparando deployment</h3><p>Un último paso necesario es agregar las fonts al build, de no hacerlo las fonts no van a ser copiadas a nuestro build cuando deployemos en el dispositivo. Para agregar el folder que contiene las fonts lo hacemos en el archivo app.json sobre la linea 101.</p><pre class="prettyprint">/**
+     * Extra resources to be copied along when build
+     */
+    "resources": [
+        "resources/images",
+        "resources/icons",
+        "resources/startup",
+        "resources/fonts"     //&lt;----
+    ],<br/></pre><p>Aquí agregamos el folder que contiene nuestras fonts. Si quisiéramos agregar mas recursos tendriamos que configurarlo en este lugar, de esta manera el Sencha CMD sabrá que archivos copiar en el build.</p><p>Si has venido utilizando GIT, es hora de guardar nuestros cambios en el historial.</p><pre class="prettyprint">$ git add .
+$ git commit -m 'Adding icons to the filters'</pre><h3>Experimenta</h3><p>Te recomiendo experimentar agregar iconos diferentes utilizando el servicio <a href="https://icomoon.io/" rel="nofollow" target="_blank">https://icomoon.io/</a>. Ahí puedes seleccionar los iconos que necesites para optimizar nuestra app, font-awesome contiene muchos iconos que no necesitaremos, es buena idea optimizar eso.</p><p>En el siguiente tutorial veremos como estilizar el grid, modificaremos los estilos de las cabeceras y las filas del contenido. Recuerda compartir este tutorial en las redes sociales, me harás un gran favor!</p><p>El código fuente para descargar contiene únicamente los archivos que modificamos, también puedes <a href="http://demos.bleext.com/quizzpot/senchatouch-itunes/step14/">ver el demo</a> de lo que hemos realizado.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/tu-primera-app-con-sencha-touch/">Tu primera app con Sencha Touch</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>He desarrollado varias aplicaciones con Sencha Touch, algunas las puedes encontrar en el App Store de apple.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/senchatouch-itunes/step14/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

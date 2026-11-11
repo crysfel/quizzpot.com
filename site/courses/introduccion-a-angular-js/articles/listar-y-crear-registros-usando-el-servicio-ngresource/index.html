@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Listar y crear registros usando el servicio ngResource - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Introducción a Angular JS</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Listar y crear registros usando el servicio ngResource
+            <a class="bubble-tag article-header-link-videos" href="/courses/introduccion-a-angular-js/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/ny3R3f_OdCs" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>26</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>11.18 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En el tutorial anterior vimos como crear servicios para <a href="/courses/introduccion-a-angular-js/articles/definicion-de-servicios-para-hacer-ajax/" title="Link: https://quizzpot.com/courses/introduccion-a-angular-js/articles/definicion-de-servicios-para-hacer-ajax">hacer peticiones Ajax al servidor</a>, en este tema veremos como podemos consultar un API RESTful para consultar el listado de bookmarks y crear uno nuevo.</p><p>Angular JS viene con un servicio llamado <i>$</i><i>ngResource</i>, este servicio nos permite hacer conexiones vía REST a nuestra API para enviar y recibir información. Internamente <i>ngResource</i> utiliza el servicio <i>$http</i> que vimos en el tutorial anterior.</p><p>Usar <i>ngResource</i> en lugar de <i>$http</i> tiene varias ventajas, sobre todo cuando queremos hacer operaciones CRUD, ya que automáticamente nos define los métodos necesarios para guardar, listar y consultar un API de tipo REST, además es muy sencillo agregar nuevos métodos. Hacer esto con el servicio <i>$http</i> nos requerirá algunas lineas de código adicionales, pero es completamente posible.</p><p>Los métodos que define de manera automática son los siguientes:</p><ol><li><i>get()</i></li><li><i>query()</i></li><li><i>save()</i></li><li><i>remove()</i></li><li><i>delete()</i></li></ol>En este tema nos enfocaremos solamente en como utilizar el método <i>query</i> y el método <i>save</i>.<br/><h3>Definir dependencias</h3><p>El servicio <i>ngResource</i> no viene incluido dentro de la librería principal de Angular JS, lo tenemos que incluir manualmente y definirlo en las dependencias de nuestro módulo, vamos a insertar el siguiente script en el documento HTML.</p><pre class="prettyprint">&lt;script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-resource.min.js"&gt;&lt;/script&gt;</pre><p>Lo tenemos que importar por debajo de la librería de Angular JS para no tener errores. Ahora en el archivo <i>app.js</i> agregamos el siguiente código.</p><pre class="prettyprint">angular.module('Bookmarks',[
+    //dependencies here
+    'ngResource' //&lt;----
+])<br/></pre><p>Cuando creamos nuestro módulo principal dijimos que el segundo parámetro corresponde a un arreglo con las dependencias de nuestra aplicación. Ha llegado el momento de comenzar a agregar dependencias.</p><h3>Configuración básica del servicio ngResource</h3><p>Ya dijimos que la persistencia debemos manejarla en servicios, para este ejemplo vamos a usar un servicio que haga uso del <i>ngResource</i>, pero a diferencia del tutorial anterior, en esta ocasión vamos a crear el servicio usando una factoría. </p><p>Las factorías a diferencia de los servicios que estudiamos en el tema anterior, nos permiten crear y retornar el servicio usando en una función. En este caso regresaremos el <i>ngResource</i> con las configuraciones necesarias.</p><pre class="prettyprint">//Step 1
+.factory('Bookmark',function($resource){ //Step 2
+    //Step 3
+    return $resource('http://bookmarks-angular.herokuapp.com/api/bookmarks/:id');
+})<br/></pre><ol><li>En el paso uno definimos la factoría con el método <i>factory</i>, en el primer parámetro le asignamos el nombre del servicio, en este caso <i>Bookmark</i>, y el segundo parámetro es la función que creará el servicio <i>Bookmark</i>.</li><li>En el paso dos agregamos como parámetro el servicio <i>ngResource</i>, el cual exta disponible bajo el identificador <i>$resource</i>. Angular inyectará este servicio automáticamente, solo tenemos que asegurarnos nombrarlo exactamente igual.</li><li>En el paso tres configuramos el recurso con la URL donde está nuestra API, algo importante a destacar es que definimos el parámetro :id, este lo usaremos para consultar, actualizar o borrar un bookmark.</li></ol><p>Una factoría siempre debe regresar un objeto o instancia del servicio que crearemos, en este ejemplo estamos regresando el recurso ya configurado y listo para ser usado en nuestros controladores.</p><h3>Listar bookmarks existentes</h3><p>Para solicitar el listado de bookmarks que actualmente se encuentran almacenadas en el servidor, en el controlador usamos el método <i>query</i> de la siguiente manera.</p><pre class="prettyprint">.controller('MainController',function($scope,Category,Bookmark){ //Step 1
+    $scope.name = 'Carl';
+
+    Category.getAll(function(data){
+        $scope.categories = data.categories;
+        $scope.currentCategory = data.categories[0]; //Step 2
+        $scope.bookmarks = Bookmark.query(); //Step 3
+    });
+ 
+    //...
+
+});</pre><ol><li>En el paso uno inyectamos el nuevo servicio que creamos usando la factoría.</li><li>El paso dos se ejecuta cuando el servidor responde con el listado de categorías, aquí solamente seleccionamos la categoría cero para filtrar los bookmarks.</li><li>En el paso tres ejecutamos el método query(), este método hace una petición GET hacia la url que definimos.</li></ol><p>Antes de probar nuestros cambios necesitamos cambiar el template para manejar correctamente las categorías, anteriormente estábamos usando strings solamente, ahora estamos usando objetos, por lo tanto debemos actualizar nuestro template de la siguiente manera.</p><pre class="prettyprint">&lt;!-- sidebar --&gt;
+&lt;div class="column col-sm-3" id="sidebar"&gt;
+    &lt;p class="nav-title"&gt;
+      Categories 
+      &lt;a href="#" class="pull-right"&gt;&lt;i class="glyphicon glyphicon-folder-open"&gt;&lt;/i&gt;&lt;/a&gt;
+    &lt;/p&gt;
+    &lt;ul class="nav"&gt;
+        &lt;li ng-repeat="category in categories" ng-class="{active: isCurrentCategory(category)}"&gt;
+            &lt;a href="#" ng-click="setCurrentCategory(category)"&gt; &lt;i class="glyphicon glyphicon-tags"&gt;&lt;/i&gt; {{category.name}}&lt;/a&gt;
+        &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- /sidebar --&gt;
+
+&lt;!-- main --&gt;
+&lt;div class="column col-sm-9" id="main"&gt;
+    &lt;div class="padding"&gt;
+      &lt;div class="full col-sm-9"&gt;
+        
+          &lt;!-- content --&gt;
+          &lt;h2&gt;
+            Category: {{currentCategory.name}}
+            &lt;a ng-click="showWindow()" href="#" class="btn btn-primary btn-xs pull-right"&gt;&lt;i class="glyphicon glyphicon-plus-sign"&gt;&lt;/i&gt; New bookmark&lt;/a&gt;
+          &lt;/h2&gt;
+          &lt;ul&gt;
+            &lt;li ng-repeat="bookmark in bookmarks | filter: {category: currentCategory.name}"&gt;
+                &lt;p&gt;
+                    &lt;a href="/courses/introduccion-a-angular-js/articles/%7B%7Bbookmark.url%7D%7D/"&gt;{{bookmark.title}}&lt;/a&gt; 
+                    &lt;i ng-click="remove(bookmark.id)" class="glyphicon glyphicon-trash"&gt;&lt;/i&gt;
+                    &lt;i ng-click="showWindow(bookmark)" class="glyphicon glyphicon-pencil"&gt;&lt;/i&gt;&lt;br/&gt;
+                    &lt;small&gt;{{bookmark.url}}&lt;/small&gt;
+                &lt;/p&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+          
+          
+        
+      &lt;/div&gt;&lt;!-- /col-9 --&gt;
+    &lt;/div&gt;&lt;!-- /padding --&gt;
+&lt;/div&gt;
+&lt;!-- /main --&gt;<br/></pre><ol><li>En el sidebar solo hemos cambiado dos cosas, a la función <i>isCurrentCategory</i> y <i>setCurrentCategory</i> le estamos enviando el objeto y no solamente el nombre de la categoría.</li><li>En el listado de bookmarks desplegamos el nombre de la categoría seleccionada usando <i>currentCategory.name</i> y también cambiamos el filtro. Todo lo demás sigue exactamente igual.</li></ol><p>Ya casi estamos listos para probar nuestros cambios, solo nos queda modificar la función <i>isCurrentCategory</i> de la siguiente manera.</p><pre class="prettyprint">$scope.isCurrentCategory = function(category){
+    return $scope.currentCategory.id === category.id;
+}<br/></pre><p>Ya que estamos usando objetos para manejar las categorías, necesitamos comparar los identificadores. Una vez que cambiamos esto ya podremos ver nuestra aplicación listando los bookmarks que actualmente están en la base de datos del servidor.</p>
+<div class="example"><img alt="Angular ngResource" src="https://s3.amazonaws.com/quizzpot/images/142-angular-resource-list.png" title="Image: https://s3.amazonaws.com/quizzpot/images/142-angular-resource-list.png"/><p>Angular ngResource</p></div>
+<h3>Crear un nuevo Bookmark</h3><p>Vamos a crear nuevos bookmarks utilizando el método <i>save</i>, este método hará una petición Ajax a la URL que definimos en el <i>ngResource</i> de tipo POST, la API que esta en Heroku tiene soporte para recibir este tipo de peticiones y espera el siguiente objeto <i>json</i> en el payload del request.</p><pre class="prettyprint">{
+    "title"       : "The title of the new bookmark",
+    "url"         : "http://testing.com",
+    "category_id" : 2
+}</pre><p>Con esto en mente modificaremos el código del método <i>save</i> que ya tenemos en el controlador. Ahora en lugar de solamente agregar el objeto al arreglo local de bookmarks, también haremos la petición al servidor para guardarlo en la base de datos, en Heroku la base de datos es PostgreSQL.</p><pre class="prettyprint">$scope.save = function(bookmark){
+    if($scope.bookmarkForm.$valid){
+        if(!bookmark.id){
+            var record = new Bookmark(); //Step 1
+            
+            record.title = bookmark.title; //Step 2
+            record.url = bookmark.url;
+            record.category_id = bookmark.category.id;
+
+            record.$save(function(){ //Step 3
+                $scope.bookmarks.push(record); //Step 4
+            });
+        }
+        $('#bookmarkModal').modal('hide');
+    }
+}<br/></pre><ol><li>En el paso uno creamos una instancia de nuestro servicio <i>Bookmark</i> usando la palabra reservada <i>new</i>.</li><li>En el paso dos agregamos la información (<i>title</i>, <i>url</i>, <i>category_id</i>) a la instancia del servicio que creamos en el paso uno, esta información es la que se enviará al servidor y es la que el API está esperando recibir.</li><li>En el paso tres invocamos el método $save de la instancia del servicio, este método es el que hace la petición ajax y nos regresa una promesa.</li><li>En el ultimo paso insertamos el record al arreglo de bookmarks, cuando el servidor responde. </li></ol><p>Idealmente usaremos solamente el método <i>get</i> y <i>query</i> del servicio Bookmark, ya que tenemos a nuestra disposición el método <i>$save</i>, <i>$delete</i> y <i>$remove</i> an cada instancia de Bookmark. Es importante resaltar que estos métodos inician con el signo <i>$</i>, esto nos indica que son métodos de la instancia.</p><p>Si probamos la app en el navegador y creamos un nuevo bookmark, veremos que se está haciendo una petición al servidor para guardar el bookmark en la base de datos.</p>
+<div class="example"><img alt="ngResource" src="https://s3.amazonaws.com/quizzpot/images/146-angularjs-ngresource.png" title="Image: https://s3.amazonaws.com/quizzpot/images/146-angularjs-ngresource.png"/><p>Guardando un bookmark</p></div>
+<p>Por el momento hasta aquí llegaremos en este tutorial, en el próximo veremos como editar los bookmarks existentes y también como borrarlos utilizando el ngResource que ya tenemos configurado.</p><p>Recuerda que puedes descargar el código fuente, y el video desde el área de miembros de Quizzpot.com, si tienes dudas puedes usar el foro.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/introduccion-a-angular-js/">Introducción a Angular JS</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Ha participado en varios proyectos con Angular y es participante activo del grupo de Angular NYC.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/intro-angularjs/11-factories/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

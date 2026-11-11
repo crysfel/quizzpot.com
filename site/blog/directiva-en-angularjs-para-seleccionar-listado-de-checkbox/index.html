@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Directiva en AngularJS para seleccionar listado de checkbox - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Blog</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 posts-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Directiva en AngularJS para seleccionar listado de checkbox
+            <a class="bubble-tag article-header-link-videos" href="/blog/">Blog</a>
+</h2>
+<div class="article-information">
+<!--class="separator"-->
+<span>Likes: <em>0 Persona</em></span>
+<span class="separator">Comentarios: <em>0</em></span>
+<span class="separator">Publicado: <em>17/07/2014</em></span>
+</div>
+<div class="course-tags">
+<span class="tags-text">Tags:</span>
+<span class="bubble-tag">Angular JS</span>
+</div>
+<div class="article-description">
+<div class="article-description-text">Una de las funcionalidades básicas en un sistema de administración de contenidos es poder seleccionar varios elementos de un listado (ej: artículos, productos, posts) mediante un checkbox principal.<br/><br/><h3>jQuery de toda la vida</h3>Hacer esto con jQuery es bastante sencillo y sería algo así:<br/><br/><pre class="prettyprint">$('input[name=messageId]').each(function () {
+    this.checked = !this.checked;
+});<br/></pre>
+<p>Primero seleccionamos el input por nombre e iteramos la lista, cambiando la propiedad checked de cada checkbox. Claro está que ese código debe de estar en un listener del checkbox principal. Algo bastante sencillo y muy común en nuestras aplicaciones web.</p><h3>The Angular Way</h3><p>Ahora bien, cuando estamos trabajando con angular tenemos que ver las cosas diferentes, en lugar de manipular el DOM debemos manipular información, a esto es lo que se le denomina <i>The Angular Way</i>, la verdad es que cuando me inicié con angular esto no lo tenía muy claro.</p><p>Por todos lados te dicen que no manipules el DOM en tus controladores, que no uses jQuery o selectores ni cualquier otro tipo de manipulación en los controllers. Esto se considera una mala práctica, pero bueno, la verdad es que es complicado cambiar la manera de ver las cosas si estas acostumbrado a utilizar jQuery. De hecho para ser sincero el snippet de código anterior lo saque de la versión que tengo en producción de este mismo sitio (Planeo cambiarlo en una futura revisión).</p><p>Angular nos proporciona una manera diferente de hacer las cosas, en este ejemplo voy a utilizar una directiva para poder hacer exactamente lo mismo, pero al hacer una directiva podré reutilizarla en cualquier lugar que lo requiera, y la verdad es que para administrar este sitio tengo varios listados (ej: Cursos, tutoriales, posts, categorías, etc...) y la idea es poder hacer una directiva que me permita seleccionar elementos en todos esos views.</p><p>No vamos a manipular el DOM en nuestro controller, sino que manipularemos información, y esta información se verá reflejada en nuestros views, esto es el famoso <i>Angular Way</i> en resumidas palabras.</p><p>Primero creamos nuestra aplicación en angular:</p><pre class="prettyprint">var MyApp = angular.module('MyApp',[]);<br/></pre><p>Ahora vamos a definir el view, con la directiva que estamos creando:</p><pre class="prettyprint">&lt;div ng-app="MyApp"&gt;
+
+    
+&lt;table ng-controller="ArticlesController"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                &lt;input toggle-checkbox toggle-checkbox-list="articles" toggle-checkbox-property="selected" type="checkbox" /&gt;
+            &lt;/th&gt;
+            &lt;th&gt;Title&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr ng-repeat="article in articles"&gt;
+            &lt;td&gt;&lt;input type="checkbox" ng-model="article.selected"/&gt;&lt;/td&gt;
+            &lt;td&gt;{{article.title}}&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+    
+&lt;/div&gt;<br/></pre><p>La directiva que vamos a crear se llamará <i>toggle-checkbox</i>, en nuestro view definimos dos propiedades importantes.</p><ol><li><i>toggle-checkbox-list</i>, aquí vamos a definir el nombre de la propiedad en nuestro controller que contiene el arreglo de objetos que queremos seleccionar mediante el checkbox.</li><li><i>toggle-checkbox-property</i>, en este atributo definimos la propiedad que decidirá si el checkbox estará seleccionado o no, será una propiedad booleana dentro de cada objeto en la lista anterior.</li></ol><p>Por último iteramos la lista articles, definimos un checkbox con el modelo article.selected, este modelo tiene que ser el mismo que definimos en <i>toggle-checkbox-property</i>, ya que desde la directiva le cambiaremos el valor a esta propiedad para habilitar o deshabilitar el checkbox. También estamos imprimiendo el título de cada artículo.</p><p>El código JS de la directiva es el siguiente.</p><pre class="prettyprint">MyApp.directive("toggleCheckbox", function() {
+    return {
+        restrict : "A",
+        require: '?ngModel',
+        link : function(scope, element, attrs, modelCtrl) {
+            var list = scope.$eval(attrs.toggleCheckboxList),
+                property = attrs.toggleCheckboxProperty;
+
+            element.bind('change', function() {
+                scope.$apply(function () {
+                    var isChecked = element.prop('checked');
+                    
+                    // Set each child's selected property to the checkbox's checked property
+                    angular.forEach(list, function(child) {
+                        child[property] = isChecked;
+                    });
+                });
+            });
+        }
+    };
+});<br/></pre><p>La función link se ejecuta por cada vez que definamos esta directiva en nuestro template y se ejecuta una sola vez cuando se crea. </p><p>Primero tomamos el atributo <i>toggleCheckboxList</i> y con el <i>scope.$eval</i> estamos evaluando el string y tomando de la variable del arreglo que tenemos en el controller.</p><p>El atributo toggleCheckboxProperty será el que pondremos en true o false para que el checkbox se seleccione dependiendo del valor que le asignemos.</p><p>Por último agregamos un listener al evento <i>change</i> del elemento, que en este caso es el checkbox principal, en este evento usamos el <i>$apply</i> para leer la propiedad checked del checkbox principal e iterar la lista de objetos asignando a cada objeto el nuevo valor en la propiedad definida (en este caso <i>selected</i>).</p><p>Ya que la propiedad selected esta asignada, para cada checkbox del listado en el view, entonces automáticamente cada checkbox se seleccionará cuando seleccionemos el checkbox principal.</p><p>Por último necesitamos crear el controller con la información para poder probar esta directiva.</p><pre class="prettyprint">MyApp.controller('ArticlesController', [
+    '$scope',
+
+    function($scope) {
+        $scope.articles = [
+            {id:1,title:'How to create a directive'},
+            {id:2,title:'What is a Controller?'},
+            {id:3,title:'JavaScript closures'},
+            {id:4,title:'How to Geek'},
+            {id:5,title:'Writing your first app'},
+            {id:6,title:'Introduction to AngularJS'}
+        ];
+        
+        
+    }
+]);<br/></pre><p>Aquí solamente definimos el arreglo <i>articles</i> y creamos los objetos a desplegar en el view, nota que la propiedad selected no está definida en ninguno de los objetos, pero la directiva se encargará de hacerlo.</p><p>Puedes <a href="http://jsfiddle.net/crysfel/2wwKk/" rel="nofollow" target="_blank">ver el ejemplo de este tutorial</a> en acción y probarlo por ti mismo.</p><h3>Conclusión</h3><p>Con esta sencilla directiva se puede observar el <i>Angular Way</i>, pareciera que con jQuery es más sencillo, pero la realidad es que eso no es muy reutilizable, hacer una directiva que puedas usar donde quieras con el simple hecho de cambiar los parámetros es mucho mejor, además no estamos manipulando el DOM en el controller y haciendo una buena separación de nuestro código.</p><p>Cuando llegamos a angular esto nos puede parecer complicado, pero espero que este tutorial pueda servirte para poder entender el Angular Way, si tienes alguna duda puedes usar el foro.</p></div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Soy un geek que disfruta crear y compartir cosas en internet! Sígueme en twitter @crysfel</p>
+</span>
+</div>
+<div>
+
+</div>
+</div>
+</div>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<!-- Modal -->
+
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+    
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Aprendiendo Ext JS 3 - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/course-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Cursos Disponibles</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 courses-show-page">
+<article>
+<div class="entry-content">
+<div class="two_third">
+<section id="notifications">
+</section>
+<script type="text/javascript">
+$(function(){
+    var json = localStorage.getItem("notifications"),
+        notifications = jQuery.parseJSON(json) || [];
+
+    $('#notifications .alert').each(function(){
+        var n = $(this),
+            id = n.find('input').val();
+
+        if(jQuery.inArray(id,notifications) === -1){
+            n.css('display','block');
+            n.addClass('animated fadeInDown');
+        }
+    });
+
+    $('#notifications .alert .close').click(function(){
+        var alert = $(this).parent(),
+            id = alert.find('input');
+        
+        if(id.val()){
+            notifications.push(id.val());
+            json = JSON.stringify(notifications);
+
+            localStorage.setItem("notifications",json)
+        }
+    });
+
+
+});
+</script>
+<div class="course-name-header">
+<span class="course-name">
+<em>Aprendiendo Ext JS 3</em>
+</span>
+<span class="course-price">
+<span class="course-price-tag">
+					$0.00
+				</span>
+</span>
+<span class="share-course">
+<a href="https://twitter.com/share?text=Les recomiendo tomar el curso: Aprendiendo Ext JS 3 via @quizzpot" onclick="window.open('https://twitter.com/share?text=Les recomiendo tomar el curso: Aprendiendo Ext JS 3 via @quizzpot','twitter-share-dialog','width=626,height=268');return false;"><img alt="Twitter" src="/assets/twitter.png"/></a>
+<a href="http://facebook.com/quizzpot" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'facebook-share-dialog','width=626,height=268');return false;"><img alt="Facebook" src="/assets/facebook.png"/></a>
+</span>
+</div>
+<div class="course-info">
+<span>Participantes: <em>667</em></span>
+<span class="separator">Duracion: <em>3 hrs 37 mins</em></span>
+<!--
+			<span class="separator">Precio: <em>$0.00</em></span>
+			-->
+<span class="separator">Fecha: <em> Jan 29, 2009</em></span>
+<span class="separator"><em>Curso Completo</em></span>
+</div>
+<div class="course-tags">
+<span class="tags-text">Tags:</span>
+<span class="bubble-tag">JavaScript</span> <span class="bubble-tag">Ext 3</span>
+</div>
+<p class="bubble-panel course-description">Con pocas líneas de código es posible realizar interfaces amigables para los usuarios. Es la librería más avanzada para el desarrollo rápido de aplicaciones con un look and feel totalmente novedoso y una arquitectura flexible. Este curso esta impartido con la version 3 de Ext JS</p>
+<p class="course-content-header">Tabla de Contenidos:</p>
+<table>
+</table>
+<p class="course-content-header" id="subtitle-85">Instalación</p>
+<table>
+<tr class="course-article-item Preview" id="article-1">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/introduccion/">Introducción</a></td>
+<td class="course-article-duration-link">
+					6.65 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-2">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/donde-conseguir-ext-js-hay-que-pagar-es-gratis/">¿Dónde conseguir Ext JS? ¿Hay que pagar? ¿es gratis?</a></td>
+<td class="course-article-duration-link">
+					3.816 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-3">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/instalacion-basica-del-framework/">Instalación básica del Framework</a></td>
+<td class="course-article-duration-link">
+					7.1 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-4">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/instalacion-de-temas-o-look-and-feel/">Instalación de temas o “look and feel”</a></td>
+<td class="course-article-duration-link">
+					5.17 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-5">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/que-son-los-adapters-y-en-que-me-beneficia/">Que son los adapters y en que me beneficia</a></td>
+<td class="course-article-duration-link">
+					6.18 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-6">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/definicion-de-la-imagen-spacer-y-su-importancia/">Definición de la imágen spacer y su importancia</a></td>
+<td class="course-article-duration-link">
+					5.8 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-87">Localización</p>
+<table>
+<tr class="course-article-item Preview" id="article-7">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/instalando-tu-idioma/">Instalando tu idioma</a></td>
+<td class="course-article-duration-link">
+					8.9 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-8">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/varios-idiomas-en-un-mismo-sitio/">Varios idiomas en un mismo sitio</a></td>
+<td class="course-article-duration-link">
+					9.11 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-88">JavaScript orientado a objetos</p>
+<table>
+<tr class="course-article-item Preview" id="article-9">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/referencias-en-javascript/">Referencias en JavaScript</a></td>
+<td class="course-article-duration-link">
+					9.39 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-10">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/que-es-el-scope-o-alcance-de-una-variable/">¿Que es el scope o alcance de una variable?</a></td>
+<td class="course-article-duration-link">
+					8.14 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-12">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/que-son-los-closures/">¿Qué son los Closures?</a></td>
+<td class="course-article-duration-link">
+					12.32 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-13">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/el-contexto-y-la-variable-this/">El contexto y la variable “this”</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-16">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/creacion-de-objetos-y-metodos-publicos--3/">Creación de objetos y métodos públicos</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-15">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/metodos-privados-y-metodos-privilegiados/">Métodos privados y métodos privilegiados</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-14">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/paquetes-y-namespace/">Paquetes y namespace</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-18">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/que-es-el-xtype/">¿Qué es el “xtype”?</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-17">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/herencia-en-javascript/">Herencia en JavaScript</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-69">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/herencia-con-extjs/">Herencia con ExtJS</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-89">Trabajando con el DOM</p>
+<table>
+<tr class="course-article-item Preview" id="article-19">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/conociendo-al-objeto-element/">Conociendo al objeto “Element”</a></td>
+<td class="course-article-duration-link">
+					13.17 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-20">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/la-clase-domhelper/">La clase “DomHelper”</a></td>
+<td class="course-article-duration-link">
+					16.11 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-21">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/buscar-elementos-del-dom-con-ext-js/">Buscar elementos del DOM con Ext JS</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-22">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/aplicar-efectos-visuales-a-elementos/">Aplicar efectos visuales a Elementos</a></td>
+<td class="course-article-duration-link">
+					19.3 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-90">Mensajes y eventos</p>
+<table>
+<tr class="course-article-item Preview" id="article-23">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/mensajes-y-alertas-al-usuario/">Mensajes y alertas al usuario</a></td>
+<td class="course-article-duration-link">
+					20.55 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-24">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/manejo-de-eventos-sobre-elementos/">Manejo de eventos sobre Elementos</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-93">Ajax y el objeto Store</p>
+<table>
+<tr class="course-article-item Preview" id="article-25">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/el-objeto-ajax-peticiones-get-y-post/">El objeto Ajax, peticiones GET y POST</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-26">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/que-es-un-store-y-como-funciona/">¿Qué es un store y cómo funciona?</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-27">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/leer-informacion-de-un-xml/">Leer información de un XML</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-28">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/leer-informacion-en-formato-json/">Leer información en formato JSON</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-95">Paneles, Ventanas y Pestañas</p>
+<table>
+<tr class="course-article-item Preview" id="article-29">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/que-es-un-panel-para-que-sirve-y-como-se-crean/">¿Que es un panel, para que sirve y cómo se crean?</a></td>
+<td class="course-article-duration-link">
+					22.08 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-30">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/una-ventana-flotante/">Una ventana flotante</a></td>
+<td class="course-article-duration-link">
+					12.5 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-31">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/barras-de-herramientas-en-paneles-y-ventanas/">Barras de herramientas en paneles y ventanas</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-32">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/barra-de-status-en-ventanas-y-paneles/">Barra de status en ventanas y paneles</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-33">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/las-pestanas-o-tabs/">Las Pestañas o Tabs</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-97">Los Formularios</p>
+<table>
+<tr class="course-article-item Preview" id="article-34">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/formularios-y-campos-comunes-en-ext-js/">Formularios y campos comunes en Ext JS</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-35">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/combo-box-cargados-local-y-remotamente-ajax/">Combo box cargados local y remotamente (Ajax)</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-36">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/combos-dependientes-en-extjs/">Combos dependientes en ExtJS</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-37">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/un-calendario-para-capturar-fechas/">Un calendario para capturar fechas</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-39">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/llenar-formularios-con-informacion-del-servidor/">Llenar formularios con información del servidor</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-41">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/guardar-informacion-en-el-servidor/">Guardar información en el servidor</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-42">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/validaciones-simples-en-formularios/">Validaciones simples en formularios</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-43">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/validaciones-personalizadas/">Validaciones personalizadas</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-44">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/campos-compuestos/">Campos Compuestos</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-100">Gráficas</p>
+<table>
+<tr class="course-article-item Preview" id="article-45">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/graficas-en-ext-js-3/">Gráficas en Ext JS 3</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-46">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/graficando-series/">Graficando series</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-102">El GridPanel</p>
+<table>
+<tr class="course-article-item Preview" id="article-47">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/una-tabla-basica-con-informacion-cargada-de-un-array/">Una tabla básica con información cargada de un Array</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-48">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/mostrar-informacion-de-un-archivo-xml/">Mostrar información de un archivo XML</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-49">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/informacion-contenida-en-formato-json/">Información contenida en formato JSON</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-50">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/paginado-remoto-en-un-grid/">Paginado remoto en un Grid</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-51">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/formato-a-la-informacion-de-las-celdas/">Formato a la información de las celdas</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-52">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/utilizando-fechas-y-tiempo-en-un-grid/">Utilizando fechas y tiempo en un Grid</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-53">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/editar-la-fila-de-un-grid-en-un-formulario/">Editar la fila de un Grid en un formulario</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-54">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/grid-con-columnas-dinamicas/">Grid con columnas dinámicas</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-103">El Grid Editable</p>
+<table>
+<tr class="course-article-item Preview" id="article-55">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/editar-las-celdas-de-un-grid/">Editar las celdas de un grid</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-56">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/editar-una-celda-mediante-un-combobox/">Editar una celda mediante un Combobox</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-57">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/guardar-los-cambios-del-grid-editable-usando-ajax/">Guardar los cambios del Grid editable usando Ajax</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-58">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/agrupado-y-sumatoria-de-columnas/">Agrupado y Sumatoria de Columnas</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-59">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/crud-de-un-catalogo-de-contactos/">CRUD de un catálogo de contactos</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-104">Árboles con ExtJS</p>
+<table>
+<tr class="course-article-item Preview" id="article-60">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/el-tree-panel/">El tree panel</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-61">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/arboles-generados-con-ajax/">Árboles generados con Ajax</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-62">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/cambiar-el-icono-a-los-nodos-de-un-treepanel/">Cambiar el ícono a los nodos de un TreePanel</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-63">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/desplegar-el-sistema-de-archivos-en-un-treepanel/">Desplegar el sistema de archivos en un TreePanel</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-64">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/explorador-de-archivos-para-el-servidor/">Explorador de archivos para el servidor</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-65">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/ordenar-los-nodos-de-un-treepanel/">Ordenar los nodos de un TreePanel</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-105">Layouts y maquetación</p>
+<table>
+<tr class="course-article-item Preview" id="article-66">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/border-layout/">Border layout</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-67">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/ext-designer-border-layout/">Ext Designer - Border layout</a></td>
+<td class="course-article-duration-link">
+					9.19 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-68">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/extjs-table-layout/">ExtJS - Table layout</a></td>
+<td class="course-article-duration-link">
+					9.31 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header" id="subtitle-106">Ejemplos variados</p>
+<table>
+<tr class="course-article-item Preview" id="article-70">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/integracion-del-formpanel-y-el-gridpanel/">Integración del FormPanel y el GridPanel</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-71">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/creando-un-wizard/">Creando un Wizard</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-72">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/editando-una-imagen/">Editando una Imagen</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-73">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/una-encuesta-dinamica/">Una encuesta dinámica</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-74">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/integracion-del-treepanel-y-tabpanel/">Integración del TreePanel y TabPanel</a></td>
+<td class="course-article-duration-link">
+					0.0 mins
+
+				</td>
+</tr>
+<tr class="course-article-item Preview" id="article-75">
+<td class="course-article-title"><a href="/courses/aprendiendo-ext-js-3/articles/extjs-desktop-creacion-de-modulos/">ExtJS Desktop - Creación de módulos</a></td>
+<td class="course-article-duration-link">
+					12.32 mins
+
+				</td>
+</tr>
+</table>
+<p class="course-content-header">Quizzes:</p>
+<table>
+<tr class="course-article-item" id="quizz-1">
+<td class="course-article-title">
+<a href="/courses/aprendiendo-ext-js-3/quizzes/trabajando-con-el-dom/confirm/">Trabajando con el DOM</a>
+</td>
+<td class="course-article-duration-link">6 preguntas</td>
+</tr>
+<tr class="course-article-item" id="quizz-2">
+<td class="course-article-title">
+<a href="/courses/aprendiendo-ext-js-3/quizzes/conceptos-fundamentales-de-javascript-parte-i/confirm/">Conceptos fundamentales de JavaScript (Parte I)</a>
+</td>
+<td class="course-article-duration-link">12 preguntas</td>
+</tr>
+<tr class="course-article-item" id="quizz-4">
+<td class="course-article-title">
+<a href="/courses/aprendiendo-ext-js-3/quizzes/javascript-orientado-a-objetos/confirm/">JavaScript orientado a objetos</a>
+</td>
+<td class="course-article-duration-link">11 preguntas</td>
+</tr>
+<tr class="course-article-item" id="quizz-5">
+<td class="course-article-title">
+<a href="/courses/aprendiendo-ext-js-3/quizzes/mensajes-y-eventos/confirm/">Mensajes y Eventos</a>
+</td>
+<td class="course-article-duration-link">9 preguntas</td>
+</tr>
+</table>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<div class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></div>
+<div class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</div>
+</div>
+<h3>Regístrate a este curso</h3>
+<p>Tendrás acceso a descargar los videos, códigos y material adicional.</p>
+<p>Podrás resolver los ejercicios incluidos en el curso así como los Quizzes.</p>
+<p>Llevarás un registro de tu avance.</p>
+
+
+</div>
+</div>
+</article>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br/>
+<a href="/about/">Leer más...</a>
+</br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

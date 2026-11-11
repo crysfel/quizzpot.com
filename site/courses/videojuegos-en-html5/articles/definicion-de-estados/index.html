@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Definición de estados - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Videojuegos en HTML5</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Definición de estados
+            <a class="bubble-tag article-header-link-videos" href="/courses/videojuegos-en-html5/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/nNvKwxAsMKA" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>4</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>8.4 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En el tema anterior vimos como <a href="/courses/videojuegos-en-html5/articles/instalacion-de-phaser-y-ambiente-de-desarrollo/" title="Link: https://quizzpot.com/courses/videojuegos-en-html5/articles/instalacion-de-phaser-y-ambiente-de-desarrollo">descargar e instalar Phaser usando bower</a>, en este tema veremos como inicializar nuestro juego y explicaremos el concepto de los estados.</p><h3>Inicializando Phaser</h3><p>Para inicializar nuestro juego tenemos que crear una instancia de la clase <i>Phaser.Game</i>, aquí es donde la magia sucede y es el primer paso que debemos realizar. Vamos a crear un directorio llamado <i>app</i> donde iremos escribiendo el código JavaScript para nuestro juego, dentro de este folder creamos un archivo llamado <i>game.js</i> con el siguiente código.</p><pre class="prettyprint">var MyGame = new Phaser.Game(1024, 768, Phaser.AUTO, 'game-container');<br/></pre><ol><li>El primer parámetro será el <i>width</i> (anchura) del canvas donde nuestro juego será renderizado.</li><li>El segundo parámetro es el <i>height</i> (altura) del canvas a crear, aquí estamos definiendo las dimensiones del ipad.</li><li>El tercer parámetro define la manera en como se van a manejar los gráficos dentro del juego, ya sea usando las APIs del Canvas (<i>Phaser.CANVAS</i>) o bien usando WebGL (<i>Phaser.WEBGL</i>). En este caso estamos utilizando <i>Phaser.AUTO</i> que detectará si tenemos soporte WebGL, de lo contrario usará un canvas.</li><li>El cuarto parámetro corresponde al ID del nodo en el documento HTML donde vamos a renderizar el juego, generalmente el contenedor es un <i>DIV</i>.</li></ol><p>Ahora vamos a crear una hoja de estilos para quitar los márgenes y paddings que los navegador agregan al documento por default. Vamos a crear un directorio en el directorio raíz de nuestro proyecto llamado <i>resources/css</i>, dentro de este folder creamos el archivo llamado <i>style.css</i> con el siguiente código.</p><pre class="prettyprint">html,body{
+    margin:0px;
+    padding: 0px;
+}<br/></pre><p>Ahora vamos a crear el documento html donde incluiremos el código que hemos creado en los pasos anteriores. En el directorio raíz creamos el archivo <i>index.html</i> con el siguiente código.</p><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;States - Phaser&lt;/title&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+
+    &lt;link rel="stylesheet" type="text/css" href="/courses/videojuegos-en-html5/articles/resources/css/style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="game-container"&gt;&lt;/div&gt;
+
+    &lt;script src="/courses/videojuegos-en-html5/bower_components/phaser/build/phaser.js"&gt;&lt;/script&gt;
+    &lt;script src="/courses/videojuegos-en-html5/articles/app/game.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;<br/></pre><ol><li>Aquí estamos creando un documento muy sencillo, primero definimos una etiqueta meta donde nos aseguramos que el viewport del iPad utilice las mismas dimensiones, inclusive para los modelos con retina display.</li><li>Incluimos el CSS para remover los márgenes y paddings.</li><li>Incluimos la librería de Phaser, algo importante es que yo estoy escribiendo el código dentro de subfolders, esto con el objetivo de dedicar cada folder a cada tutorial, es por eso que en el path a la librería de Phaser agregué <i>../</i>, asegúrate que el path este correcto en tu caso.</li><li>Por último agregamos el archivo <i>game.js</i> donde estamos inicializando el juego.</li></ol>
+<div class="example"><img alt="Inicializando el juego" src="https://s3.amazonaws.com/quizzpot/images/194-phaser-init.png" title="Image: https://s3.amazonaws.com/quizzpot/images/194-phaser-init.png"/><p>Inicializando el juego</p></div>
+<p>Hasta ahora tenemos exactamente lo mismo que en el tutorial anterior, un canvas con fondo negro. Lo siguiente que haremos será agregar nuestro primer estado. </p><h3>Utilizando los estados</h3><p>Phaser utiliza estados para manejar diferentes escenas o módulos de nuestro juego, cada estado representará alguna sección de nuestro juego, por ejemplo, podríamos crear un estado para cargar nuestros assets, otro para mostrar el menu principal, uno para el juego y otro para mostrar los puntajes.</p><p>El uso de estados nos ayuda a dividir nuestro juego en pequeños módulos, podríamos usar diferentes estados para representar diferentes niveles en nuestro juego, cada nivel tendría diferentes enemigos, diferentes misiones, etc. En nuestro caso particular, el juego que haremos es muy sencillo y solo tendremos 3 estados.</p><ol><li>El preload. Aquí cargaremos todos los assets necesarios.</li><li>El menu principal. Aquí desplegaremos el mayor puntaje y un botón para iniciar a jugar.</li><li>El juego principal. Aquí es donde sucederá toda la acción.</li></ol><p>Por el momento solo vamos a crear el estado numero 2, el menu principal, más adelante crearemos el resto. Vamos a crear un archivo dentro del folder <i>app</i> que llamaremos <i>GameState.js</i> con el siguiente código.</p><pre class="prettyprint">var GameState = {
+    //Step 1
+    preload : function(){
+        console.log('Preload...');
+    },
+
+    //Step 2
+    create  : function(){
+        console.log('Create....');
+    },
+
+    //Step 3
+    update  : function(){
+        console.log('Updating!');
+    }
+}<br/></pre><ol><li>En el paso uno creamos la función <i>preload</i>, esta función será llamada de manera automática tan pronto como se inicialice este estado, Phaser llamará esta función internamente para que podamos cargar todos los assets que necesitemos, vamos a ver esta función más a detalle en tutoriales siguientes.</li><li>En el paso dos definimos la función <i>create</i>, esta función es llamada por Phaser de manera automática inmediatamente después de ejecutar la función <i>preload</i>. La idea de esta función es crear los elementos que existirán en nuestro juego, por ejemplo el personaje principal, los enemigos, el escenario, etc.</li><li>En el paso tres definimos la función update, este método se ejecuta en un loop infinito, aquí es donde vamos a poner la mayor parte de nuestro código, también definiremos la lógica del juego principal. </li>
+</ol>
+<p>La función <i>update</i> es llamada utilizando <a href="https://developer.mozilla.org/en-US/docs/Web/API/window.requestAnimationFrame" rel="nofollow" target="_blank" title="Link: https://developer.mozilla.org/en-US/docs/Web/API/window.requestAnimationFrame">requestAnimationFrame</a>, cada navegador la implementa esta función de manera diferente, pero en promedio es llamada 60 veces por segundo, claro esta que esto también dependerá de como tengamos optimizado nuestro juego.</p><p>Existen algunas otras funciones que son llamadas por Phaser en diferentes circunstancias, pero las veremos más adelante. Para agregar este estado a nuestro juego lo hacemos de la siguiente manera. En el archivo <i>game.js</i> agregamos el siguiente código.</p><pre class="prettyprint">var MyGame = new Phaser.Game(1024, 768, Phaser.AUTO, 'game-container');
+
+//Step 1
+MyGame.state.add('game', GameState);
+//Step 2
+MyGame.state.start('game');<br/></pre><ol><li>Utilizamos el state manager para agregar nuestro estado con el método <i>add</i>, el primer parámetro es el nombre que le daremos a este estado, con esto lo podremos referenciar dentro del juego, el segundo parámetro es el objeto que contiene la definición de nuestro estado.</li><li>En el paso dos ejecutamos el estado que hemos creado, esto hará que se ejecuten los métodos que definimos.</li></ol><p>Por último necesitamos importar el JS a nuestro documento html, más adelante <a href="http://requirejs.org/" rel="nofollow" target="_blank" title="Link: http://requirejs.org/">incluiremos require</a> para que dinámicamente podamos cargar los archivos. En el archivo <i>index.html</i> agregamos el siguiente código.</p><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;States - Phaser&lt;/title&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+
+    &lt;link rel="stylesheet" type="text/css" href="/courses/videojuegos-en-html5/articles/resources/css/style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div id="game-container"&gt;&lt;/div&gt;
+
+    &lt;script src="/courses/videojuegos-en-html5/bower_components/phaser/build/phaser.js"&gt;&lt;/script&gt;
+    &lt;script src="/courses/videojuegos-en-html5/articles/app/GameState.js"&gt;&lt;/script&gt;  &lt;!------- New state --&gt;
+    &lt;script src="/courses/videojuegos-en-html5/articles/app/game.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;<br/></pre><p> Si actualizamos nuestro navegador y abrimos la consola, veremos algo como la siguiente imagen.</p>
+<div class="example"><img alt="El loop" src="https://s3.amazonaws.com/quizzpot/images/195-phaser-states.png" title="Image: https://s3.amazonaws.com/quizzpot/images/195-phaser-states.png"/><p>El  loop</p></div>
+<p>Como se puede observar se están ejecutando correctamente las tres funciones, la función <i>preload</i> y <i>create</i> solo se ejecutan una sola vez pero la función <i>update</i> es infinita.</p><h3>Conclusiones</h3><p>Los conceptos explicados en este tema son muy importantes ya que los estaremos usando durante todo nuestro juego, mas adelante crearemos otros dos estados y haremos uso del loop infinito para realizar todos los cálculos de física, interacción con el usuario, etc.</p><p>En el siguiente tema veremos como cargar imágenes para usarlas dentro de nuestro juego, hasta ahora solo tenemos un rectángulo negro, pero poco a poco crearemos algo interesante. Si te ha gustado este tutorial lo puedes compartir en tus redes sociales, eso me ayudará mucho a seguir publicando contenido de calidad.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/videojuegos-en-html5/">Videojuegos en HTML5</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Amante de los videojuegos y programador, actualmente desarrollando juegos sencillos para dispositivos móviles solo por diversión.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/phaser-course/03-states/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Validaciones simples en formularios - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Validaciones simples en formularios
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>9</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Las validaciones son muy importantes cuando se trata de capturar información por parte del usuario, debemos darle mucha importancia y validar toda la información que recibimos. En este tema veremos como utilizar las validaciones que vienen con Ext JS.
+
+Es de suma importancia tener en cuenta que debemos validar la captura de información tanto del lado del cliente como en el servidor, utilizando JavaScript podemos darle una mejor experiencia al usuario para capturar información además de que ahorraremos tiempo, pero también debemos tener en cuenta que el servidor es el responsable de validar todo lo que recibe, por lo tanto también tenemos que hacer validaciones en el servidor y mostrar los errores ocasionados.
+
+Esta es una tarea complicada, pero gracias a Ext JS podemos agilizar este proceso utilizando las validaciones que el Framework nos ofrece, en este tutorial solamente validaremos información común y sencilla, próximamente mostraré como podemos realizar validaciones más complejas o propias de nuestro negocio.
+
+<h3>Material de apoyo</h3>
+Vamos a descargar el <a href="/wp-content/uploads/2009/08/simplevalidations-src.zip" rel="nofollow" target="_blank">material de apoyo</a> donde he creado <a href="/2009/06/formularios-y-campos-comunes-en-ext-js/" rel="nofollow" target="_blank">un formulario</a> con algunos campos comunes como son “nombre, fecha, e-mail, Website, comentario”, también incluye un archivo PHP donde aleatoriamente regresa algunos errores de validación para mostrar en los formularios.
+
+<h3>Demostración</h3>
+Para beneficio de todos he creado <a href="/demos/extjs/forms/simplevalidations.html/" rel="nofollow" target="_blank">un demo</a> de lo que tendremos al final del tutorial, puedes probarlo y ver las funcionalidades que contiene.
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation1.jpg"/><p>Ejemplo del tutorial finalizado</p></div>
+<h3>Campos requeridos</h3>
+Si en este momento ejecutamos el material de apoyo vemos que aparece <a href="/2009/06/formularios-y-campos-comunes-en-ext-js/" rel="nofollow" target="_blank">un formulario vacío</a>, si damos clic sobre el botón “Save” se realiza una <a href="/2009/08/guardar-informacion-en-el-servidor/" rel="nofollow" target="_blank">petición al servidor</a> por medio de Ajax, luego nos aparece un mensaje de “éxito” o “error”, normalmente en una aplicación siempre hay campos requeridos, deberíamos validar que se envíe al servidor (por medio de Ajax) algunos campos obligatorios como el “nombre” o algunos otros.
+
+Para definir un campo como requerido simplemente utilizamos la propiedad “<em>allowBlank:false</em>” en los campos que deseamos hacer obligatorios, vamos a modificar el formulario de la siguiente manera.
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	url: 'simplevalidations.php',
+	border:false,
+	labelWidth: 80,
+	defaults: {
+		xtype:'textfield',
+		width: 150
+	},
+	items:[
+		{fieldLabel:'Name',name:'name',allowBlank:false}, //required field
+		{xtype:'datefield',fieldLabel:'Start',name:'start',allowBlank:false}, //required field
+		{xtype:'combo',fieldLabel:'Year',name:'year',triggerAction:'all',store:[2009,2008,2007,2006],readOnly:true},
+		{fieldLabel:'Email',name:'email'},
+		{fieldLabel:'Web site',name:'website'},
+		{xtype:'textarea',fieldLabel:'Comment',name:'comment',allowBlank:false},//required field
+		{xtype:'checkbox',fieldLabel:'',labelSeparator:'',boxLabel:'Available',name:'available'}
+	]
+});
+</pre>
+
+En el código anterior solamente le he agregado la propiedad “allowBlank:false” a los campos que quiero hacer requeridos, ahora si actualizamos el explorador donde tenemos nuestro ejemplo y presionamos el botón “Save” podremos ver que nos manda un mensaje de error y nos dice pone los campos que son requeridos en color rojo:
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation2.jpg"/><p>Campos requeridos en el formulario</p></div>
+<h3>Máximo de caracteres en un TexField</h3>
+Normalmente definimos en la base de datos el numero de caracteres de algún campo, por lo tanto es recomendable asegurarnos que solamente el usuario pueda capturar hasta ese número definido, de lo contrario tendremos problemas al guardar la información, para hacer esto solamente necesitamos configurar la propiedad “maxLength” con el número máximo que necesitemos.
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	//… código removido para ejemplificar las líneas afectadas
+	items:[
+		{fieldLabel:'Name',name:'name',allowBlank:false,maxLength:20},
+		//… código removido para ejemplificar las líneas afectadas
+	]
+});
+</pre>
+
+Ahora cuando escribamos más de 20 caracteres en el campo “name” aparecerá un error que nos avisará que algo anda mal.
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation3.jpg"/><p>Restringir número de caracteres en un campo</p></div>
+<h3>Validaciones comunes</h3>
+Ext JS cuenta con una componente que contiene algunas validaciones comunes y que podemos agregarle las que necesitemos, en este tutorial vamos a utilizar las que vienen por defecto.
+
+El componente responsable de almacenar estas validaciones es el  “Ext.form.VTypes” y cuenta con cuatro validaciones por defecto las cuales veremos a continuación.
+
+<h3>Sólo caracteres alpha</h3>
+Los caracteres alpha son las letras y el guión bajo, no incluye números ni cualquier otro símbolo, vamos asignarle un “vtype” al campo “name” para que acepte solamente este tipo de caracteres.
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	//… código removido para ejemplificar las líneas afectadas
+	items:[
+		{fieldLabel:'Name',name:'name',allowBlank:false,maxLength:20,vtype:'alpha'},
+		//… código removido para ejemplificar las líneas afectadas
+	]
+});
+</pre>
+
+Mediante la propiedad “vtype” podemos configurar la validación que necesitemos, en este caso utilizamos “alpha” la cual esta definida dentro del componente “Ext.form.VTypes”, esto es importante tomarlo en cuenta.
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation4.jpg"/><p>Sólo caracteres alpha</p></div>
+<h3>Validar un correo electrónico (e-mail)</h3>
+Una validación muy común es el e-mail, vamos asignarle el “vtype” correspondiente al campo del nuestro formulario de la siguiente manera:
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	//… código removido para ejemplificar las líneas afectadas
+	items:[
+		//… código removido para ejemplificar las líneas afectadas
+
+		{fieldLabel:'Email',name:'email',vtype:'email'}, // validar un e-mail
+
+//… código removido para ejemplificar las líneas afectadas
+	]
+});
+</pre>
+
+Gracias a Ext JS no demoramos ni un minuto en agregar esa validación, ahora el formulario se verá semejante a la siguiente pantalla cuando introduzcamos un e-mail inválido.
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation5.jpg"/><p>Validación de un e-mail</p></div>
+<h3>Validar un URL</h3>
+Vamos a ver como validar una dirección o “URL” de un sitio Web.
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	//… código removido para ejemplificar las líneas afectadas
+	items:[
+		//… código removido para ejemplificar las líneas afectadas
+
+		{fieldLabel:'Web site',name:'website',vtype:'url'}, //validar una URL
+
+//… código removido para ejemplificar las líneas afectadas
+	]
+});
+</pre>
+
+Es importante notar que también acepta protocolos “https” y “ftp” para validar correctamente.
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation6.jpg"/><p>Validación de una URL</p></div>
+<h3>Validar en el servidor</h3>
+Hasta ahora hemos visto como validar en el cliente, pero también es de suma importancia validar en el servidor, vamos a ver como podemos desplegar los errores de validación que se ocasionan en el servidor.
+
+Ext JS cuenta con una funcionalidad que nos ahorrará mucho tiempo al desplegar los errores ocasionados en el servidor, marcando el campo exacto donde se ocasionó y desplegando un mensaje del porqué del error, para poder utilizar esta funcionalidad únicamente la respuesta del servidor debe estar en el siguiente formato:
+
+<pre class="prettyprint">{
+	success: false,
+	msg: 'Mensaje general de error',
+	errors: {
+		campo : 'Mensaje del porqué',
+		otroCampoConError: 'porque se generó el error?'
+       }
+}
+</pre>
+
+Teniendo en mente lo anterior vamos a editar el archivo “simplevalidations.php” y generar algunos errores de prueba.
+
+<pre class="prettyprint">$info = array(
+	'success' =&gt; false,
+	'msg' =&gt; 'There was an error saving the record',
+	'errors' =&gt; array(
+		'name' =&gt; $name+' is not an employee of this corporation',
+		'email' =&gt; 'E-mail does not exist in the database',
+		'comment' =&gt; 'The comment is to short'
+	)
+);
+</pre> 
+
+Estos cambios son suficientes, así que no tenemos que hacer nada más, veamos el resultado.
+
+<div class="example"><img alt="Validaciones en Ext JS" src="/wp-content/uploads/2009/08/validation7.jpg"/><p>Desplegar errores de validación ocasionados en el servidor</p></div>
+
+Con esto podemos ver que aunque las validaciones del cliente sean correctas, la información puede ser incorrecta debido a nuestra lógica de negocio, en este ejemplo el nombre de la persona debería existir en nuestro catálogo de empleados (ejemplo hipotético).
+
+<h3>Conclusiones</h3>
+Las validaciones son muy importantes, hoy vimos como utilizar las validaciones por defecto, además aprendimos como desplegar los mensajes de error que se generan en el servidor, con Ext JS todo esto es más sencillo.
+
+Recuerda que si tienes dudas puedes hacerlas en el <a href="http://foro.quizzpot.com" rel="nofollow" target="_blank">foro</a> donde podremos platicar mejor además de que serás ayudado por la comunidad que se está formando, únete y participa hoy mismo.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/forms/simplevalidations.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

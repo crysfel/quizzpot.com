@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>What is a Store? How does it work? - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            What is a Store? How does it work?
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                This tutorial is very important because the component Store is used by the components that need to communicate with the server in order to show information, so we will learn the most important methods of this component.
+
+A Store is a component that saves temporarily the information through records, it's used as cache. It's important to remember that the Store contains another component capable of reading or translate the received information, this reader is configured before requesting the local information or from the server.
+
+<h3>Resources</h3>
+For this tutorial, the resources are a HTML and a JS file where we'll be working, so go ahead and <a href="/wp-content/uploads/2009/04/store.zip" rel="nofollow" target="_blank">download it</a> and copy them inside of the folder "ajax" that we've created in the previous tutorial, this folder is inside of the "course" folder in the Web server we installed in the first chapter of this course.
+
+<h3>Encapsulating the tutorial</h3>
+Before we start with the first example we need to encapsulate the code we will be writing to avoid future issues.
+
+<pre class="prettyprint">//the namespace for this tutorial
+Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Store = {	
+	//dummy information will go here
+
+	init: function(){
+		//this will be executed when the DOM is ready to be used
+                //create the store here
+		
+		//load the information in the store here
+		
+		//create the “listeners” of the buttons here
+	}
+	
+	//create the method "orderAsc" here
+	
+	//create the method "orderDesc" here
+	
+	//create the method "filter" here
+	
+	//create the method "query" here
+	
+	//create the method"count" here
+	
+	//create the method"find" here
+	
+	//create the method"log" here
+}
+//execute the function "init" when the DOM is ready to be used
+Ext.onReady(com.quizzpot.tutorial.Store.init,com.quizzpot.tutorial.Store); 
+</pre>
+
+I have commented the place where we're going to write the code for this tutorial, so you can have a better idea of the final structure of the code.
+
+<h3>The information</h3>
+For this example we're going to get the information from an array, it's important to recall that we must create a two dimensional array which is going to be "processed" by the store we're going to create later on, this array will be at the beginning of the object "com.quizzpot.tutorial.Store" like this:
+
+<pre class="prettyprint">data: [ //dummy information for the example
+	[1,'Crysfel','Software developer','m',25],
+	[2,'Sasha','Figure skater','f',23],
+	[3,'Jack','Software Architect','m',35],
+	[4,'John','Javascript developer','m',24],
+	[5,'Sara','Tester','f',31]
+],
+</pre>
+
+The information is inside of an array which also has other arrays with information, every "inner" array will be a record where the position zero is the "identifier" of the record, the position one is the "name" of a person, position two the "occupation", the position three is the "gender" of the person and the position five is the "age".
+
+<h3>Create a Store with local information</h3>
+We are going to create an "ArrayStore", which is a small helper class to make creating Stores from Array data easier. So create the ArrayStore like this:
+
+<pre class="prettyprint">//creating an instance from the SimpleStore
+this.store = new Ext.data.ArrayStore({
+	fields: [ //defining the fields...
+		{name:'name',mapping:1},
+		{name:'occupation',mapping:2},
+		{name:'gender',mapping:3},
+		{name:'age',mapping:4}
+	],
+	id: 0 //defining the Id's position for every record
+});
+</pre>
+
+We have created the store but it doesn't have information yet even though is capable of reading the array we previously defined; the property "fields", which is defined in the configuration of the store, is where we define the name of the properties of the records and we can see it's related to the array with the property "mapping", in this case we assign the position in the array where we're going to get the content to the property mapping.
+
+<h3>Loading the information to the Store</h3>
+Enter the information in the Store is very easy because we're using the local information saved in an array. We need to load the data to the store in order to use the array we defined.
+
+<pre class="prettyprint">//load the information of the array
+this.store.loadData(this.data);
+</pre>
+	
+If everything went well, we can use the information contained in the store.
+
+<h3>Create the “listeners” of the buttons</h3>
+At this  moment we're going to create the "listeners" for the event click on every button we have in the HTML document.
+
+<pre class="prettyprint">Ext.fly('personBtn').on('click',this.find,this);
+Ext.fly('txt').on('keyup',function(event,cmd){
+	if(event.getKey() === event.ENTER){ //when the key is ENTER
+		this.find(); //we will make a search
+	}
+},this);
+Ext.fly('ascBtn').on('click',this.orderAsc,this);
+Ext.fly('descBtn').on('click',this.orderDesc,this);
+Ext.fly('older2030Btn').on('click',this.query,this);
+Ext.fly('older30Btn').on('click',this.filter,this);
+Ext.fly('countBtn').on('click',this.count,this);
+</pre>
+
+You can see that the previous code looks familiar and it's because we have talked about the events on elements in previous tutorials, if you don't quite understand the code I recommend you to take a look at the tutorial<a href="/2009/05/handling-events-on-dom-elements-and-components/" rel="nofollow" target="_blank">Handling events on DOM elements and components</a>. You can notice that we haven't assign what's going to happen on each event, we'll do that later on.
+
+<h3>Sorting the records</h3>
+Sorting information is very important and we can do it easily by using the method "sort".
+
+<pre class="prettyprint">, //note: don't forget the comma to separate the methods XD
+	
+orderAsc: function(){
+	this.store.sort('name','ASC'); // sort upward
+	this.store.each(function(record){//for every record...
+		this.log(record.get('name')); //print the property "name"
+	},this);
+	this.log('___________________________________');
+}, // &lt;--- don't forget to write this comma
+	
+orderDesc: function(){
+	this.store.sort('name','DESC'); //sort downward
+	this.store.each(function(record){ //for every record...
+		this.log(record.get('name')); //print the property "name"
+	},this);
+	this.log('___________________________________');
+}
+</pre>
+
+The method "sort" receives as first parameter the name of the field to sort by and as second parameter the sort order, "ASC" or "DESC"; after we have sorted the records we can loop through the records by using the method "each".
+
+The method "log" has not been defined yet, we'll do it later, for now we can have a "console.debug" to print the values in the Firebug console.
+ 
+<h3>Filter the records in the store</h3>
+Sometimes is necessary to filter information contained in the Store depending on a given criteria, in this example I'm going to create a filter of the people who are older than 30 years-old and I will do it using the method "filterBy".
+
+<pre class="prettyprint">, // &lt;--- don't forget to write the comma
+	
+filter: function(){
+	//filter people
+	this.store.filterBy(function(record,id){
+		return record.get('age') &gt;= 30; //older than 30 years-old
+	});
+		
+	//for every record
+	this.store.each(function(record){
+		//print in the "log"
+		this.log(record.get('name')+' is older than 30 '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age'));
+	},this);
+	//clear the filters
+	this.store.clearFilter();
+	this.log('___________________________________');
+}
+</pre>
+
+The method "filterBy" accepts as first parameter a function that will be executed for every record in the store, there's where we've defined the filter (age older than 30 years old), when the function returns "true" the record will be taken and if it returns "false" the record will be discarded.
+
+After applying the filter to the store the function "each" is executed, it's important to remember that the function "each" will only be executed on the records that have been filtered previously.
+
+With the function "clearFilter" the filters applied to the store are cleared, allowing us to use all the records again.
+
+<h3>Search records</h3>
+The previous method searches for records discarding the records we don't need. The method "queryBy" does something similar but the difference is that it returns the records found in a collection, this can be more useful or easy to understand than the previous method we created.
+
+<pre class="prettyprint">,//&lt;--- don't forget the comma xD
+	
+query: function(){
+	//search people who are older than 20 and younger than 30
+	var collection = this.store.queryBy(function(record,id){
+		return record.get('age') &gt;20 &amp;&amp; record.get('age')&lt;30;
+	});
+		
+	//for every item in the collection
+	collection.each(function(item,index){
+		//print the name and age
+		this.log(item.get('name')+' is '+item.get('age')+ ' and '+(item.get('gender')=='f'?'she':'he')+' is younger than 30');
+	},this);
+	this.log('___________________________________');
+} 
+</pre>
+
+As you can see, this method is very similar to the method we used in the previous example, the only difference is that it returns a collection with the records that meet the specified condition.
+
+<h3>Search by property</h3>
+If we want to search for a single record we can use the method "find" which receives as first parameter the property we will use to make the search, as second parameter receives a "String" or a regular expression with the query criteria, the third parameter is optional and is the index to start searching at, the fourth parameter is also optional and we define if the search will be executed in any part of the text and in the last parameter we define if we want the uppercase or lowercase letters to be ignored.
+
+<pre class="prettyprint">//propiedad: name
+//value: Crys
+//comienza en: 0
+//To match any part of the string, not just the beginning
+//no case sensitive comparison
+this.store.find('name', 'Crys',0,true,false);
+</pre>
+
+The method "find" returns the index of the first matching record in this store specified by the property "name", if nothing is found it returns a "-1". 
+
+<pre class="prettyprint">, //&lt;---
+	
+find: function(){
+	//we get what was introduced in the input text
+	var value = Ext.fly('txt').getValue();
+       //if nothing was entered, exit this function
+	if(Ext.isEmpty(value)) return;
+	//search by the property "name"
+	var index = this.store.find('name',value,0,true,false);
+	//if something's found
+	if(index&gt;=0){
+		//take the record with the index...
+		var record = this.store.getAt(index);
+		//and print the information found
+		this.log(record.get('name')+' work as a '+record.get('occupation')+' and '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age')+' years old');
+	}else{
+		//if nothing's found, notify the user
+		this.log('&lt;strong&gt;'+value+' not found!&lt;/strong&gt;');
+	}
+}
+</pre>
+
+Notice we have used the method "getAt" to get the full record by passing the index.
+
+If we already know the record ID we can retrieve it by using the method "getById". In the next example we're going to check if the user has entered a number in the input text and we will use it as the ID, if text was entered then we will run the previous code.
+
+<pre class="prettyprint">, //&lt;---
+	
+find: function(){
+	//get what was entered in the input text
+	var value = Ext.fly('txt').getValue();
+        //if nothing was entered, exit this function
+	if(Ext.isEmpty(value)) return;
+	//if the value is numeric
+	if(/^\d+$/.test(value)){
+		//search by ID
+		var record = this.store.getById(value);
+		if(!Ext.isEmpty(record)){
+			//if something was found, print the info
+			this.log(record.get('name')+' work as a '+record.get('occupation')+' and '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age')+' years old');
+		}else{
+			//if nothing was found, notify the user
+			this.log('&lt;strong&gt;Record with id: '+value+' was not found!&lt;/strong&gt;');
+		}
+	}else{
+		//search by the property "name"
+		var index = this.store.find('name',value,0,true,false);
+		//if something was found
+		if(index&gt;=0){
+			//get the record by the index...
+			var record = this.store.getAt(index);
+			//and print the information found
+			this.log(record.get('name')+' work as a '+record.get('occupation')+' and '+(record.get('gender')=='f'?'she':'he')+' is '+record.get('age')+' years old');
+		}else{
+			//if nothing was found, notify the user
+			this.log('&lt;strong&gt;'+value+' not found!&lt;/strong&gt;');
+		}
+
+	}
+}
+</pre>
+
+The previous code performs the search by ID or by the property specified (in this case "name").
+
+<h3>Count the records of the store</h3>
+To count the records that are currently in the store is very simple, we only need to use the method "getCount".
+
+<pre class="prettyprint">, //&lt;---
+	
+count: function(){
+	//print the total number of records
+	this.log('&lt;strong&gt;Total records: '+this.store.getCount()+'&lt;/strong&gt;');
+}
+</pre>
+
+Notice that this method only returns the records that are currently in the store.
+
+<h3>The Log</h3>
+The last thing we're going to do is define the method "log" we have been using to display the messages.
+
+<pre class="prettyprint">, //&lt;---
+	
+log: function(txt){
+	var el = Ext.get('response'); // get the LOG
+	el.select('p.newest').removeClass('newest'); // remove the last update
+	Ext.DomHelper.append(el,'&lt;p class="newest"&gt;'+txt+'&lt;/p&gt;'); //update the log
+	el.scrollTo('top',el.dom.scrollHeight); //scroll down
+	el.select('p.newest').highlight('F5FC49',{duration:0.5}); //highlight the last message
+}
+</pre>
+
+In the previous code we got the node "response" and we added the text we received in the parameter "txt", after that we highlighted the new text in yellow.
+
+<h3>Conclusions</h3>
+Is important to know how to search information in a store because this component is used to manipulate information and will  help us understand more the Framework.
+
+In this tutorial we created a simple store that gets the information from an array we defined with JavaScript, in the "real world" the information will come from a database, a Web service or some other place, in the following tutorials we will learn how to do that.
+
+If you have any questions or suggestions, please leave a comment and I will answer as fast as I can. Also don't forget to follow our updates in <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter</a> or subscribe to <a href="http://feeds2.feedburner.com/quizzpot-en" rel="nofollow" target="_blank">the feeds</a>.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/ajax/store.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Saving information in the server - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Saving information in the server
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>6</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Today we will see how to send the information submitted in a form of Ext JS to the server in order to save it in a database or manipulate it in any way.
+
+In previous tutorials we saw how to load a form with information on the fields, like <a href="/2009/11/loading-forms-remotely/" rel="nofollow" target="_blank">requesting the information from the server</a>, in this tutorial I will show you how to "submit" the form to send information to the server and save or process the information.
+
+<h3>Resources</h3>
+To continue this tutorial you must download the <a href="/wp-content/uploads/2009/08/submitform.zip" rel="nofollow" target="_blank">resources</a>, which contains an HTML that includes a JS file in which I have created a form contained in a window and a PHP file which will process the information sent.
+
+<h3>Demonstration</h3>
+I created a demonstration of the exercise we're going to do, I recommend you go to <a href="/demos/extjs/forms/submitform.html/" rel="nofollow" target="_blank">test its functionality</a>, is very simple but it explains perfectly what we'll learn today.
+
+
+<div class="example"><img alt="Submit form" src="/wp-content/uploads/2009/08/submitform1.jpg"/><p>Final result</p></div>
+<h3>Traditional Submit</h3>
+If we want to do an ordinary "submit", without using Ajax and reload the whole page, we only need to set the property "standardSubmit: true", by default is false.
+
+If we open the file "submitform.js" of the resources, you will see the following code in the method "init":
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	standardSubmit: true, // traditional submit
+	url: 'submitform.php',
+	border:false,
+	labelWidth: 80,
+	defaults: {
+		xtype:'textfield',
+		width: 150
+	},
+	items:[
+		{fieldLabel:'Title',name:'title', allowBlank:false},
+		{xtype:'combo',fieldLabel:'Year',name:'year',triggerAction:'all',store:[2009,2008,2007,2006]},
+		{xtype:'numberfield',fieldLabel:'Revenues',name:'revenues'},
+		{xtype:'textarea',fieldLabel:'Comment',name:'comment'},
+		{xtype:'checkbox',fieldLabel:'',labelSeparator:'',boxLabel:'Available',name:'available'}
+	]
+});
+
+this.win = new Ext.Window({
+	id:'mywin',
+	title: 'Submit data to the Server',
+	bodyStyle: 'padding:10px;background-color:#fff;',
+	width:300,
+	height:270,
+	items:[this.form],
+	buttons: [{text:'Save'},{text:'Cancel'}]
+});
+
+this.win.show();
+</pre>
+
+We have studied the previous code several times, so I assume that you understand it perfectly. If you've noticed, the first setting is "standardSubmit: true" and it enable us to a traditional "submit", this is actually the only difference of the forms we've created in previous tutorials.
+
+<h3>make a submit with the buttons save</h3>
+Until now the buttons do absolutely nothing, they are just being displayed in the form so what we have to do is assign them a "handler" and in this case assign the "scope" we are going to use. Let's change the code of the button like this:
+
+<pre class="prettyprint">{text:'Save',handler:this.sendData,scope:this}
+
+</pre>
+
+Now we have to implement the function "sendData" to do the "submit".
+
+<pre class="prettyprint">sendData: function(){
+	//submit the form
+	this.form.getForm().submit();
+}
+</pre>
+
+If you've noticed we used the method "getForm()" to have access to the BasicForm in order to do the "submit()". The component "FormPanel" contains another component called "BasicForm" which is responsible for managing the basic functionalities of a form like: information of the fields, send information to the server, reset the fields, validations, etc.. At the same time, the "FormPanel" is a container that is responsible for managing the "layout", assign a title and display it in the form of a "Panel" or allocate to other components.
+
+
+<div class="example"><img alt="Submit form" src="/wp-content/uploads/2009/08/submitform2.jpg"/><p>Traditional submit, without Ajax</p></div>
+
+If at this time we click on the button "save", we will see how the page is reloaded completely.
+
+<h3>Make a submit using Ajax</h3>
+I think this is the part that we're all interested, let's see how we can send information using Ajax. The first thing we need to do is remove the configuration "standardSubmit: true" of the form.
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	//standardSubmit: true, // remove this property
+	url: 'submitform.php',
+	border:false,
+	labelWidth: 80,
+	defaults: {
+		xtype:'textfield',
+		width: 150
+	},
+	items:[
+		{fieldLabel:'Title',name:'title', allowBlank:false},
+		{xtype:'combo',fieldLabel:'Year',name:'year',triggerAction:'all',store:[2009,2008,2007,2006]},
+		{xtype:'numberfield',fieldLabel:'Revenues',name:'revenues'},
+		{xtype:'textarea',fieldLabel:'Comment',name:'comment'},
+		{xtype:'checkbox',fieldLabel:'',labelSeparator:'',boxLabel:'Available',name:'available'}
+	]
+});
+</pre>
+
+These changes are enough to achieve our goal, if we test the example in this moment we can see in the Firebug console that the parameters are being sent correctly using the method "POST".
+
+
+<div class="example"><img alt="Submit form" src="/wp-content/uploads/2009/08/submitform3.jpg"/><p>Form submit using Ajax</p></div>
+<h3>Customize the request method</h3>
+Sometimes is necessary to change the request method (by default POST) for a different one, in this case we must specify that method we need (GET, POST, PUT, DELETE), we will also send a message if the information was saved successfully or if something caused an error.
+
+<pre class="prettyprint">this.form.getForm().submit({
+	method: 'put',
+	success: function(form,action){
+		Ext.Msg.alert('Success',action.result.msg);
+	},
+	failure: function(form,action){
+		switch (action.failureType) {
+			  case Ext.form.Action.CLIENT_INVALID:
+				 Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+				 break;
+			  case Ext.form.Action.CONNECT_FAILURE:
+				 Ext.Msg.alert('Failure', 'Ajax communication failed');
+				 break;
+			  case Ext.form.Action.SERVER_INVALID:
+				Ext.Msg.alert('Failure', action.result.msg);
+				break;
+			  default:
+				Ext.Msg.alert('Failure',action.result.msg);
+		  }
+	}
+});
+</pre>
+
+In this example we used the method "PUT" to create a new record in the database, you must be wondering why I used PUT and not POST, right? In future tutorials I will talk about a technique called "REST" which specifies that we must use different existent methods to interact with the server as well as identify the "status" codes in the responses.
+
+The property "success" enables us to configure the function that will be executed if everything went as expected, in this case we'll only send a message of success:
+
+
+<div class="example"><img alt="Submit form" src="/wp-content/uploads/2009/08/submitform4.jpg"/><p>Information saved successfully</p></div>
+
+The property "failure" allow us to configure a function we want to execute when an error was caused in the server.
+
+
+<div class="example"><img alt="Submit form" src="/wp-content/uploads/2009/08/submitform5.jpg"/><p>Something went wrong when saving the information</p></div>
+
+Who decides when the methods are executed? Great question! Right now the component "FormPanel" expects that the server's response contains the property "success", this property is the one that decides which method will be executed, if the property is "true" the function configure in "success" is executed and if it is "false" the function set on property "failure" is executed.
+
+<pre class="prettyprint">{
+    "success":true, 
+    "msg":"Message example"
+}
+</pre>
+
+Also the function configured in "failure" is executed when you cannot establish a communication with the server or an error was caused in the form validation.
+
+<h3>Extra parameters</h3>
+Sometimes it is necessary to send extra parameters to the server, to do this we only need to configure the property "params" in the options of the submit.
+
+<pre class="prettyprint">this.form.getForm().submit({
+	method: 'put',
+	params: {
+		extraParam: 'Extra params!',
+		param2: 'Param 2'
+		},
+	success: function(form,action){
+		Ext.Msg.alert('Success',action.result.msg);
+	},
+	failure: function(form,action){
+		switch (action.failureType) {
+			  case Ext.form.Action.CLIENT_INVALID:
+				 Ext.Msg.alert('Failure', 'Form fields may not be submitted with invalid values');
+				 break;
+			  case Ext.form.Action.CONNECT_FAILURE:
+				 Ext.Msg.alert('Failure', 'Ajax communication failed');
+				 break;
+			  case Ext.form.Action.SERVER_INVALID:
+				Ext.Msg.alert('Failure', action.result.msg);
+				break;
+			  default:
+				Ext.Msg.alert('Failure',action.result.msg);
+		  }
+	}
+});
+</pre>
+<h3>Message loading</h3>
+Finally I will show you how we can mask the window and display a message telling the user that the information is being sent.
+
+First, we need to create the mask and show it before we do the submit.
+
+<pre class="prettyprint">var mask = new Ext.LoadMask(Ext.get('mywin'), {msg:'Saving. Please wait...'});
+mask.show();
+</pre>
+
+The component "Ext.LoadMask" creates a mask for a given element, in this case we are assigning the window that contains the form, the second parameter is a configuration object where we are assigning a message to show; once the "instance" is create we will show the mask using the method "show".
+
+
+<div class="example"><img alt="Submit form" src="/wp-content/uploads/2009/08/submitform6.jpg"/><p>Mask showing the message to the user</p></div>
+
+Now we must hide it when the server responds, this means that we must invoke the method "hide" in the "success" and "failure".
+
+<pre class="prettyprint">success: function(form,action){
+		mask.hide(); //hide the mask
+		Ext.Msg.alert('Success',action.result.msg);
+}
+</pre>
+<h3>Conclusions</h3>
+In today's tutorial we learned some important things, you can see that making a submit is very easy and is completely configurable and can be adapted to our needs.
+
+If you have any questions about this tutorial you can leave a comment or contact us, we will gladly answer your questions. Don't forget that you can subscribe to our <a href="http://feeds2.feedburner.com/quizzpot-en" rel="nofollow" target="_blank">Feeds</a> or read the tutorials by <a href="http://feedburner.google.com/fb/a/mailverify?uri=quizzpot-mail-en&amp;loc=en_US" rel="nofollow" target="_blank">email and of course you can follow us on </a><a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> to be updated.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/forms/submitform.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

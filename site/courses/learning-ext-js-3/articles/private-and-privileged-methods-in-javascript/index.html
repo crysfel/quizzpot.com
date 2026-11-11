@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Private and privileged methods in JavaScript - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Private and privileged methods in JavaScript
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                This is a well known topic for many developers, but some people don't think we can define private methods and privileged methods in JavaScript. In today's chapter we will learn how to hide properties and methods of an object.
+
+<h3>Private properties and methods</h3>
+To create private properties or methods we do it in the constructor, the parameters and ordinary variables (the ones we create using the keyword "var") are private properties that cannot be accessed outside of the object. The private methods are functions inside of the constructor, this kind of functions won't be available outside of the object. Let's see the next example:
+
+<pre class="prettyprint">//The object User
+var User = function(options){
+	//private properties
+	var name = options.name;
+	var password = options.password;
+	//public property
+	this.user = options.user;
+	
+	//private method
+	function privateMethod(){
+		console.debug('im a private method!')
+	}
+}
+
+//new instance of User
+var u = new User({name:'Crysfel',password:'***',user:'cvilla'});
+
+console.debug(u.user); //cvilla
+console.debug(u.name); //undefined
+console.debug(u.privateMethod()); //throws error
+</pre>
+
+In the previous example we added two properties and one private method, when we try to print them in the Firebug console we can see that the properties are not displayed and the method throws an error; this is how we can hide the information inside of an object.
+
+<h3>Privileged Methods</h3>
+Douglas Crockford defines privileged methods as the methods that are public and at the same time can have access to the private properties and manipulate them, this methods are created dynamically because they're added to the object at runtime. Let's see an example of this:
+
+<pre class="prettyprint">var Person = function(options){
+	//private properties
+	var name = options.name
+	var birthYear = options. birthYear;
+	//private method
+	var calculateAge = function(){
+		var today = new Date();
+		return today.getFullYear() - birthYear;
+	}
+	//Privileged method
+	this.getAge = function(){
+		return calculateAge(); //calling private method
+	}
+ }
+ 
+ //new Person instance
+ var p = new Person({name:'Peter', birthYear:1983});
+ 
+ console.debug(p.getAge());// the age
+ console.debug(p.name);// undefined
+ console.debug(p. birthYear);// undefined
+</pre>
+
+The privileged methods are very important and an excellent tool to have access to private information, this is the way we can expose needed information. It is important to remember that the privileged methods are created at runtime because they are defined in the object's constructor and not in the prototype (prototype object). In the next example we will create dynamically getter and setters for the properties that the constructor receives as the parameter "options".
+
+<pre class="prettyprint">var Animal = function(options){
+	//a private method to do the job 
+	//and to create a new scope (see last chapter of this course)
+	function createGetterAndSetters(properties,property){
+		//attach the getter for the current property
+		this['get'+property] = function(){
+			return properties[property];
+		}
+		//attach the setter for the current property
+		this['set'+property] = function(value){
+			properties[property] = value;
+		}
+	}
+	//iterate through the options
+	for(var property in options){
+		//call the private method with the right context
+		createGetterAndSetters.call(this,options,property);
+	}
+}
+
+//two different instances of Animal object
+var zul = new Animal({breed:'Chihuahua',gender:'female',name:'Zul'});
+var rocky = new Animal({breed:'Beagle',gender:'male',name:'Rocky'});
+
+console.debug(zul.getbreed());//Chihuahua
+console.debug(zul.getname());//Zul
+console.debug(zul.name);//undefined
+console.debug(rocky.getbreed());//Beagle
+console.debug(rocky.getgender());//male
+console.debug(rocky.getname());//Rocky
+console.debug(rocky.breed);//undefined
+</pre>
+
+In the previous example we created dynamically the getter and setters of the properties that are received as a parameter in the constructor using a private method to do the job and create a new <a href="/2009/03/what-is-the-scope-of-a-variable/" rel="nofollow" target="_blank">el scope</a> at runtime making it possible to have access to correct values, (if you have any questions of the concept scope I recommend you to go back to that chapter). Another important part of the example is the for loop, because we are invoking the private method to assign the proper context, in this way we are making sure that the variable "this" inside of the private method is referencing the object "Animal" (if you have any questions about this concept I also recommend  you to read the chapter about the context).
+
+<h3>Conclusions</h3>
+Thanks to the <a href="/2009/03/what-are-the-closures/" rel="nofollow" target="_blank">"closures"</a> that JavaScript handles, it is possible to create private methods and properties as well as privileged methods, because they allow access to external variables of the parent function even if it has completed its execution.
+
+The private and privileged methods can only be defined in the constructor (because of the concepts mentioned before), the <a href="/2009/03/creating-objects-and-public-methods/" rel="nofollow" target="_blank">public methods</a> can be added at any moment using the object "prototype".
+
+We have learn how to hide information in an object and we have used different concepts of previous chapters like the <a href="/2009/03/what-is-the-scope-of-a-variable/" rel="nofollow" target="_blank">el scope</a>, <a href="/2009/03/the-context-and-the-variable-this/" rel="nofollow" target="_blank">el contexto</a>, <a href="/2009/03/what-are-the-closures/" rel="nofollow" target="_blank">closures</a>; it is important to remember these concepts because we will be using them later on in this course. Also we will see more tools that Ext JS has to manage these terms easily.
+
+As always your suggestions, questions or comments are very welcome and your vote for us in Digg or your favorite social network.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Un calendario para capturar fechas - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Un calendario para capturar fechas
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>13</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                El día de hoy vamos a hablar del componente DateField. Este componente provee un “input” de tipo fecha con formato de un calendario muy bien estilizado. DateField  en Ext JS es un componente muy completo ya que brinda muchas opciones de configuración. En este tutorial discutiremos las configuraciones más importantes.
+
+<h3>Material de apoyo</h3>
+Para poder continuar necesitamos descargar el material de apoyo. Recuerde que este tutorial pertenece al capitulo de formularios, y al final del capitulo agregaremos nuestro DateField  al formulario final, pero para evitar algunas confusiones haremos este tutorial en un archivo diferente.
+
+Puedes ver el demo de lo que haremos en este tutorial, a continuación se muestran imagenes del componente que veremos el día de hoy.
+
+<div class="example"><img alt="datefiel imagen" src="/wp-content/uploads/2009/06/date1.jpg"/><img alt="datefiel imagen" src="/wp-content/uploads/2009/06/date5.jpg"/><p>El componente DateField</p></div>
+<h3>Empaquetando el tutorial.</h3>
+Procedemos a empaquetar nuestro código.
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+Ext.BLANK_IMAGE_URL = '../ext-3.0/resources/images/default/s.gif';
+
+com.quizzpot.tutorial.DateFieldTutorial = {
+	init: function(){
+		//aqui va el codigo del tutorial	
+        }
+}
+Ext.onReady(com.quizzpot.tutorial.DateFieldTutorial.init,com.quizzpot.tutorial.DateFieldTutorial); 
+</pre>
+
+A estas alturas ya todos sabes lo que el código anterior está haciendo, de no ser así te recomiendo leer el tutorial donde se explica más detalladamente.
+
+<h3>Ventana</h3>
+A continuación vamos a crear una ventana que alojará los diferentes tipos de configuraciones para el componente DateField que haremos, además nos servirá para visualizar los DateField  que crearemos en este tutorial.
+
+<pre class="prettyprint">var win=new Ext.Window({
+	title: 'DateField demo',
+	bodyStyle:'padding: 10px',//alejamos los componentes de los bordes
+	width:400,
+	height:360,			
+	layout:'form'		//tipo de organizacion de los componentes
+});
+win.show();
+</pre>
+
+Ya hemos explicado las propiedades de configuración en el tema de ventanas y paneles, si tienes dudas con el código anterior puedes repasar el tema, con respecto a la configuración “layout” hablaremos más adelante en un tema especial, por lo pronto solo ten en mente que asignándole “form”  los campos se acomodarán en la ventana como en un formulario.
+
+<div class="example"><img alt="datefield imagen" src="/wp-content/uploads/2009/06/date2.jpg"/><p>La ventana que contendrá los campos de fechas</p></div>
+<h3>DateField Simple</h3>
+Una vez creada nuestra ventana, vamos a crear nuestro primer componente tipo DateField.
+
+<pre class="prettyprint"> var dateField = new Ext.form.DateField({
+	fieldLabel: 'Date',
+	emptyText:'Insert a date...',
+	format:'Y-m-d',
+	width: 150
+});
+</pre>
+
+Ahora voy a dar una descripción de las propiedades utilizadas en el código anterior:
+
+<em>format</em>: con esta propiedad definimos el formato de la fecha que se mostrará en nuestro campo. El formato 'Y-m-d', define un formato del tipo “año-mes-día”. Para ver más formatos debemos consultar el API del objeto Date en Javascript.
+
+<em>fieldLabel</em>: es la propiedad común en todos los componentes, esta propiedad define el texto que acompañará al campo y mediante esta propiedad le mostramos al usuario el tipo de información que necesita introducir en el campo, por lo tanto procura poner algún texto descriptivo.
+
+<em>emptyText</em>: esta propiedad la hemos visto anteriormente, al usarla hacemos que el campo despliegue un texto cuando está vacío, es conveniente utilizarla para desplegar ayuda extra al usuario.
+
+Ahora agregamos el componente a nuestra ventana:
+
+<pre class="prettyprint">var win=new Ext.Window({
+	bodyStyle:'padding: 10px',
+	width:400,
+	height:360,
+	items: dateField, //&lt;-- le asignamos el datefield
+	layout:'form'
+});
+win.show();
+</pre>
+<div class="example"><img alt="datefield imagen" src="/wp-content/uploads/2009/06/date3.jpg"/><p>Un DateField básico</p></div>
+<h3>Un DateField Restringido</h3>
+¿Qué pasa si queremos que nuestras fechas se muestren restringidas? Por ejemplo si queremos que sólo se puedan seleccionar días a partir de hoy. Para este tipo de configuración existen algunas propiedades que veremos en nuestro siguiente DateField.
+
+<pre class="prettyprint">var dateFieldR=new Ext.form.DateField({
+	fieldLabel: 'Date from today',
+	emptyText:'Insert a date...',
+	format:'Y-m-d',
+	minValue: new Date(), //&lt;-- min date is today
+	maxValue:'2009-08-28', // &lt;-- max date
+	value:new Date() // &lt;-- a default value
+});
+</pre>
+
+Descripción de propiedades:
+
+<em>minValue</em>: es el valor mínimo elegible en nuestro componente DateField.
+
+<em>maxValue</em>: es el valor máximo elegible en nuestro componente DateField.
+
+<em>value</em>: el valor con que se inicializa el campo, por defecto es “undefined”.
+
+Puedes ver que en este ejemplo, en la propiedad “maxValue” le he puesto directamente una fecha, esto es únicamente para demostrar que también podemos asignarle una fecha en String y el componente se encargará de hacer las debidas conversiones de datos.
+
+<div class="example"><img alt="datefield imagen" src="/wp-content/uploads/2009/06/date4.jpg"/><p>Un DateField restringido</p></div>
+<h3>Conclusiones</h3>
+
+El componente DateField es un componente bastante completo y nos brinda opciones de configuración en su mayoría iguales a las del componente TextField con algunas variaciones propias del componente, esto es porque DateField hereda de TextField. 
+
+Este fue tutorial corto pero al ver las diferentes configuraciones podemos comprender mejor el funcionamiento del componente DateField. En el siguiente tutorial discutiremos dos componentes muy bondadosos que son las áreas de texto y los editores HTML. 
+
+Como siempre los comentarios y sugerencias son bienvenidos, además recuerda seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter</a> para estar al tanto de las actualizaciones, si tienes dudas sobre este u otros temas del curso puedes registrarte en el foro y te podremos ayudar entre toda la comunidad.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/forms/dateField.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

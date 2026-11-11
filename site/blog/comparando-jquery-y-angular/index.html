@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Comparando jQuery y Angular - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Blog</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 posts-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Comparando jQuery y Angular
+            <a class="bubble-tag article-header-link-videos" href="/blog/">Blog</a>
+</h2>
+<img alt="Comparando jQuery y Angular" height="180" src="https://s3.amazonaws.com/quizzpot/images/166-jquery-angular.jpg" width="604"/>
+<div class="article-information">
+<!--class="separator"-->
+<span>Likes: <em>0 Persona</em></span>
+<span class="separator">Comentarios: <em>0</em></span>
+<span class="separator">Publicado: <em>12/11/2014</em></span>
+</div>
+<div class="course-tags">
+<span class="tags-text">Tags:</span>
+<span class="bubble-tag">Angular JS</span> <span class="bubble-tag">JavaScript</span>
+</div>
+<div class="article-description">
+<div class="article-description-text"><p>Para <a href="/courses/introduccion-a-angular-js/" title="Link: https://quizzpot.com/courses/introduccion-a-angular-js">iniciarnos con Angular JS</a> es necesario tener un cambio de mentalidad de como hacemos las cosas, si venimos del mundo de jQuery se nos puede complicar un poco entender los conceptos que Angular JS maneja.</p>
+<p>En este tutorial se muestra, mediante un ejemplo, lo que debemos tener en mente a la hora de adentrarnos en Angular JS, en ingles a esto se le denomina "The Angular Way".</p>
+<p>Para explicar este concepto vamos a realizar un pequeño ejemplo en jQuery y luego lo portaremos a Angular, lo que haremos será desplegar un botón, cada que el usuario de click sobre ese botón mostraremos/ocultaremos un mensaje de error.</p><h3>jQuery</h3>
+<p>Primero definimos el html que vamos a usar.</p><pre class="prettyprint">&lt;div id="message" class="hidden msg msg-error"&gt;
+    &lt;p&gt;Lo sentimos pero ha ocurrido un error.&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;button id="btn"&gt;Enviar&lt;/button&gt;<br/></pre>
+<p>Solamente es un div con algunas clases css y un botón, vamos a definir los estilos para esos elemento.</p><pre class="prettyprint">.hidden{
+    display:none;
+}
+.msg{
+    padding:5px 20px;
+    margin:10px 0;
+}
+.msg-error{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}<br/></pre><p>Aquí definimos una clase hidden, esta clase es la que vamos a estar usando para ocultar o mostrar el mensaje, mediante JavaScript se la vamos a agregar o quitar cuando se de click sobre el botón.</p><p>Ahora definamos el JavaScript de la siguiente manera.</p><pre class="prettyprint">$(function(){
+    $('#btn').click(function(){
+        $('#message').toggleClass('hidden');
+    });    
+})<br/></pre><p>Algo muy sencillo realmente, cuando el DOM esté listo agregamos un listener al botón, luego quitamos o agregamos la clase hidden al div del mensaje. </p><p>Esto es algo muy común cuando usamos jQuery, modificamos el DOM, cambiamos estilos, agregamos listeners, etc.</p><p>Puedes ver el demo aquí: <a href="http://jsfiddle.net/crysfel/pou0a8pn/" rel="nofollow" target="_blank">http://jsfiddle.net/crysfel/pou0a8pn/</a></p><h3>Angular JS</h3><p>Ahora haremos exactamente lo mismo pero usando Angular JS, algo importante a considerar es que Angular es un framework que nos provee de herramientas para crear aplicaciones de gran escala, nos proporciona de templates reutilizables, <a href="/courses/introduccion-a-angular-js/articles/agregando-controladores/" rel="nofollow" target="_blank">controladores</a>, servicios,factorías, directivas,entre varias cosas más.</p><p>Primero vamos a modificar el template de la siguiente manera.</p><pre class="prettyprint">&lt;div ng-app="MyApp" ng-controller="Controller"&gt;
+    &lt;div class="msg msg-error" ng-class="{'hidden':!error}"&gt;
+        &lt;p&gt;Lo sentimos pero ha ocurrido un error.&lt;/p&gt;
+    &lt;/div&gt;
+    
+    &lt;button ng-click="toggleError()"&gt;Enviar&lt;/button&gt;
+&lt;/div&gt;<br/></pre><p>Algo importante es que a diferencia del ejemplo con jQuery, esto es un template que será procesado por Angular, no es el DOM final todavía, es un template.</p><p>Como se puede observar estamos <a href="/courses/introduccion-a-angular-js/articles/definicion-de-modulos/" rel="nofollow" target="_blank" title="Link: https://quizzpot.com/courses/introduccion-a-angular-js/articles/definicion-de-modulos">declarando una app</a> llamada <i>MyApp</i> y <a href="/courses/introduccion-a-angular-js/articles/agregando-controladores/" title="Link: https://quizzpot.com/courses/introduccion-a-angular-js/articles/agregando-controladores">un controlador</a> llamado <i>Controller</i>, también estamos usando la directiva <i>ng-class</i>, esta directiva me permite agregar la clase <i>hidden</i> siempre y cuando la variable error sea <i>true</i>.</p><p>Por último invocamos el método <i>toggleError</i> que será el responsable de asignar el valor a la variable <i>error</i>, este método lo vamos a definir en el controlador así como la variable <i>error</i>.</p><p>El template está listo, solo nos falta crear la aplicación, el controlador y el método que estamos invocando de la siguiente manera.</p><pre class="prettyprint">angular.module('MyApp',[])
+
+.controller('Controller',function($scope){
+    $scope.error = false;
+    
+    $scope.toggleError = function(){
+        $scope.error = !$scope.error;
+    }
+});<br/></pre><p>Primero creamos el modulo MyApp, luego el controlador Controller, la parte interesante está dentro del controlador.</p><p>El objeto <a href="/courses/introduccion-a-angular-js/articles/creando-editando-y-borrando-informacion/" rel="nofollow" target="_blank" title="Link: https://quizzpot.com/courses/introduccion-a-angular-js/articles/creando-editando-y-borrando-informacion">$scope es el que une las vistas</a> (templates) con el controlador, todo lo que se defina sobre el $scope podrá ser accedido en las vistas, aquí es que definimos la variable error e inicialmente le asignamos false, esto provocará que el mensaje esté oculto inicialmente.</p><p>En el método toggleError solamente estamos negando la variable error, para mostrar u ocultar el mensaje cada que el usuario de click sobre el botón.</p><p>Puede ver el ejemplo funcionando aquí: <a href="http://jsfiddle.net/crysfel/pkkgqcw8/" rel="nofollow" target="_blank">http://jsfiddle.net/crysfel/pkkgqcw8/</a></p><p>Si lo notaste, en ningún momento se tocó el DOM como lo hacemos con jQuery. La idea es sencilla, en Angular JS los templates reflejan el estado de nuestra información, Angular se encarga de estar actualizando cada cambio que hagamos sobre la información de manera automática, a esto es lo que se le denomina "The Angular Way".</p><p>Con esta mentalidad las cosas se nos harán más sencillas al iniciar con esta librería que cada vez es más y más popular.</p><p>Happy Coding!</p></div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Soy un geek que disfruta crear y compartir cosas en internet! Sígueme en twitter @crysfel</p>
+</span>
+</div>
+<div>
+
+</div>
+</div>
+</div>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<!-- Modal -->
+
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+    
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

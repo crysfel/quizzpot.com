@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Slider para seleccionar tiempo con Material Design - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Blog</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 posts-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Slider para seleccionar tiempo con Material Design
+            <a class="bubble-tag article-header-link-videos" href="/blog/">Blog</a>
+</h2>
+<img alt="Slider para seleccionar tiempo con Material Design" height="180" src="https://s3.amazonaws.com/quizzpot/images/202-materialdesign_introduction.png" width="604"/>
+<div class="article-information">
+<!--class="separator"-->
+<span>Likes: <em>0 Persona</em></span>
+<span class="separator">Comentarios: <em>0</em></span>
+<span class="separator">Publicado: <em>13/04/2015</em></span>
+</div>
+<div class="course-tags">
+<span class="tags-text">Tags:</span>
+<span class="bubble-tag">MaterialDesign</span> <span class="bubble-tag">JavaScript</span> <span class="bubble-tag">AngularJS</span>
+</div>
+<div class="article-description">
+<div class="article-description-text"><p>Hace un par de semanas que he venido trabajando con Angular Material Design para un par de proyectos que estoy realizando, hasta este momento la experiencia ha sido muy placentera, en este tutorial quiero mostrar como utilizar el slider para el manejo fechas y tiempo.</p><p>Ya hemos visto <a href="/blog/material-design-en-angular-js/" rel="nofollow" target="_blank" title="Link: https://quizzpot.com/blog/material-design-en-angular-js">como instalar angular-material</a> y como hacer algo muy sencillo, ahora veremos como crear un slider para seleccionar números y fechas. Si vamos a revisar la documentación veremos que para crear el slider es tan simple como utilizar la siguiente directiva:</p><pre class="prettyprint">&lt;h2&gt;Simple Slider: {{simpleValue}}&lt;/h2&gt;
+&lt;md-slider ng-model="simpleValue" min="0" max="50"&gt;&lt;/md-slider&gt;<br/></pre><p>Con eso tendremos un slider con valor <i>mínimo de 0</i> y <i>máximo de 50</i>, lo que el usuario seleccione se almacenará dentro de la variable <i>simpleValue</i>. </p><p>Para probar que la directiva funciona necesitamos crear una aplicación y un controlador de la siguiente manera.</p><pre class="prettyprint">var app = angular.module('StarterApp', ['ngMaterial']);
+
+app.controller('AppCtrl', ['$scope', function($scope){
+  $scope.simpleValue = 25;
+}]);<br/></pre><p>Tampoco se debe olvidar inicializar la app en el HTML así como el controller. A continuación muestro el documento HTML completo.</p><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html ng-app="StarterApp"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Slider&lt;/title&gt;
+  &lt;link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css"&gt;
+  &lt;link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic"&gt;
+  &lt;meta name="viewport" content="initial-scale=1" /&gt;
+&lt;/head&gt;
+&lt;body ng-controller="AppCtrl"&gt;
+  &lt;md-content layout-padding&gt;
+    &lt;h2&gt;Simple Slider: {{simpleValue}}&lt;/h2&gt;
+    &lt;md-slider ng-model="simpleValue" min="0" max="50"&gt;&lt;/md-slider&gt;
+  &lt;/md-content&gt;
+  
+  
+  &lt;!-- Angular Material Dependencies --&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"&gt;&lt;/script&gt;
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"&gt;&lt;/script&gt;
+
+    &lt;script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.js"&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/body&gt;
+&lt;/html&gt;<br/></pre><p>Puedes <a href="http://jsbin.com/bavomiwoma/2">ver ejemplo ejecutándose en JSBin</a> de manera correcta, así como en la siguiente imagen.</p>
+<div class="example"><img alt="Slider en Material Design" src="https://s3.amazonaws.com/quizzpot/images/226-slider-1.png" title="Image: https://s3.amazonaws.com/quizzpot/images/226-slider-1.png"/><p>Slider básico</p></div>
+<p>Si lo único que necesitas es seleccionar números dentro de un rango, este control te funcionará excelente, no hay mucho más que hacer; pero en mi caso yo requería seleccionar tiempos incrementando 15 minutos, la cosa se pone más interesante cuando hay cambio de día, por ejemplo definir un rango entre las 9:00pm y 6:00am del siguiente día.</p><p>Para solucionar este problema usaremos fechas en formato de unix time, de esta manera seguiremos usando números enteros, pero al momento de desplegarlos en pantalla les daremos un formato adecuado. Para eso vamos a definir los rangos de manera dinámica en el controlador de nuestra aplicación en Angular.</p><pre class="prettyprint">var app = angular.module('StarterApp', ['ngMaterial']);
+
+app.controller('AppCtrl', ['$scope', function($scope){
+  var now = new Date(); //Step 1
+  
+  now.setMinutes(0);    //Step 2
+  $scope.simpleValue = 25;
+  
+  $scope.times = {
+    selected : now.getTime(),   //Step 3
+    step     : 900000,         //Step 4
+    from     : now.setHours(now.getHours() - 6),  //Step 5
+    to       : now.setHours(now.getHours() + 12)
+  }
+ 
+}]);<br/></pre><ol><li> En el primer paso tomamos la fecha actual del sistema, la usaremos para seleccionar los rangos de tiempo de manera dinámica.</li><li>En el paso dos nos aseguramos que los minutos estén en cero, esto para definir rangos de horas enteras.</li><li>En el paso tres creamos un objeto <i>times</i> que contendrá todos los valores que estaremos usando, la propiedad <i>selected</i> contendrá el valor seleccionado, en este caso será la hora actual en mili segundos.</li><li>En el paso 4 definimos el incremento, en este caso definiremos 15 minutos, como estamos usando mili segundos hacemos la siguiente multiplicación: 15 * 60 * 1000.</li><li>En el último paso definimos el límite inferior y superior, solamente restando y sumando 6 horas a la hora actual, esto nos permitirá tener un rango de 12 horas que el usuario podrá seleccionar.</li></ol><p>Una vez que tenemos la información que necesitamos desplegar, vamos a declarar la directiva del slider de la siguiente manera.</p><pre class="prettyprint">&lt;h2&gt;Time Slider: {{times.selected | date:'shortTime'}}&lt;/h2&gt;
+&lt;md-slider ng-model="times.selected" min="{{times.from}}" max="{{times.to}}" step="{{times.step}}"&gt;&lt;/md-slider&gt;<br/></pre><p>Es importante mencionar que los atributos de la directiva deben ir entre llaves <i>{</i> y <i>}</i>, esto para que angular pueda interpretar estos valores desde el scope del controlador, de lo contrario usara strings y el slider no funcionará.</p><p>Otra cosa importante es cuando desplegamos la selección, estamos usando un filtro <i>date</i> para desplegar únicamente el tiempo, esto se encargará de poner la fecha en un formato amigable.</p>
+<div class="example"><img alt="Slider de tiempo en Angular JS" src="https://s3.amazonaws.com/quizzpot/images/227-slider-time.png" title="Image: https://s3.amazonaws.com/quizzpot/images/227-slider-time.png"/><p>Slider de tiempo con Material Design</p></div>
+<p>En mi caso el rango es de 4pm a 4am, esto significa que hay un día de diferencia. Ya que estamos usando números el slider sigue funcionando de manera adecuada solo que a la hora de imprimir la fecha el filtro se encarga de mostrar AM o PM de manera automática.</p><p>Angular Material es una librería bastante interesante, te recomiendo utilizarla ya que definitivamente ayudará en tu proceso de desarrollo, agilizará las cosas y la especificación es excelente. Como se pudo observar en este tutorial utilizar fechas no es para nada complicado.</p><p>Puedes ver el <a href="http://jsbin.com/bavomiwoma/2">Demo de este tutorial desde aquí</a>!</p><p>Happy Coding!</p></div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Soy un geek que disfruta crear y compartir cosas en internet! Sígueme en twitter @crysfel</p>
+</span>
+</div>
+<div>
+
+</div>
+</div>
+</div>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<!-- Modal -->
+
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+    
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

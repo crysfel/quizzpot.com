@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Una encuesta dinámica - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Una encuesta dinámica
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Muchas veces nos interesa saber la opinión de los usuarios, en esta ocasión estudiaremos como crear una encuesta. La información será desplegada vía Ajax, además de tener nuestra encuesta contaremos con una grafica que mostrara los resultados.
+
+El ejemplo que haremos el día de hoy será completamente dinámico, las preguntas, respuestas y resultados de la encuesta estarán almacenadas en una base de datos MySQL y generaremos la interface de acuerdo a lo que se tenga en la base de datos.
+
+Esta es una muestra de lo que se obtendrá al final de este tutorial. Recuerda que puedes descargar el código fuente si te es necesario.
+ 
+
+<div class="example">
+<img alt="resultado final" src="/wp-content/uploads/2010/10/resultado.png"/><p>Resultado Final</p>
+</div>
+<h3>La base de datos</h3>
+Las preguntas y respuestas estarán en dos tablas, una de ellas se llamará “Questions” donde estarán las preguntas y “Answers” donde estarán las respuestas, estas tablas tendrán una relación de “one-to-many” (uno-a-muchos), donde una pregunta puede tener muchas respuestas. El código para generar las tablas se lista a continuación.
+
+<pre class="prettyprint">-- phpMyAdmin SQL Dump
+-- version 3.2.5
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Sep 29, 2010 at 10:42 AM
+-- Server version: 5.1.44
+-- PHP Version: 5.3.2
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `test`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answers`
+--
+
+CREATE TABLE `answers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_question` int(11) NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  `results` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_question` (`id_question`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` VALUES(1, 1, 'MacOS of course!', 20);
+INSERT INTO `answers` VALUES(2, 1, 'MS Windows 7', 10);
+INSERT INTO `answers` VALUES(3, 1, 'Ubuntu 10', 18);
+INSERT INTO `answers` VALUES(4, 2, 'Black', 0);
+INSERT INTO `answers` VALUES(5, 2, 'White', 0);
+INSERT INTO `answers` VALUES(8, 2, 'Blue', 0);
+INSERT INTO `answers` VALUES(9, 2, 'Red', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `questions`
+--
+
+CREATE TABLE `questions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `questions`
+--
+
+INSERT INTO `questions` VALUES(1, 'What is your favorite OS?');
+INSERT INTO `questions` VALUES(2, 'What is your favorite color?');
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `answers`
+--
+ALTER TABLE `answers`
+  ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`id_question`) REFERENCES `questions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+</pre>
+
+La base de datos la he llamado “test”, pero puedes usar el nombre que gustes, solamente cuando se haga la conexión mediante PHP recuerda ponerle el nombre correcto.
+
+<h3>Exponer la información</h3>
+La información es algo muy importante en una aplicación en ocasiones anteriores hemos usado arreglos, en esta ocasión la obtendremos de una base de datos, por lo tanto necesitamos hacer la conexión vía PHP y un query para sacar la pregunta y sus respuestas de la siguiente manera:
+
+<pre class="prettyprint">&lt;?php
+
+//step 1	
+$connection=mysql_connect("localhost","root","root") or die("Connection Failed".mysql_error());
+mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+
+$survey = $_POST["survey"];	//step 2
+
+$query = sprintf("SELECT Q.id, A.id AS id_answer, Q.question, A.answer FROM questions Q, answers A
+				  WHERE Q.id = A.id_question AND Q.id =%d",mysql_real_escape_string($survey));	//step 3
+
+$result = mysql_query($query);
+
+$answers = array();
+
+while($row = mysql_fetch_array($result)){	//step 4
+	array_push($answers,array(
+		"idAnswer"	=&gt; $row["id_answer"],
+		"text"		=&gt;$row["answer"]
+	));
+	
+	$question = $row["question"];
+	$idQuestion = $row["id"];
+
+}
+	
+echo json_encode(array(		//step 5
+	"success"		=&gt; true,
+	"question"		=&gt; $question,
+	"idQuestion"	=&gt; $idQuestion,
+	"answers"		=&gt;$answers
+));
+</pre>
+
+En el paso uno se realiza la conexión a la base de datos, recuerda que debes poner las credenciales adecuadas así como la base de datos que usarás, en mi caso es “test”.
+
+En el paso dos se recibe el parámetro “survey”, este parámetro es el “id” de la pregunta a exponer en formato JSON.
+
+En el paso tres se crea el query que regresa la pregunta con sus respuestas, es una consulta muy sencilla a dos tablas que filtra por el “id_question” para traer la encuesta adecuada.
+
+En el paso cuatro se itera el resultset que regresó la consulta, dentro del ciclo creamos un arreglo de respuestas y en una variable se asigna la pregunta y su identificador.
+
+En el paso cinco se imprime la información en formato JSON, la respuesta será como el siguiente ejemplo:
+
+<pre class="prettyprint">{"success":true,"question":"Whats your favorite OS?","idQuestion":"1","answers":[{"idAnswer":"1","text":"MacOS of course!"},{"idAnswer":"2","text":"MS Windows 7"},{"idAnswer":"3","text":"Ubuntu 10"}]}
+</pre>
+
+Con eso es suficiente para poder generar mediante JavaScript la interface de la encuesta ya que tenemos toda la información necesaria.
+
+<h3>Encapsulando el Código</h3>
+
+Es necesario encapsular nuestro código para evitar problemas en el futuro, así que crearemos un objeto donde alojaremos el código del tutorial.
+
+<pre class="prettyprint">Ext.ns("com.quizzpot.tutorial");
+com.quizzpot.tutorial.SurveyTutorial= {
+	idQuestion	:  1,	//step 1
+
+       init :  function(){
+        //initial code goes here
+        }
+}
+//step 2
+Ext.onReady(com.quizzpot.tutorial.CreadoEncuesta.init,com.quizzpot.tutorial. CreadoEncuesta);
+</pre>
+
+En el paso uno se ha definido la propiedad “idQuestion”, por defecto será 1, pero podemos cambiarlo para mostrar otra pregunta con sus respectivas respuestas.
+
+La función “init” se ejecutará tan pronto como el DOM esté listo, por lo tanto ahí debemos colocar el código que necesitamos ejecutar primero.
+
+
+<h3>Solicitando la Información desde el Servidor vía Ajax</h3>
+
+Tenemos que solicitar la información al servidor vía Ajax, en nuestro método “init” haremos la solicitud de la siguiente manera:
+
+<pre class="prettyprint">Ext.Ajax.request({
+	url		: "serverside/questions.php",
+	scope		: this,
+	params	: {survey:this.idQuestion},
+	success	: this.createLayout
+});
+</pre>
+
+Este código ya es conocido solo haremos notar el atributo “params” como se mencionó hace unos momentos este es el parámetro que define la encuesta que desplegaremos, y debe ser un “id” válido de la tabla “Questions”.
+
+Otro punto importante es que no estamos especificando el método para la petición Ajax (POST, GET…) ya que usaremos el método que trae por defecto (POST).
+
+Con “success” indicamos la función que procesará  la respuesta si todo ha salido bien, además, si definimos la configuración “scope” la función se ejecutará en el contexto que le indiquemos, en este caso “this” que hace referencia al objeto sobre el que estamos trabajando, esto es algo muy importante.
+
+Como hemos solicitado el idQuestion igual a uno, obtenemos el siguiente resultado:
+
+<pre class="prettyprint">{"success":true,"question":"Whats your favorite OS?","idQuestion":"1","answers":[{"idAnswer":"1","text":"MacOS of course!"},{"idAnswer":"2","text":"MS Windows 7"},{"idAnswer":"3","text":"Ubuntu 10"}]}
+</pre>
+
+El resultado puede variar dependiendo de cual es la información que tenemos en nuestra base de datos y del idQuestion que solicitemos.
+
+<h3>Creando el Layout</h3>
+
+La función “createLayout” procesará la respuesta del servidor, primero obtendremos  el JSON y lo convertiremos a objetos en memoria para poder usarlos de una manera sencilla. Creamos la ventana y los tabs que contendrán la información.
+
+<pre class="prettyprint">createLayout	: function(response,options){
+	var survey = Ext.decode(response.responseText); //step 1
+
+	this.tabs = new Ext.TabPanel({	//step 2
+		border	: false,
+		activeTab	: 0,
+		items		: [this.createForm(survey),this.createChar()]	//step 3
+	});
+	var win = new Ext.Window({
+		title		: "Creating a Survey",
+		width		: 400,
+		height	: 400,
+		layout	: "fit",
+		items		: [this.tabs],
+	});
+	win.show();
+}
+</pre>
+
+En el paso uno obtenemos la información del la repuesta Ajax y la colocamos en la variable “survey” para después poder acceder a ella y poder usarla, esto lo hacemos con el método “Ext.decode”.
+
+En el paso dos solo creamos las pestañas que mostrarán la encuesta y los resultados, nótese que se ha creado una propiedad “this.tabs”, esto es para que podamos usar los tabs mas adelante, inclusive en otros métodos del mismo objeto.
+
+En el paso tres se ejecuta la función “createForm” y “createChar”, estos métodos se encargarán de crear los componentes adecuados, de esta manera estamos separando las tareas de manera más específica. 
+
+Por ahora puedes comentar o borrar el método “createChar” ya que estaremos hablando del primer método, mas adelante regresaremos aquí a explicar el segundo método.
+
+<h3>Creando la Encuesta </h3>
+
+En este momento crearemos una de las funciones que se encargará de mostrar la encuesta. Lo primero que haremos es procesar la información que se recibió en la petición a Ajax.
+
+<pre class="prettyprint">createForm	: function(survey){
+	var radios = [];	
+
+	Ext.each(survey.answers,function(answer){
+radios.push({boxLabel: answer.text, name: "idAnswer", inputValue: answer.idAnswer});
+});
+
+//…. Seguiremos escribiendo aquí
+}
+</pre>
+
+El arreglo “radios” servirá para crear dinámicamente los “RadioButtons”, crearemos uno por cada posible respuesta, de esta manera desplegaremos dinámicamente todas las opciones que vienen de la base de datos, nótese que el “name” está definido como “idAnswer” y es el mismo para todos, además de que el “inputValue” contiene el “idAnswer” de la base de datos, la propiedad “boxLabel” simplemente muestra el texto que aparece al lado del radio, en este caso la respuesta a seleccionar.
+
+Lo siguiente es crear el grupo de radios, de la siguiente manera:
+
+<pre class="prettyprint">var options = new Ext.form.RadioGroup({
+	hideLabel	: true,
+	fieldLabel	: "Survey",
+	columns	: 1,
+	items	        : [radios]
+});
+</pre>
+
+ Es muy importante mencionar que todo este código aun es dentro de la función createForm. El atributo “hideLabel” esconde el “fieldLabel” y con esto podemos darle una mejor vista a nuestra encuesta.
+
+Además del grupo de radios que contienen las respuestas a la encuesta necesitamos desplegar la pregunta principal y también almacenar los identificadores para poder guardar los resultados más adelante.
+
+<pre class="prettyprint">//Codigo previo…
+var question = {		//step 1
+	xtype		: "panel",
+	border	: false,
+	bodyStyle	: "padding-bottom:10px;",
+	html		: "&lt;h1&gt;"+survey.question+"&lt;/h1&gt;"
+};
+var idQuestion = {		//step 2
+	xtype	: "hidden",
+	name	: "idQuestion",
+	value	: survey.idQuestion
+};
+
+this.form = new Ext.FormPanel({	//step 3
+	title		: "Survey one",
+	url		: "serverside/submit.php", 
+	bodyStyle	: "padding: 10px;",
+	border	: false, 
+	tbar		: [{text: "Vote", iconCls:"vote-icon" , scope: this}],	//step 4
+	items		: [question,options,idQuestion]  
+});
+
+return this.form;
+</pre>
+
+En el paso uno se crea la pregunta que desplegaremos, es un panel que únicamente contiene el texto de la pregunta que viene de la base de datos.
+
+En el paso dos se crea un campo de tipo “hidden”, este campo almacena el id de la encuesta, es necesario para que más adelante cuando guardemos los resultados sepamos que registro modificar en la base de datos.
+
+En el paso tres se crea el formulario que contiene los componentes anteriores, aquí estamos definiendo la propiedad “url” que es a donde se enviarán los resultados al hacer un “submit” al formulario.
+
+En el paso cuatro se crea el botón “votar” en la barra de herramienta, es importante mencionar que se esta colocando una imagen al botón, para esto es necesario definir una clase CSS (vote-icon) en nuestra hoja de estilos o documento HTML de la siguiente manera.
+
+<pre class="prettyprint">.vote-icon{background:transparent url(/courses/aprendiendo-ext-js-3/articles/accept.png) 0 0 no-repeat !important;}
+</pre>
+
+Hasta ahora hemos creado el formulario que despliega la pregunta y sus respuestas de la encuesta, la siguiente imagen muestra los resultados que tenemos.
+
+
+<div class="example">
+<img alt="encuesta" src="/wp-content/uploads/2010/10/encuesta-31.png"/><p>Encuesta</p>
+</div>
+
+Solo hemos desplegado la información que hemos obtenido desde nuestra base de datos. Lo siguiente es guardar el voto del usuario una vez que seleccione una respuesta y de click sobre el botón “Vote”.
+
+<h3>Guardando en nuestro Servidor </h3>
+
+Lo primero que haremos será agregar un handler al botón “Vote”, de esta manera podemos agregarle acciones para cuando el usuario de click sobre este.
+
+<pre class="prettyprint">this.form = new Ext.FormPanel({
+	title		: "Survey one",
+	url		: "serverside/submit.php", 
+	bodyStyle	: "padding: 10px;",
+	border	: false, 
+	tbar		: [{text: "Vote", iconCls:"vote-icon",handler: this.sendData, scope: this}],	//step 1
+	items		: [question,options,idQuestion]  
+});
+</pre>
+
+En el paso uno agregamos el “handler” al botón, esta función se dispara cada vez que se da click sobre botón. En este ejemplo el “handler” tiene definida la función “sendData” la cual se encarga de hacer la petición Ajax al servidor enviando la respuesta seleccionada por el usuario
+
+<pre class="prettyprint">sendData	: function(){
+	var id = this.form.getForm().getValues().idAnswer;	//step 1
+	
+	if(!Ext.isEmpty(id)){	//step 2
+		this.form.getForm().submit({
+			scope	        : this,
+			success	: this.showResults,
+			failure	: function(response){
+				console.debug(response);
+			}
+		});
+	}else{
+		Ext.Msg.alert("Error","Please select an answer before sending your vote!");
+	}
+},
+</pre>
+
+El paso uno es muy interesante, en ExtJS por medio de el BasicForm podemos acceder al objeto que maneja la información del formulario, usando el método “getValues” podemos tomar los valores que se han capturado. En este caso a la variable “id” le asignamos el “idAnswer” de la respuesta seleccionada.
+
+En el paso dos revisamos que el usuario ha seleccionado alguna respuesta, si la variable “id” trae algún valor es porque el usuario si se seleccionó alguna respuesta antes de dar click sobre el botón “votar”, de ser así hacemos el submit al formulario.  
+
+Es importante mencionar que el atributo “success” se emplea otra función que es showResults, lo que hace esta función es simplemente mandar un mensaje de alerta informándonos  que todo salió bien, aquí también usamos la configuración “scope”, esto permite definir el contexto donde se ejecutará la función asignada al callback “success” y “failure”.
+
+Si la variable “id” se encuentra vacía solamente mandamos un mensaje de alerta diciendo que tiene que seleccionar una respuesta antes de poder votar.
+
+ 
+<div class="example">
+<img alt="mensaje de error" src="/wp-content/uploads/2010/10/encuesta-4.png"/><p>Mensaje de Error</p>
+</div>
+<h3>Actualizando los resultados en la base de datos</h3>
+
+En los pasos anteriores realizamos el “submit” al formulario una vez que el usuario da click sobre el botón “Vote”, ahora vamos a actualizar los resultados, incrementando en uno el campo “results” de la respuesta seleccionada.
+
+En el archivo “serevrside/submit.php” escribimos el siguiente código.
+
+<pre class="prettyprint">&lt;?php
+	//step 1
+	$coneccion=mysql_connect("localhost","root","") or die("no se puede conectar".mysql_error());
+	mysql_select_db("test",$coneccion)or die("erron en la seleccion de la base".mysql_error());
+
+	//atep 2
+	$idAnswer = $_POST['idAnswer'];	
+	$idQuestion = $_POST['idQuestion '];
+
+        //step 3
+	$query = sprintf("SELECT results FROM answers WHERE id=%d and id_question=%d",
+		mysql_real_escape_string($idAnswer),
+		mysql_real_escape_string($idQuestion));
+		
+	$result=mysql_query($query);
+	
+	while($row=mysql_fetch_array($result)){
+		$votes= $row["results"];
+	}
+	
+       //step 5
+	$votes = $votes + 1;
+	
+	$query = sprintf("UPDATE answers SET results = %d WHERE id=%d and id_question=%d",
+		$votes,
+		mysql_real_escape_string($idAnswer),
+		mysql_real_escape_string($idQuestion));
+	
+	$rs  = mysql_query($query);
+	echo json_encode(array(
+		"success"	=&gt; true
+	));
+</pre>
+
+En el paso uno realizamos la conexión a la base de datos, asegúrate de que poner las credenciales correctas.
+
+En el paso dos recibimos vía POST los parámetros que nos indican la pregunta y respuesta seleccionada, estos parámetros se enviaron automáticamente al hacer “submit” al formulario que definimos en ExtJS.
+
+En el paso tres solicitamos a la base de datos la respuesta elegida por el usuario, nótese el uso de la función “mysql_real_escape_string” para evitar algún ataque de SQL Injection.
+
+En el paso cinco incrementamos en uno el valor actual que está guardado en la base de datos y luego hacemos la actualización a la tabla “Answers”.
+
+<h3>Mensaje de éxito</h3>
+
+Una vez que se ha guardado el voto crearemos la función “showResult” que es el callback para cuando la comunicación ha sido satisfactoria, dentro de esta función solamente mandaremos un mensaje indicándole al usuario que su voto ha sido guardado.
+
+<pre class="prettyprint">showResults	: function(response){
+	Ext.Msg.alert("Alert","Thanks you for your vote!");
+}
+</pre>
+
+Esta función se crea dentro del objeto principal.
+
+
+<div class="example">
+<img alt="mesje de exito" src="/wp-content/uploads/2010/10/encuesta5.png"/><p>Mensaje de Éxito</p>
+</div>
+
+En este momento hemos hecho lo necesario para que la encuesta se cargue desde nuestro servidor, se muestre al usuario, que este pueda seleccionar una respuesta a la pregunta y guardar su respuesta, todo esto de una manera muy sencilla. Pero también es importante mostrar las respuestas de otros usuarios, para esto crearemos una grafica donde se mostraran los resultados de la encuesta
+
+<h3>Gráfica con Resultados</h3>
+
+Lo primero que haremos es crear la consulta a la base de datos, de la cual obtendremos la información que formara la grafica. En el archivo “serverside/information.php” escribiremos el siguiente código.
+
+<pre class="prettyprint">&lt;?php
+	$coneccion = mysql_connect("localhost","root","") or die("no se puede conectar".mysql_error());
+	mysql_select_db("test",$coneccion)or die("erron en la seleccion de la base".mysql_error());
+	
+	$idQuestion = $_POST["idQuestion"];
+	
+	$query = sprintf("SELECT Q.question, A.answer, A.results FROM questions Q, answers A
+	WHERE Q.id = A.id_question AND Q.id = %d",mysql_real_escape_string($idQuestion));
+	$result = mysql_query($query);
+	
+	$info = array();
+	while($row = mysql_fetch_array($result)){
+		array_push($info,array(
+			"answer" =&gt; $row["answer"],
+			"votes"	  =&gt; $row["results"]
+		
+		));
+		
+		$question = $row["question"];
+	}
+	echo json_encode(array(
+		"success"		=&gt; true,
+		"question"	=&gt; $question,
+		"information"	=&gt; $info		
+	));
+</pre>
+
+En el código anterior se consultan los resultados de una encuesta la cual es definida mediante el parámetro “idQuestion”, la información es regresada en formato JSON de la siguiente manera:
+
+<pre class="prettyprint">{"success":true,"question":"What is your favorite OS?","information":[{"answer":"MacOS of course!","votes":"20"},{"answer":"MS Windows 7","votes":"10"},{"answer":"Ubuntu 10","votes":"18"}]}
+</pre>
+
+Como se puede apreciar, los resultados vienen dentro del arreglo “information”, con este formato en cuenta podemos crear la gráfica de una manera muy sencilla.
+
+Si lo notaste, cuando creamos el layout invocamos una función que se llamaba “createChar” dentro del arreglo ítems del TabPanel, el objetivo de esta función es crear la gráfica de la siguiente manera.
+
+<pre class="prettyprint">createChar	: function(){
+	//step 1
+	this.storeChar = new Ext.data.JsonStore({
+		url	: "serverside/information.php",
+		fields	: [{name:"answer"},{name:"votes", type:"float"}],
+		root	: "information"
+	});
+	
+//step 2
+	var pieChart = new Ext.chart.PieChart({
+		store			: this.storeChar,
+		dataField		: "votes",
+		categoryField	: "answer",
+		extraStyle		: {
+			legend	: {
+				display	: 'right',
+				padding	: 5,
+				font	: {
+					family: 'Tahoma',
+					size: 13
+				}
+			}
+		}
+	});
+	
+//step 3
+	var results = new Ext.Panel({
+		title	: "Results",
+		items	: [pieChart],
+		listeners: {
+			scope	: this,
+			show	: this.refresh
+		}
+	});
+	
+	return results;
+},
+</pre>
+
+En el paso uno creamos el store que consulta la información en el servidor, definimos la URL, el root y los campos que tendrá cada registro, nótese que no estamos cargando el store, solamente lo estamos definiendo.
+
+En el paso dos creamos la gráfica de pastel o PieChart, le asignamos el store que recién hemos creado “this.storeChar” y definimos la propiedad “dataField”, con esto le indicamos al componente el campo en el store que contendrá el número de votos, este campo es muy importante para que se pueda dibujar correctamente la gráfica, la propiedad “categoryField” también es indispensable, esta configuración indica las agrupaciones que hará la gráfica para mostrarse, el capo “answer” contiene el texto de la respuesta.
+
+Para agregar estilos a la gráfica usamos la configuración “extraStyle”, y al definir la propiedad “display” podemos posicionar el lugar donde queremos desplegar las leyendas de las categorías, en este caso en la parte derecha (right) pero podríamos posicionarla en algún otro lugar como el “bottom, top o left”, las otras configuraciones que usamos se explican así mismas.
+
+En el paso tres creamos el panel que contendrá la gráfica y que irá dentro del TabPanel principal, aquí estamos agregándole un listener al evento “show” para que en ese momento se ejecute la función “refresh” cuyo objetivo es solicitar la información que contendrá la gráfica.
+
+<pre class="prettyprint">refresh	: function(){
+	this.storeChar.load({params:{idQuestion:this.idQuestion}});
+}
+</pre>
+
+Con esto es suficiente para poder apreciar la gráfica de los resultados, actualiza tu navegador y podrás ver algo como la siguiente imagen.
+
+
+<div class="example">
+<img alt="grafica" src="/wp-content/uploads/2010/10/encuesta-6.png"/><p>Grafica de Resultados</p>
+</div>
+<h3>Conclusiones</h3>
+
+En este tutorial se han creado componentes de manera dinámica, esta misma técnica se puede usar para crear otro tipo de componente dinámicamente por ejemplo botones en un toolbar, grids, ventanas, y todo lo que se nos ocurra.
+
+Recuerda seguirnos en Twitter para estar al tanto de las actualizaciones, si usas Facebook puedes visitar nuestra fan page, tenemos varios planes para esta nueva etapa de Quizzpot, sigue pendiente.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/chart/survey/SurveyTest.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

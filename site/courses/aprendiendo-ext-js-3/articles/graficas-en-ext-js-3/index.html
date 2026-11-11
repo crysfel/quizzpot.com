@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Gráficas en Ext JS 3 - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Gráficas en Ext JS 3
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>27</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Una de las funcionalidades nuevas que tiene la versión tres de la librería de Ext JS es la posibilidad de crear fácilmente gráficas de barras, lineares y de pastel a partir de un store.
+
+<h3>Material de apoyo</h3>
+Para continuar es necesario descargar el <a href="/wp-content/uploads/2009/05/chart.zip" rel="nofollow" target="_blank">material de apoyo</a>, el cual contiene un HTML que únicamente está incluyendo la <a href="http://extjs.com/products/extjs/download.php" rel="nofollow" target="_blank">librería de Ext JS</a> (la versión 3 RC 1) y un JS vacío en el cual escribiremos el código necesario para generar las gráficas.
+
+<h3>Empaquetar el tutorial</h3>
+Antes de seguir adelante vamos a “<a href="/2009/03/paquetes-y-namespace/" rel="nofollow" target="_blank">empaquetar</a>” el código que estaremos escribiendo, ya sabemos las ventajas de hacerlo ya que <a href="/2009/03/paquetes-y-namespace/" rel="nofollow" target="_blank">estudiamos un tema</a> al respecto.
+
+<pre class="prettyprint">//the namespace for this tutorial
+Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Charts = {
+	init: function(){
+		//Aquí vamos a escribir el resto del código
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.Charts.init,com.quizzpot.tutorial.Charts);
+</pre>
+
+El código anterior debe ir en el archivo “chart.js”
+
+<h3>Definir la información a graficar</h3>
+Ahora vamos a definir la información que necesitamos graficar, para este ejemplo voy a graficar diferentes librerías de Javascript y el número de usuarios tienen sus comunidades (la información es totalmente falsa, una suposición solamente), es importante mencionar que esta información puede venir de una base de datos o de alguna otra fuente, además puede ser interpretada en cualquier formato soportado por <a href="/2009/04/que-es-un-store-y-como-funciona/" rel="nofollow" target="_blank">el store</a> (XML, JSON, Array), para este ejemplo la información proviene de un arreglo definido directamente en el código.
+
+<pre class="prettyprint">//información a graficar
+var data = [['Ext JS',115000],['jQuery',250100],['Prototype',150000],['mootools',75000],['YUI',95000],['Dojo',20000],['Sizzle',15000]];
+		
+//se crea el Store que manipula la información
+var store = new Ext.data.ArrayStore({
+	fields:[{name:'framework'},{name:'users', type:'float'}]
+});
+store.loadData(data); // se carga la info en el store
+</pre>
+
+El código anterior ya lo hemos discutido en temas anteriores por lo tanto debe serte familiar.
+ 
+<h3>Las gráficas</h3>
+Este componente es una adaptación de la <a href="http://developer.yahoo.com/yui/" rel="nofollow" target="_blank">librería YUI</a>, la cual funciona utilizando un “swf” (una película de flash) para poder generar la imagen de la gráfica, es “personalizable” pues nos permite cambiar el aspecto de la gráfica (colores, tipografía, estilos), los componentes se encuentran dentro del paquete “Ext.chart” así que te recomiendo mirar la documentación.
+
+<h3>Gráfica de barras</h3>
+Vamos a crear una gráfica de barras con la información que tenemos en el store, esto lo hacemos de la siguiente manera:
+
+<pre class="prettyprint">var columnChart = new Ext.chart.ColumnChart({
+	store: store,
+	//url:'../ext-3.0-rc1/resources/charts.swf',
+	xField: 'framework',
+	yField: 'users'
+});
+</pre>
+
+Las propiedades básicas de configuración son esas tres solamente, adicionalmente podemos especificarle la “url” donde se encuentra el “swf” que se encarga de mostrar la gráfica, esto es importante si no queremos que lo busque directamente en la página de Yahoo y es obligatorio si no contamos con acceso a Internet.
+
+Mediante la propiedad “xField” se le indica a la gráfica de donde tomar la información del eje “X”, mientras que la propiedad “yField” indica la fuente de información para el eje “Y”, estos dos campos son necesarios para generar una gráfica de barras.
+
+Si le agreamos la propiedad "renderTo", podemos renderear en pantalla la gráfica y se verá de la siguiente manera
+
+<div class="example"><img alt="Grfica" src="/wp-content/uploads/2009/05/graph1.jpg"/><p>Gráfica de barras</p></div>
+<h3>Gráfica lineal</h3>
+Una gráfica linear se hace exactamente igual que una gráfica de barras, únicamente utilizamos el componente “LineChart” de la siguiente manera.
+
+<pre class="prettyprint">var lineChart = new Ext.chart.LineChart({
+	store: store,
+	xField: 'framework',
+	yField: 'users'
+});
+</pre>
+
+Con eso es suficiente para generar una gráfica lineal muy básica, para renderearla en pantalla podemos usar la propiedad "renderTo".
+
+<div class="example"><img alt="Grfica" src="/wp-content/uploads/2009/05/graph2.jpg"/><p>Gráfica linear</p></div>
+<h3>Gráfica de pastel (Pie Chart)</h3>
+La gráfica de pastel se crea diferente a las anteriores, y esto es porque aquí no hay ejes (x | y), una gráfica de pastel se crea por porcentajes, el componente “PieChart” se encarga de todo, únicamente es necesario configurar lo siguiente:
+
+<pre class="prettyprint">var pieChart = new Ext.chart.PieChart({
+	store: store,
+	dataField: 'users', //la información a graficar
+	categoryField : 'framework' //las etiquetas o categorías
+});
+</pre>
+
+En el código anterior la propiedad “dataField” es la que contiene la información a graficar y la propiedad “categoryField” es la que contiene las categorías que se están graficando, estas dos propiedades son muy importantes para que la gráfica se pueda generar correctamente.
+
+<div class="example"><img alt="Grfica" src="/wp-content/uploads/2009/05/graph3.jpg"/><p>Gráfica de pastel</p></div>
+<h3>Colocarlas en pantalla</h3>
+En este paso vamos a crear los paneles necesarios, se los asignamos a uno principal y lo “renderizamos” en el div "frame" que se encuentra en el documento HTML, además haremos que los paneles que contienen la gráfica se colapsen.
+
+<pre class="prettyprint">var panel1 = new Ext.Panel({
+	title: 'Column chart example',
+	items:[columnChart]
+});
+	
+var panel2 = new Ext.Panel({
+	title: 'Line chart example',
+	items:[lineChart]
+});
+		
+var panel3 = new Ext.Panel({
+	title: 'Pie chart example',
+	items:[pieChart]
+});
+		
+var main = new Ext.Panel({
+	renderTo: 'frame',
+	width:450,
+	defaults: {
+		height:250,
+		collapsible: true,
+		border:false,
+		titleCollapse: true
+	},
+	items: [panel1,panel2,panel3]
+});
+</pre>
+
+El código que hemos escrito en éste tutorial genera la siguiente pantalla.
+
+<div class="example"><img alt="Grfica" src="/wp-content/uploads/2009/05/graph4.jpg"/><p>Gráficas en Ext JS 3</p></div>
+
+Hemos visto anteriormente el funcionamiento de los paneles así que debes estar familiarizado con el código anterior.
+
+<h3>Conclusiones</h3>
+Las gráficas que nos proporciona la versión tres de Ext JS, nos permiten desplegar la información de una manera muy sencilla y agradable, además de que se integra muy fácilmente a los otros componentes (paneles, ventanas, formularios, etc.).
+
+En este tema vimos algo acerca de la nueva versión de Ext JS en futuros artículos mostraré algunos otros componentes que se han agregado a esta versión, como siempre si tienen dudas o sugerencias pueden dejarlos en los comentarios además pueden registrarse en el foro y participar resolviendo dudas.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/chart/chart.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

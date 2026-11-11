@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Editando una Imagen - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Editando una Imagen
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En esta ocasión veremos como interactuar con una imagen por medio de sliders, los cuales nos ayudaran a que este elemento pueda ser editado. Veremos cómo cambiar propiedades básicas de nuestro elemento.
+
+En este tutorial vamos a modificar mediante los sliders la opacidad y dimensiones de una imagen, esto nos permitirá comprender el uso adecuado de componente “Ext.slier.SingleSlider”, la siguiente imagen es un ejemplo de lo que obtendremos al final del tutorial:
+ 
+
+<div class="example">
+<img alt="resultado final" src="/wp-content/uploads/2010/10/Slider-1.png"/><p>Resultado Final</p>
+</div>
+<h3>Empaquetando el Tutorial</h3>
+
+Vamos a empaquetar el código para evitar conflictos con otras variables.
+
+<pre class="prettyprint">Ext.ns(“com.quizzpot.tutorial”);
+com.quizzpot.tutorial.SliderTutorial= {
+	init : function(){
+		//code
+	}
+}
+Ext.onReady(com.quizzpot.tutorial.SliderTutorial.init, com.quizzpot.tutorial.SliderTutorial);
+</pre>
+<h3>Colocando la Imagen</h3>
+Lo primero que haremos es crear la estructura html sobre la cual trabajaremos a lo largo del tutorial.
+
+<pre class="prettyprint">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+	
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+&lt;title&gt;Demo: Slider | Quizzpot&lt;/title&gt;
+
+&lt;link rel="stylesheet" type="text/css" href="/courses/aprendiendo-ext-js-3/ext-3.2.1/resources/css/ext-all.css" /&gt;
+&lt;link rel="stylesheet" type="text/css" href="/courses/aprendiendo-ext-js-3/resources/style.css" /&gt;
+
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/ext-3.2.1/adapter/ext/ext-base.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/ext-3.2.1/ext-all.js"&gt; &lt;/script&gt;
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/articles/slider.js"&gt;&lt;/script&gt;
+
+&lt;style type="text/css"&gt;
+#frame{width:800px;height:400px;margin:50px;}
+#canvas{width:595px;height:100%;overflow:hidden;border:1px solid #99BBE8;float:left;}
+#tools{width:200px;height:100%;float:right;}
+&lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+	&lt;div id="frame"&gt;
+		&lt;div id="canvas"&gt;
+			&lt;img src="/courses/aprendiendo-ext-js-3/articles/mac-book-pro.png" id="img"&gt;
+		&lt;/div&gt;
+		&lt;div id="tools"&gt;
+		&lt;/div&gt;
+	&lt;/div&gt;
+	
+&lt;/body&gt;
+&lt;/html&gt;
+
+</pre>
+
+Lo que hicimos fue crear tres divs, el primero es “frame” este es el div en el cual se encontraran alojados los otros divs que es “canvas” en el cual colocaremos la imagen que editaremos en el tutorial, y por ultimo está el div “tools” este lo usaremos para renderizar el panel con  los slider.
+
+También creamos estilos para nuestros divs con estos estilos posicionamos y les asignamos un tamaño. 
+Si ejecutamos el html podemos ver que solo tenemos los divs y la imagen, lo primero que haremos es tomar la imagen por su id, el código que aparece  a continuación debe ir en el archivo slider.js dentro de la función init.
+
+<pre class="prettyprint">var el = Ext.get('img'),//step 1
+	frame = Ext.get("canvas"); //step 2
+		
+el.setWidth("50%"); //step 3
+setTimeout(function(){
+	el.center(frame);
+},500);
+</pre>
+
+En el paso uno lo que hacemos es obtener la imagen por medio de su id el cual está definido dentro de nuestro documento html.
+
+En el paso dos obtenemos el div donde está colocada la imagen.
+
+En el paso tres cambiamos el tamaño de la imagen usando “setWidth()”. 
+
+Usamos “setTimeout()” para ejecutar la función después del tiempo marcado en milisegundos, esto da tiempo para que a se pueda calcular el nuevo tamaño de la imagen. 
+
+Y por último usamos “center()” para colocar la imagen en el centro, si notamos le pasamos como parámetro “frame” esta causara que se centre dentro del div “canvas” que es el espacio que dedicamos para colocar nuestra imagen.
+ 
+
+<div class="example">
+<img alt="colocando la imagen" src="/wp-content/uploads/2010/10/Slider-2.png"/><p>Colocando la Imagen</p>
+</div>
+<h3>Creando los Sliders</h3>
+
+Ya que tenemos nuestra imagen lista, lo siguiente es colocar los sliders “size” y “opacity” con los cuales podremos manipular el tamaño y la trasparencia de nuestra imagen, lo haremos de la siguiente manera: 
+
+<pre class="prettyprint">var size = new Ext.slider.SingleSlider({ //step 1
+	fieldLabel	: "Size",
+	width		: 100, // el tamaño que tendrá el slider
+	minValue	: 20, // el valor mínimo que se obtendrá del slider
+	maxValue	: 120, //el valor máximo que obtendrá el slider
+	value		: 50, //valor inicial que tendrá el slider 
+	plugins		: tip
+});
+
+var opacity = new Ext.slider.SingleSlider({ //step 2
+	fieldLabel	: "Opacity",
+	width		: 100,
+	increment	: 10, // el slider tendrá un aumento de 10 en 10
+	minValue	: 0,
+	maxValue	: 100,
+	value		: 100,
+	plugins		: tip //step 3
+});
+</pre>
+
+En el paso uno creamos el slider “size”, y si vemos en el paso dos se crea el slider “opacity” ambos tienen los mismos atributos solo cambia el atributo “imcremenent” que se encuentra en “opacity”. 
+
+Notemos que estamos usando un “SingleSlider” ya que este componente nos permite renderizarlo verticalmente si es que lo deseamos.
+
+En el paso tres lo que hacemos es pasarle los “tips” a los sliders vía “plugins” pero para esto tenemos que crearlos antes de crear los sliders, lo haremos dela siguiente manera:
+
+<pre class="prettyprint">Ext.QuickTips.init(); //step 1
+
+var tip = new Ext.slider.Tip({ // step 2
+	getText: function(thumb){ // step 3
+		return String.format('{0}%', thumb.value);
+	}
+});
+</pre>
+
+En el paso uno iniciamos los QuickTip, es importante que esto solo se tiene que declarar una vez en todo el proyecto.
+
+En el paso dos creamos una instancia de “Ext.slider.Tips” y en el paso tres lo que hacemos es sobre escribir el método “getText” esto es con el fin de que en el tip se vea el signo “%” de lo contrario solo se desplegará el valor del slider.
+
+Ya que tenemos nuestros sliders lo siguiente es colocarlos en un panel para poder mostrarlos, el panel quedaría de la siguiente manera:
+
+<pre class="prettyprint">new Ext.Panel({
+	renderTo	: "tools",
+	title		: "Settings",
+	collapsible	: true,
+	labelWidth	: 60,
+	layout		: "form",
+	frame		: true,
+	items		: [size,opacity]
+});
+</pre>
+
+Con esto el resultado debe ser parecido a esto:
+
+
+<div class="example">
+<img alt="Sliders dentro del panel" src="/wp-content/uploads/2010/10/Slider-3.jpg"/><p>Sliders Dentro del Panel</p>
+</div>
+<h3>Interactuando con la Imagen</h3>
+
+Ya que tenemos listo nuestros slider lo siguiente es crear las funciones que harán que nuestra imagen pueda cambiar de tamaño y el valor de la opacidad.
+
+<pre class="prettyprint">size.on("change",function(slider,value){
+	el.setWidth(value+"%")
+	el.center(frame);
+});
+</pre>
+
+Lo que el código anterior hace es usar el evento “change”  el cual se ejecuta cuando el usuario cambia el valor del slider, recibe como parámetros el slider mismo y el nuevo valor, por ultimo usamos nuevamente “set.Width()” y le pasamos como parámetro el valor que se obtiene del slider, con esto podemos cambiar el tamaño de la imagen, es importante mencionar que no es necesario cambiar la altura de la foto ya que el navegador la calcula basándose el ancho de esta.
+
+Por ultimo solo centramos la foto en el div para que después del cambio de tamaño, siempre este en el centro, recuerda que le pasamos “frame” para que lo centre en el div contenedor.
+
+Lo siguiente es cambiar la opacidad de la foto y eso lo haremos de una manera similar :
+
+<pre class="prettyprint">opacity.on("change",function(slider,value){
+	el.setOpacity(value/100);
+});
+</pre>
+
+Básicamente es lo mismo que hicimos para cambiar el tamaño la única diferencia es que usamos “seOpacity()” y le damos el valor del slider, notemos que ese valor es dividido entre cien esto es porque la opacidad es manejada de 0 a 1 por lo cual .5 sería el valor 50 del slider.
+
+<h3>Conclusión </h3>
+
+En esta ocasión vimos cómo crear sliders, y darles un uso básico. Estos son muy útiles cuando deseamos hacer cambios a ciertos elementos de nuestro sistema, modificar rangos, etc.
+
+Si tienes alguna duda o comentario por favor coméntenlo en el <a href="http://foro.quizzpot.com/" rel="nofollow" target="_blank">foro</a>, recuerden seguirnos en Twitter (<a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">@quizzpot</a>) o <a href="http://www.facebook.com/pages/Quizzpot/299875756793?v=wall" rel="nofollow" target="_blank">Facebook</a> para estar al tanto de las actualizaciones.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/panels/slider.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

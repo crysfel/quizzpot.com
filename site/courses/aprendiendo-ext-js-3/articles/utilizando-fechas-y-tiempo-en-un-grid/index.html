@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Utilizando fechas y tiempo en un Grid - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Utilizando fechas y tiempo en un Grid
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>14</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Desplegar una fecha o una hora en un grid es algo muy común, si no sabemos como utilizar correctamente este tipo de dato podemos meternos en problemas y puede darnos muchos dolores de cabeza.
+
+En este tema explicaré como podemos mostrar las fechas en diferentes formatos, además veremos como podemos ordenar correctamente ascendente o descendentemente las fechas contenidas en una tabla.
+
+El ejercicio que haremos es una simple “grilla” donde se mostrarán algunas fechas aleatorias en diferentes formatos, puedes ver el ejemplo del tutorial y probar su funcionalidad, recuerda que usaremos Ext JS 3.0.0.
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates1.jpg"/><p>Ejercicio final</p></div>
+<h3>Material de apoyo</h3>
+Antes de continuar adelante es necesario <a href="/wp-content/uploads/2009/07/dates.zip" rel="nofollow" target="_blank">descargar el material de apoyo</a> y copiar los archivos al servidor Web que <a href="/2009/02/instalacion-basica-del-framework/" rel="nofollow" target="_blank">instalamos al inicio</a> de este curso.
+
+<h3>Información a mostrar</h3>
+La información que desplegaremos en el Grid se muestra a continuación:
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$data = array(
+		array('name'=&gt;'John Doe','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Crysfel','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Sasha','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Peter','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Carl','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Ronaldo','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Jenny','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Gina','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U')),
+		array('name'=&gt;'Eddy','from'=&gt;randomDate('m-d-Y'),'to'=&gt; randomDate('j-M-Y'),'time'=&gt;randomDate('h:i:s a'),'iso'=&gt;randomDate('c'),'unix'=&gt;randomDate('U'))
+	);
+	
+	$response = array(
+		'success'=&gt;true,
+		'total'=&gt;count($data),
+		'data'=&gt; $data
+	);
+	
+	
+	echo json_encode($response);
+	
+	function randomDate($format){
+		return date($format,rand(0,time()));
+	}
+?&gt;
+
+</pre>
+
+Como se pueden dar cuenta se están generando las fechas de manera aleatoria, así que no esperen ver las mismas fechas siempre, lo único que es constante es el nombre de las personas.
+
+También es importante notar que las fechas son generadas en diferentes formatos, puedes ver que también usamos el formato de “unix”, especificando los segundos transcurridos a partir del 1ro de enero de 1970.
+
+<h3>Namespace</h3>
+Una vez definida la información vamos a comenzar a trabajar del lado de cliente, por lo tanto necesitamos definir el espacio de nombre que usaremos para este tutorial.
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.DatesTutorial = {
+	init: function(){		
+		//el código va aqui
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.DatesTutorial.init,com.quizzpot.tutorial.DatesTutorial);
+</pre>
+
+Ya sabemos el por qué de utilizar un namespace robusto, si no lo recuerdas te sugiero repasar el tema correspondiente.
+
+
+<h3>Crear el Store y el Grid</h3>
+Vamos a crear el Store capaz de procesar la información regresada por el servidor, la cual esta en formato JSON.
+
+<pre class="prettyprint"> 
+var store = new Ext.data.JsonStore({
+	url: 'dates.php',
+	root: 'data',
+	totalProperty: 'total',
+	fields: [
+		'name',
+		'from',
+		'to',
+		'time',
+		'iso',
+		'unix'
+
+	]
+});
+store.load();
+</pre>
+
+El código anterior ya lo conocemos muy bien, lo hemos estudiado reiteradamente en los temas anteriores, no tiene nada especial, ahora vamos a crear la tabla e introducirla dentro de una ventana de la siguiente manera:
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store, 
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'Name', dataIndex:'name',sortable: true},
+		{header:'From', dataIndex:'from',sortable: true},
+		{header:'To', dataIndex:'to',sortable: true},
+		{header:'Time', dataIndex:'time',sortable: true},
+		{header:'From ISO date', dataIndex:'iso',sortable: true},
+		{header:'From Unix Time', dataIndex:'unix',sortable: true}
+	],
+	viewConfig: {
+		forceFit: true
+	},
+	border: false,
+	stripeRows: true
+});
+
+var win = new Ext.Window({
+	title: 'Grid example',
+	layout: 'fit',
+	width: 510,
+	height:350,
+	items: grid
+});
+
+win.show();
+
+</pre>
+
+Lo único que es importante resaltar en el código anterior es que estamos usando la propiedad “viewConfig”, esta propiedad nos permite configurar el “view” del grid que estamos creando, para este caso solamente estamos forzando a las columnas que se distribuyan sobre el grid para que todas sean mostradas.
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates2.jpg"/><p>Un grid con configuraciones comunes</p></div>
+<h3>Problemas con el manejo de las fechas y tiempos</h3>
+Si lo han notado, por alguna extraña razón no está apareciendo la información de una de las columnas, además si ordenamos ascendente o descendentemente alguna de las columnas que muestran una fecha o tiempo, no se ordenan correctamente.
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates3.jpg"/><p>Errores al ordenar las columnas de fecha y tiempo</p></div>
+
+Como se aprecia en la imagen anterior, al ordenar la columna “To” de manera ascendente vemos que los meses de “Noviembre” y “Diciembre” se encuentran antes del mes de “Enero” o “Mayo”, esto es totalmente incorrecto puesto que en lugar de ordenarlos tomando en cuenta que son fechas, simplemente los está ordenando por orden alfabético como si se tratasen de palabras comunes, lo mismo sucede con la columna “Time” porque el tiempo está en formato de 12 horas así que hace el ordenamiento incorrectamente.
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates4.jpg"/><p>No ordena correctamente la hora</p></div>
+
+Otro problema es que estamos mostrando una fecha en milisegundos, un usuario no podrá interpretar dicha información (Ni siquiera nosotros los desarrolladores).
+
+<h3>Solución al problema de ordenación</h3>
+Para solucionar los problemas anteriores y dar un formato más entendible para el usuario necesitamos definir en el “Store” que usaremos, los campos de tipo “date”.
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'dates.php',
+	root: 'data',
+	totalProperty: 'total',
+	fields: [
+		'name',
+		{name:'from', type:'date'},
+		{name:'to', type:'date'},
+		{name:'time', type:'date'},
+		{name:'iso', type:'date'},
+		{name:'unix', type:'date'}
+	]
+});
+store.load();
+
+</pre>
+
+Si actualizamos la página veremos que ocurre algo inesperado:
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates5.jpg"/><p>Se pierde la información de las columnas</p></div>
+
+Ha desaparecido la información que estábamos desplegando anteriormente, la pregunta es ¿por qué? ¿qué hemos hecho mal? Solamente le hemos especificado a cada campo en el “store” el tipo de dato “date”.
+
+La respuesta a las incógnitas anteriores es sencilla y ocurre porque no hemos definido el formato de la fecha o tiempo que viene del servidor, por lo tanto al convertir de “String” a “Date” sucede un error. Para solucionar esto necesitamos definir el formato por medio de la propiedad “dateFormat” de la siguiente manera:
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'dates.php',
+	root: 'data',
+	totalProperty: 'total',
+	fields: [
+		'name',
+		{name:'from', type:'date', dateFormat:'m-d-Y'},
+		{name:'to', type:'date', dateFormat:'j-M-Y'},
+		{name:'time', type:'date', dateFormat:'h:i:s a'},
+		{name:'iso', type:'date', dateFormat:'c'},
+		{name:'unix', type:'date', dateFormat:'U'}
+	]
+});
+store.load();
+
+</pre>
+
+Si actualizamos el navegador donde estamos trabajando veremos algo semejante a la siguiente imagen.
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates6.jpg"/><p>Fechas en formato ISO</p></div>
+
+Nota que ahora todas las columnas presentan la información en un mismo formato, el formato por defecto es el “iso”, inclusive para los campos en los que solamente teníamos el tiempo.
+
+Si ordenamos nuevamente las columnas podremos ver como ahora si lo hace correctamente tanto los meses como los días, horas, años, etc.
+
+<h3>Cambiar el formato de las celdas</h3>
+Ya sabemos que por medio de la propiedad “renderer” de las columnas podemos cambiar el contenido de las celdas, así que vamos a modificar el formato con el que se está mostrando las fechas utilizando una utilería del Framework.
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store, 
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'Name', dataIndex:'name',sortable: true},	
+		{header:'From', dataIndex:'from',sortable: true, renderer: Ext.util.Format.dateRenderer('M/Y')},
+		{header:'To', dataIndex:'to',sortable: true, renderer: Ext.util.Format.dateRenderer('M/Y')},
+		{header:'Time', dataIndex:'time',sortable: true, renderer: Ext.util.Format.dateRenderer('h:i:s a')},
+		{header:'From ISO date', dataIndex:'iso',sortable: true, renderer: Ext.util.Format.dateRenderer('D d M')},
+		{header:'From Unix Time', dataIndex:'unix',sortable: true, renderer: Ext.util.Format.dateRenderer('M \'y')}
+	],
+	viewConfig: {
+		forceFit: true
+	},
+	border: false,
+	stripeRows: true
+});
+
+</pre>
+
+Utilizando el método “dateRenderer” del objeto “Ext.util.Format” podemos cambiar el formato de una manera muy sencilla, así no creamos una función para cada columna, simplemente definimos el formato que necesitamos.
+
+<div class="example"><img alt="Dates in grid" src="/wp-content/uploads/2009/07/dates7.jpg"/><p>Formato correcto en el grid</p></div>
+
+Ahora si podemos mostrar la información de una manera muy atractiva, además puede ser ordenada correctamente.
+
+<h3>Conclusiones</h3>
+Es muy común que cuando trabajamos con fechas sucedan los errores que vimos, he recibido muchos comentarios solicitando ayuda con respecto a este tema, es por eso que creo que es importante despejar todas estas dudas.
+
+Si tienes dudas con respecto a este tema te invito a <a href="http://foro.quizzpot.com" rel="nofollow" target="_blank">unirte al foro</a> y participar activamente, también recuerda seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> para estar pendiente de las actualizaciones, tratamos de publicar contenidos frecuentemente así que una buena idea es inscribirte a las Feeds en tu lector <a href="http://feeds2.feedburner.com/quizzpot-es" rel="nofollow" target="_blank">de RSS preferido</a> o recibe las actualizaciones mediante <a href="http://feedburner.google.com/fb/a/mailverify?uri=quizzpot-mail-es&amp;loc=es_ES" rel="nofollow" target="_blank">correo electrónico</a>.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/grids/dates.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

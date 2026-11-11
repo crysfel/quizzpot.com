@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Desplegar información del store en un Dataview - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Tu primera app con Sencha Touch</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Desplegar información del store en un Dataview
+            <a class="bubble-tag article-header-link-videos" href="/courses/tu-primera-app-con-sencha-touch/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>2</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>Ya vimos como <a href="/courses/tu-primera-app-con-sencha-touch/articles/el-modelo/" title="Link: https://quizzpot.com/courses/tu-primera-app-con-sencha-touch/articles/el-modelo">crear un modelo de datos</a>, también vimos <a href="/courses/tu-primera-app-con-sencha-touch/articles/el-uso-del-store/" title="Link: https://quizzpot.com/courses/tu-primera-app-con-sencha-touch/articles/el-uso-del-store">como crear un Store y consultar el API de Itunes</a>, en esta ocasión veremos como desplegar la información en el DataView que usamos para representar el grid.</p><p>Vamos a abrir el archivo <i>app/view/Results.js</i> y agregamos el siguiente código.</p><pre class="prettyprint">Ext.define('Itunes.view.Results', {
+    extend  : 'Bleext.view.grid.Grid',
+    xtype   : 'results',
+    requires: [
+        'Itunes.store.Products' // Step 1
+    ],
+
+    config: {
+        columns : [
+
+            //...
+
+        ],
+        store   : {
+            type    : 'products',  //Step 2
+            autoLoad: true,        //Step 3 - We will remove this later
+            params  : {            //Step 4 - We will remove this later
+                term: 'selena'
+            }
+        },
+        listeners : {
+            sort : function(dataIndex,direction,column){
+                Ext.Msg.alert('Sort','DataIndex: '+dataIndex+' Direction: '+direction);
+            }
+        }
+    }
+});<br/></pre><ol><li>En el primer paso incluimos la clase del store <i>Products</i>, con esto podremos hacer uso de la clase.</li><li>En el segundo paso definimos el <i>store</i> de nuestro grid, aquí usamos el alias que definimos a la clase <i>products</i>, esto hará que automáticamente se cree la instancia del <i>store</i> cuando se crea la instancia de la clase <i>Results</i>.</li><li>En el paso tres definimos temporalmente la propiedad autoLoad, esto hará que el store se cargue automáticamente cuando se crea la instancia.</li><li>En el paso cuatro definimos algunos parámetros por default, estos serán enviados al API de Itunes cuando se <a href="/courses/tu-primera-app-con-sencha-touch/articles/el-uso-del-store/" rel="nofollow" target="_blank">ejecute el </a><i><a href="/courses/tu-primera-app-con-sencha-touch/articles/el-uso-del-store/" rel="nofollow" target="_blank">load</a></i><a href="/courses/tu-primera-app-con-sencha-touch/articles/el-uso-del-store/" rel="nofollow" target="_blank"> del store</a>. El parámetro <i>term</i> es el que se usa para realizar la búsqueda en la biblioteca de iTunes.</li></ol><p>Si actualizamos nuestro navegador en este instante, veremos algo como la siguiente imagen. </p>
+<div class="example"><img alt="Desplegando la informacin del store en el grid" src="https://s3.amazonaws.com/quizzpot/images/107-sencha-touch-grid.png" title="Image: https://s3.amazonaws.com/quizzpot/images/107-sencha-touch-grid.png"/><p>Desplegando información del Store en el Grid</p></div>
+<p>Como se puede observar la información se está desplegando correctamente, ya podemos ver lo que la búsqueda en el API del iTunes nos está regresando. Pero tenemos un pequeño detalle, sucede que la duración viene en milisegundos y deberíamos desplegarla en un formato más amigable, algo como 3:04 en lugar de un numero que no hace mucho sentido.</p><p>Para cambiar el formato lo podemos hacer ya sea a nivel de la vista o directamente en el modelo. Si quisiera hacer ciertos cálculos con la información, entonces le daría formato en la vista para que pueda seguir usando la información normalmente, como no necesito hacer absolutamente nada voy a cambiar el formato directamente en el modelo de la siguiente manera.</p><pre class="prettyprint">Ext.define('Itunes.model.Product', {
+    extend: 'Ext.data.Model',
+
+    config: {
+        fields  : [
+            {name:'artwork',mapping:'artworkUrl100'},
+            {name:'name',mapping:'trackName'},
+            {name:'artist',mapping:'artistName'},
+            {name:'albumn',mapping:'collectionName'},
+            {name:'genre',mapping:'primaryGenreName'},
+            {
+                name    :'duration',              
+                mapping :'trackTimeMillis',
+                convert :function(millis,record){     //Step 1
+                    var minutes = Math.floor(millis / 60000);
+                    var seconds = ((millis % 60000) / 1000).toFixed(0);
+                    return minutes + ":" + (seconds &lt; 10 ? '0' : '') + seconds; //Step 2
+                }
+            },
+            {name:'price',mapping:'trackPrice'},
+            {name:'releaseDate',type:'date'},
+            {name:'preview',mapping:'previewUrl'}
+        ],
+
+        //...
+    }
+});<br/></pre><ol><li>En el paso uno usamos la función <i>convert</i> dentro de la definición del campo <i>duration</i>. Esta función recibe dos parámetros, el valor que se le va a asignar al campo y la instancia del record. La función convert se ejecuta antes de asignar el valor al campo duration y cualquier cosa que regresemos (en esta función) será lo que se asignará al campo.</li><li>En el paso dos estamos transformando los milisegundos a un formato más amigable, el <i>return</i> finalmente asigna el nuevo valor al campo <i>duration</i>.</li></ol><p>Si actualizamos nuestro navegador deberíamos ver algo como lo siguiente.</p>
+<div class="example"><img alt="La funcin convert" src="https://s3.amazonaws.com/quizzpot/images/108-sencha-touch-model-convert.png" title="Image: https://s3.amazonaws.com/quizzpot/images/108-sencha-touch-model-convert.png"/><p>La función convert</p></div>
+<p>Ahora si estamos desplegando el grid de manera adecuada, la información la tenemos en las columna adecuadas. Lo siguiente que haremos es ordenar las ascendente o descendente la información en las columnas, ya vimos como funciona el método sort, así que el código quedaría de la siguiente manera.</p><pre class="prettyprint">Ext.define('Itunes.view.Results', {
+    extend  : 'Bleext.view.grid.Grid',
+    xtype   : 'results',
+    requires: [
+        'Itunes.store.Products'
+    ],
+
+    config: {
+        columns : [
+            //...
+        ],
+        store   : {
+            //...
+        },
+        listeners : {
+            sort : function(dataIndex,direction,column){   //Step 1
+                this.getStore().sort(dataIndex,direction); //Step 2
+            }
+        }
+    }
+});<br/></pre><ol><li>En el paso uno definimos el listener, esta porción de código ya la habíamos hecho en tutoriales anteriores. Aquí recibimos el <i>dataIndex</i> de la columna a ordenar y la dirección.</li><li>En el paso dos tomamos el <i>store</i> y ejecutamos el método <i>sort</i> con los parámetros recibidos.</li></ol><p>Ahora podremos ordenar la información en las columnas al dar tab sobre cualquiera de ellas. Si quisiéramos modificar el valor de alguna columna tendríamos que modificar el modelo, todo lo referente a información lo hacemos en el store y el model, la vista solo es un reflejo de lo que tenemos en nuestro paquete de datos.</p><p>Si has venido siguiendo el curso, estamos usando GIT para llevar el control de nuestro proyecto, así que vamos a guardar nuestros cambios en el historial.</p><pre class="prettyprint">$ git add .
+$ git commit -m 'Adding the store to the view'</pre><p>Puedes ver el resultado final de este tutorial, también puedes descargar el código fuente desde para ver lo que hemos hecho. Si tienes alguna duda puedes usar los foros para resolverlas.</p><p>En el siguiente tema veremos el uso de los controladores para agregar interacción a nuestra aplicación. </p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/tu-primera-app-con-sencha-touch/">Tu primera app con Sencha Touch</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>He desarrollado varias aplicaciones con Sencha Touch, algunas las puedes encontrar en el App Store de apple.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/senchatouch-itunes/step16/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

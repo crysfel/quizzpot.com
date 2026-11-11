@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Formato a la información de las celdas - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Formato a la información de las celdas
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>17</em></span>
+<span class="separator">Likes: <em>1 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En este tema vamos a ver la forma en que podemos modificar el contenido de las celdas utilizando un “interceptor” el cual se ejecutará antes de que el contenido sea “renderizado”, además veremos como cambiar el nombre de los parámetros que envía la barra de paginación al servidor.
+
+Lo que vamos a realizar es una tabla que contenga información sobre algunas razas de perros, esta tabla tendrá una imagen, nombre, descripción y algunos otros campos más, si lo deseas puedes probar el <a href="/demos/extjs/grids/gridformat.html/" rel="nofollow" target="_blank">ejemplo en ejecución</a>.
+
+
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format1.jpg"/><p>Tabla con formato personalizado en las celdas</p></div>
+<h3>Material de apoyo</h3>
+Vamos a descargar el <a href="/wp-content/uploads/2009/07/gridformat.zip" rel="nofollow" target="_blank">material de apoyo</a> para que podamos seguir avanzando, después copia los archivos al servidor Web dentro de la carpeta “grids” en la que hemos estado trabajando.
+
+Recuerden que estamos trabajando con  Ext JS 3.0.0, así que si no la tienes puedes ir a <a href="http://extjs.com/products/extjs/download.php" rel="nofollow" target="_blank">descargarla</a> y copiar los archivos necesarios dentro de la carpeta “curso” en el <a href="/2009/02/instalacion-basica-del-framework/" rel="nofollow" target="_blank">servidor Web</a>.
+
+<h3>Información a mostrar</h3>
+A continuación se muestra la información que el servidor nos regresará.
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$offset = isset($_POST['offset'])?$_POST['offset']:0;
+	$size = isset($_POST['size'])?$_POST['size']:5;
+	
+	$data = array(
+		array('breed'=&gt;'Beagle','origin'=&gt;'Ancient Greece','agressive'=&gt;false,'image'=&gt;'images/beagle.jpg','description'=&gt;'The Beagle is a breed of small to medium-sized dog. A member of the Hound Group, it is similar in appearance to the Foxhound but smaller, with shorter legs and longer, softer ears.'),
+		array('breed'=&gt;'German Shepherd','origin'=&gt;'Germany','agressive'=&gt;true,'image'=&gt;'images/germanShep.jpg','description'=&gt;'German Shepherds are a large-breed dog which generally are between 55 and 65 centimetres (22 and 26 in) at the withers and weigh between 22 and 40 kilograms (49 and 88 lb).'),
+		array('breed'=&gt;'Golden Retriever','origin'=&gt;'United Kingdom','agressive'=&gt;false,'image'=&gt;'images/goldenRetriever.jpg','description'=&gt;'The Golden Retriever is a breed of dog, historically developed as a gundog to retrieve shot waterfowl and upland game during hunting. As such they were bred to have a soft mouth to retrieve game undamaged and an instinctive love of water.'),
+		array('breed'=&gt;'Maltese','origin'=&gt;'Central Mediterranean Area','agressive'=&gt;false,'image'=&gt;'images/maltese.jpg','description'=&gt;'The Maltese is a small breed of dog in the toy group, known for its silky white hair, though many owners of pet Maltese give them a short "puppy cut" for ease of grooming.'),
+		array('breed'=&gt;'Rottweiler','origin'=&gt;'Germany','agressive'=&gt;false,'image'=&gt;'images/rottweiler.jpg','description'=&gt;'The Rottweiler, is a "medium to large size, stalwart dog" breed originating in Germany as a herding dog. It is a hardy and very intelligent breed.'),
+		array('breed'=&gt;'St. Bernard','origin'=&gt;'Italy / Switzerland','agressive'=&gt;false,'image'=&gt;'images/stbernard.jpg','description'=&gt;'The St. Bernard Dog is a very large breed of dog, a working dog from the Swiss Alps, originally bred for rescue. The breed has become famous through tales of alpine rescues, as well as for its enormous size.'),
+		array('breed'=&gt;'Whippet','origin'=&gt;'England','agressive'=&gt;false,'image'=&gt;'images/whiteWhippet.jpg','description'=&gt;'The Whippet is a breed of dog, of the sighthound family. They are active and playful and are physically similar to a small greyhound. Their popularity has led to the reuse of the Whippet name on a large number of things, from cars to cookies.'),
+		array('breed'=&gt;'Chihuahua','origin'=&gt;'Mexico','agressive'=&gt;true,'image'=&gt;'images/chihuahua.jpg','description'=&gt;'Breed standards for this dog do not generally specify a height, only a weight and a description of their overall proportions. As a result, height varies more than within many other breeds.')
+	);
+	
+	$paging = array(
+		'success'=&gt;true,
+		'total'=&gt;count($data),
+		'data'=&gt; array_splice($data,$offset,$size)
+	);
+	
+	
+	echo json_encode($paging);
+?&gt;
+</pre>
+
+En el código anterior la información está contenida en arreglos de PHP, para facilitar las cosas en este tutorial, normalmente esta información estaría en una base de datos o la podríamos obtener de un servicio Web (Web Service) o de cualquier otro lugar.
+
+Lo que esta haciendo el código es recibir dos parámetros, estos serán usados para paginar, luego imprime en formato JSON únicamente los registros que le solicitamos.
+
+<h3>Definir el Namespace</h3>
+El siguiente paso es definir el espacio de nombres que usaremos, no mencionaré el porqué de este paso porque ya lo hemos estudiado a detalle anteriormente.
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.GridFormatTutorial = {
+	init: function(){		
+		//aqui vamos a escribir el código inicial
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.GridFormatTutorial.init,com.quizzpot.tutorial.GridFormatTutorial);
+</pre>
+<h3>Creación del Store</h3>
+Ya vimos que el servidor nos regresa la información en formato JSON, por lo tanto vamos a utilizar el “JsonStore” por conveniencia.
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'gridformat.php',
+	root: 'data',
+	totalProperty: 'total',
+	fields: ['breed','origin',{name:'agressive',type:'boolean'},'image','description']
+});
+store.load();
+</pre>
+
+Ya debemos <a href="/2009/04/que-es-un-store-y-como-funciona/" rel="nofollow" target="_blank">conocer el código</a> anterior, pues no tiene nada de especial, simplemente define la URL donde se realizará la petición por medio de Ajax al servidor, los campos de los registros, el total que nos servirá para paginar la información y de donde sale la información de los registros (root).
+
+<h3>Creación del paginador</h3>
+Vamos a paginar los resultados, para eso creamos el componente “PagingToolbar” de la siguiente manera:
+
+<pre class="prettyprint">var pager = new Ext.PagingToolbar({
+	store: store, // &lt;--grid and PagingToolbar using same store
+	displayInfo: true,
+	displayMsg: '{0} - {1} of {2} Dog breeds',
+	emptyMsg: 'No dog breeds to display',
+	pageSize: 5
+});
+</pre>
+
+Ya hemos estudiado este componente en <a href="/2009/07/paginado-remoto-en-un-grid/" rel="nofollow" target="_blank">el tema anterior</a>, por lo tanto debemos conocer el código anterior.
+
+<h3>Crear el Grid y la Ventana contenedor</h3>
+Ahora creamos el Grid y la ventana donde se mostrará de la siguiente manera:
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store, //grid and PagingToolbar using same store
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'Picture', dataIndex:'image',width:150,sortable: true},
+		{header:'Breed name', dataIndex:'breed',width:140,sortable: true},
+		{header:'Description', dataIndex:'description',width:180},
+		{header:'Agressive', dataIndex:'agressive', width:60,sortable: true}
+	],
+	bbar: pager, // adding the pagingtoolbar to the grid
+	border: false,
+	stripeRows: true
+});
+
+var win = new Ext.Window({
+	title: 'Grid example',
+	layout: 'fit',
+	width: 590,
+	height:450,
+	items: grid
+});
+
+win.show();
+</pre>
+
+En primer lugar se crea <a href="/2009/07/informacion-contenida-en-formato-json/" rel="nofollow" target="_blank">el Grid</a>, con las columnas necesarias y estas columnas se relacionan con las propiedades del Store mediante la propiedad “indexData”, le asignamos la <a href="/2009/07/paginado-remoto-en-un-grid/" rel="nofollow" target="_blank">barra de paginación</a> y luego creamos la ventana que contiene al grid, ya estudiamos a detalle el código anterior en temas pasados es por eso que no me voy a detener a explicar más, si tienes dudas puedes consultar los tutoriales anteriores.
+
+
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format2.jpg"/><p>Grid sin formato</p></div>
+
+Como se puede ver en la imagen ya aparece la información en la tabla, pero no aparece la imagen ni el formato que queremos además el paginar no esta funcionando correctamente, ya que siempre nos regresa los mismos registros.
+
+<h3>Cambiar los parámetros del paginador</h3>
+Si regresamos a ver el código del servidor notamos que está recibiendo dos parámetros para paginar, uno de ellos es “offset” y “size”, si ya leíste el tema anterior sabrás que el componente “PagingToolbar” no envía esos parámetros, sino que envía “start” y “limit”, tenemos dos opciones, cambiar el código del servidor o de alguna manera cambiar el nombre de los parámetros a enviar por el paginador. 
+
+Si por razones externas a nuestra voluntad no podemos cambiar el servidor, entonces para cambiar el nombre de estos parámetros lo hacemos en el store usando la propiedad “paramNames” de la siguiente manera:
+
+<pre class="prettyprint">paramNames: {
+	start : 'offset',  // The parameter name which specifies the start row
+	limit : 'size',  // The parameter name which specifies number of rows to return
+	sort : 'sort',    // The parameter name which specifies the column to sort on
+	dir : 'dir'       // The parameter name which specifies the sort direction
+}
+</pre>
+
+Entonces el store quedaría de la siguiente manera:
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'gridformat.php',
+	root: 'data',
+	totalProperty: 'total',
+	paramNames: {
+		start : 'offset',  // The parameter name which specifies the start row.
+		limit : 'size',  // The parameter name which specifies number of rows to return.
+		sort : 'sort',    // The parameter name which specifies the column to sort on.
+		dir : 'dir'       // The parameter name which specifies the sort direction.
+	},
+	fields: ['breed','origin',{name:'agressive',type:'boolean'},'image','description']
+});
+store.load();
+</pre>
+
+Esta propiedad (paramNames) recibe un objeto donde sobrescribimos el nombre de los parámetros a enviar al servidor, nótese que también debemos definir el “sort” y “dir” que en futuros temas hablaremos al respecto.
+
+Con esto es suficiente para que la paginación funcione adecuadamente.
+
+
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format3.jpg"/><p>Cambio de nombre a los parámetros de la paginación</p></div>
+<h3>Mostrar la imagen</h3>
+Hasta ahora lo que tenemos en la columna de la imagen es la URL donde se encuentra la imagen a desplegar, lo que tenemos que hacer es utilizar la propiedad “renderer” del “ColumnModel” para modificar el contenido de la celda justo antes de que ésta sea renderizada.
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store,
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'Picture', dataIndex:'image',width:150,sortable: true, renderer: this.showImage}, // aqui definimos el “interceptor”
+		{header:'Breed name', dataIndex:'breed',width:140,sortable: true },
+		{header:'Description', dataIndex:'description',width:180 },
+		{header:'Agressive', dataIndex:'agressive', width:60,sortable: true}
+	],
+	bbar: pager,
+	border: false,
+	stripeRows: true
+});
+</pre>
+
+Mediante la configuración “<em>renderer: this.showImage</em>” podemos definir una función, en este caso “showImage” que se ejecutará antes de que la celda sea “renderizada”, esta función debe regresar un String con el contenido que necesitamos desplegar en la celda, además también podemos generar el HTML.
+
+<pre class="prettyprint">com.quizzpot.tutorial.GridFormatTutorial = {
+	init: function(){		
+		//… código removido para major visualización …
+	},
+	//el interceptor
+	showImage: function(value, metaData, record, rowIndex, colIndex, store){
+		//retorna el contenido de la celda
+		return '<img alt="recordgetbreed"/>';
+	}
+}
+</pre>
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format4.jpg"/><p>Mostrar una imagen en la celda</p></div>
+
+La función que se configura en la propiedad “renderer” recibe seis parámetros, en este caso solo ocupamos solamente el “value” y el “record”, de acuerdo con la documentación los parámetros son los siguientes.
+
+<ul>
+<li>“value” (Object) : Es la información original que se imprimirá en la celda.</li>
+<li>“metadata” (Object) : Un objeto en cual se pueden configurar los siguientes atributos:
+	<ul>
+<li>“css” (String) : El nombre de una clase CSS para ser agregada al elemento TD de la celda.</li>
+<li>“attr” (String) :Un atributo HTML definido como String para ser aplicado al DIV contenedor en la celda (ejemplo: 'style="color:red;"').</li>
+</ul>
+</li>
+<li>“record” (Ext.data.record) : El  registro del Store de donde la información es extraída.</li>
+<li>“rowIndex” (Number) : El índice de la fila</li>
+<li>“colIndex” (Number) : El índice de la columna</li>
+<li>“store” (Ext.data.Store) : El objeto store de donde el registro es extraído.</li>
+</ul>
+<h3>Dos campos en una misma celda</h3>
+Lo que haremos ahora es poner dos campos del record dentro de una misma celda, además vamos a usar el parámetro “metaData” para ponerle un estilo y poder hacer que el texto pueda ocupar más de un solo renglón.
+
+<pre class="prettyprint">showBreed: function(value, metaData, record, rowIndex, colIndex, store){
+	metaData.attr = 'style="white-space:normal"';
+	return '<em>'+value+'</em> - '+record.get('origin');
+}
+</pre>
+
+Como puedes ver se imprime el valor original de la celda y le aplicamos una clase CSS que hace que el texto se ponga negrito, además estamos utilizando el “record” para acceder a otro campo, de esta manera podemos imprimir cualquier otro campo que necesitemos.
+
+Por último tenemos que definir la propiedad “renderer” a la columna “name” de la siguiente manera:
+
+<pre class="prettyprint">{header:'Breed name', dataIndex:'breed',width:140,sortable: true,renderer: this.showBreed},
+</pre>
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format5.jpg"/><p>Varios campos en una misma celda</p></div>
+<h3>Corregir la descripción</h3>
+Si has notado, la descripción es mas larga que la celda y no se ve completa, lo que tenemos que hacer para que el texto se despliegue en renglones es modificar el CSS por medio del parámetro “metadata”, igual como lo hicimos en el paso anterior con el campo “breed”.
+
+<pre class="prettyprint">showDescription: function(value,metaData){
+	metaData.attr = 'style="white-space:normal"';
+	return value;
+}
+</pre>
+
+Con esto es suficiente para que la columna “Description” se pueda ver correctamente, recuerda asignarle esta función en la definición de la columna utilizando la propiedad “renderer”.
+
+
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format6.jpg"/><p>Asignando estilos a la celda</p></div>
+<h3>Cambiando el texto booleano</h3>
+Por último vamos a cambiar el “true” y “false” de la columna “agressive” por algo más amigable.
+
+<pre class="prettyprint">showAgressive: function(value,metaData){
+	metaData.attr = value?'style="color:#f00"':'style="color:#0a0"';
+	return value?'Yes':'No';
+}
+</pre>
+El código anterior regresa “Yes” o “No” además en caso de ser “Yes” le asigna color rojo al texto y verde para cuando es un “No”.
+
+
+<div class="example"><img alt="Tabla con formato" src="/wp-content/uploads/2009/07/format7.jpg"/><p>Modificando los estilos y textos a deplegar en la celda</p></div>
+<h3>Conclusiones</h3>
+Hemos visto como el Framework nos permite controlar completamente el contenido de una celda, podemos utilizar este método para realizar lo que sea necesario en nuestras aplicaciones.
+
+No olvides seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> y si tienes alguna duda con respecto al tutorial o con respecto a cualquier otra cosa puedes inscribirte en <a href="http://foro.quizzpot.com/" rel="nofollow" target="_blank">los foros</a> donde con gusto te ayudaremos entre todos los usuarios de la comunidad.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/grids/gridformat.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

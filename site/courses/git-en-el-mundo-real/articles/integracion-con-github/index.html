@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Integración con GitHub - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>GIT en el mundo real</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Integración con GitHub
+            <a class="bubble-tag article-header-link-videos" href="/courses/git-en-el-mundo-real/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>2</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Hasta este momento ya sabemos como versionar nuestra aplicación usando GIT, el único inconveniente podría ser que hemos estado trabajando de manera local y todos nuestros cambios únicamente existen en nuestra propia máquina.<br/><br/>En temas anteriores hemos aprendido que GIT no tiene un servidor centralizado, sino que todo esta en local. Ahora bien, podemos crear <i>una copia exacta</i> de nuestro repositorio y ponerla en algún servidor remoto, GIT nos permitirá sincronizarlos de una manera sencilla, así tendremos dos repositorios y si llegáramos a perder el que tenemos en local podríamos <i>clonar</i> el que tenemos en la otra máquina remota.<br/><br/>De la misma manera, si por alguna razón perdemos el repositorio que tenemos en el servidor remoto siempre podemos clonar nuestro repositorio local y ponerlo de nuevo el algún otro servidor remoto.<br/><br/><h3>GitHub</h3>Hoy en día GitHub es el proveedor de hosting más popular para proyectos utilizando GIT como control de versiones. GitHub nos permite publicar nuestro código fuente públicamente, pero también podemos crear repositorios privados. GitHub nos proporciona una serie de herramientas que podemos usar para facilitar el desarrollo y el trabajo colaborativo.<br/><br/>Vamos a ver como integrar GitHub al actual proyecto sobre el que venimos trabajando, por ahora sólo vamos a configurar las llaves parar poder conectarnos via SSH a los servidores de GitHub para poder enviar y recibir código de manera segura.<br/><br/>Los pasos son los siguientes<br/><ol><li>Primeramente es necesario <a href="https://github.com/" rel="nofollow" target="_blank">sacar una cuenta</a> en GitHub.</li><li>Verificar si tenemos llaves existentes en nuestro sistema</li><li>Generar las llaves para nuestra máquina</li><li>Agregar la llave pública a GitHub</li><li>Probar que funcione</li></ol><h3>Verificar si ya tenemos llaves SSH</h3>Si estas en windows necesitas ejecutar los siguientes comandos en el GitBash, si estas en Mac o Linux simplemente usamos la terminal de toda la vida.<br/><br/>Primero necesitamos verificar si ya tenemos algunas llaves existentes, si estas en windows seguramente no las tendrás, si estas en Mac o Linux es muy probable que ya existan algunas llaves.<br/><br/>
+<pre class="prettyprint">$ cd ~/.ssh
+$ ls
+# Lists the files in your .ssh directory
+</pre>
+<p>Si no hay absolutamente nada es necesario generar unas, si por el contrario ya existe el archivo <i>id_rsa.pub</i> o <i>id_dsa.pub</i> entonces podemos utilizar esas llaves y no es necesario generar nuevas.</p><h3>Generar las llaves SSH</h3><p>Ahora bien, este paso es necesario únicamente si no cuentas con unas llaves existentes, si ya las tienes no es necesario hacerlo. Puedes continuar con el siguiente paso. Para generar una llave nueva es necesario ejecutar el siguiente comando.</p><pre class="prettyprint"><pre><span>$ ssh-keygen -t rsa -C "<em>your_email@example.com</em>"</span></pre></pre><p>Inmediatamente te pedirá el nombre del archivo en donde se guardará la llave, para este ejemplo usaremos el nombre por default, por lo tanto basta con presionar enter.</p><p>Lo siguiente que te pedirá será un <span><i>passphrase</i> o una contraseña, aquí puedes introducir lo que gustes, esta contraseña es para las llaves.</span></p><h3>Agregar la llave pública a GitHub</h3><p>Para agregar la llave la tenemos que copiar, basta con abrir el archivo <span><i>id_rsa.pub</i> en algún editor de texto como Notepad, Sublime Text, etc. y copiar el contenido.</span></p><p><span>Lo siguiente es ir a github.com y una vez logueados vamos a las configuraciones de la cuenta, luego en el menu <strong>SSH keys</strong>, damos click en <strong>Add SSH key</strong>, pegamos la llave pública en el <strong>textarea key</strong> y presionamos el botón <strong>Add Key</strong>. Github nos pedirá indicar nuestro password y una vez hecho esto ya podremos conectarnos vía SSH a los servidores de GitHub para enviar y recibir código de manera segura.</span></p><h3>Probar que funcione</h3><p>Par hacer la prueba simplemente intentaremos conectarnos a los servidores de GtHub de la siguiente manera.</p><pre class="prettyprint">$ ssh -T git@github.com</pre><p>Si es la primera vez que nos conectamos nos aparecerá un warning como el siguiente.</p><pre class="prettyprint"><pre>The authenticity of host 'github.com (207.97.227.239)' can't be established.
+# RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+# Are you sure you want to continue connecting (yes/no)?</pre></pre><p>Simplemente escribimos yes y si todo salió bien deberíamos ver el siguiente mensaje en la consola.</p><pre class="prettyprint"><pre><span>Hi <em>crysfel</em>! You've successfully authenticated, but GitHub does not</span>
+# provide shell access.</pre></pre><p>Github no nos da acceso de shell a sus servidores, pero al ver ese mensaje sabremos que hemos configurado correctamente nuestras llaves y estamos listos para enviar y recibir código.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/git-en-el-mundo-real/">GIT en el mundo real</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Lleva un par de años utilizando GIT de manera productiva, antes de GIT utilizaba SVN y mucho antes CVS. No se arrepiente de haber cambiado de sistema de versiones.</p>
+</span>
+</div>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

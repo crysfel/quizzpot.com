@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Instalación de Phaser y ambiente de desarrollo - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Videojuegos en HTML5</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Instalación de Phaser y ambiente de desarrollo
+            <a class="bubble-tag article-header-link-videos" href="/courses/videojuegos-en-html5/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/oEILXvLK-ns" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>3</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>7.5 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>Existen algunas herramientas que necesitamos instalar en nuestro sistema antes de comenzar a desarrollar juegos con Phaser. En este tutorial nos aseguraremos de que estamos listos para iniciar y contemos con todo lo necesario.</p><h3>Servidor web</h3><p>En primero lugar necesitamos un servidor web, esto es necesario porque más adelante vamos a cargar los assets de manera dinámica, imágenes, audio y fuentes. Es por esta razón que necesitamos un servidor que nos permita acceder a estos archivos en nuestro sistema, de lo contrarío el navegador no tiene acceso por cuestión de seguridad.</p><p>Personalmente me <a href="http://nginx.org/" rel="nofollow" target="_blank" title="Link: http://nginx.org/">agrada utilizar NGinx</a> porque es muy sencillo de instalar y configurar, es muy rápido, cuenta con opciones avanzadas, de hecho, este mismo sitio es servido por un NGinx. Pero existen muchos otros, como el Apache, Jetty, Puma y la lista sigue.</p><p>Ya he creado un tutorial de <a href="/blog/como-instalar-nginx-en-windows-y-mac-os/" rel="nofollow" target="_blank" title="Link: https://quizzpot.com/blog/como-instalar-nginx-en-windows-y-mac-os">como instalar y configurar el NGinx</a> sobre Windows y Mac OS, revísalo en caso de ser necesario, si ya cuentas con algún servidor web instalado asegúrate de poner el código fuente de este curso en el webroot de tu servidor.</p><h3>Navegador moderno</h3><p>Esto es algo obvio, pero importante aclararlo. En este curso estaré usando Google Chrome, esto porque las herramientas de desarrollo son muy fáciles de usar y útiles a la hora de buscar errores o problemas.</p><h3>GIT (opcional)</h3><p>Usar un control de versiones siempre es buena idea, revisa el curso de <a href="/courses/git-en-el-mundo-real/" rel="nofollow" target="_blank">introducción a GIT</a> en caso de no estar familiarizado con esta herramienta. Esta herramienta es opcional pero muy recomendada, ya que la usaremos para descargar la librería aunque veremos un par de métodos alternativos.</p><h3>Bower (opcional)</h3><p>Esta herramienta nos permite instalar paquetes y dependencias de una manera extremadamente sencilla, veremos como instalar Phaser usando Bower. Ya he escrito un tutorial sobre <a href="/blog/como-instalar-y-usar-bower/" rel="nofollow" target="_blank">como instalar e iniciarte con Bower</a>, revísalo de ser necesario.</p><h3>Descargar Phaser</h3><p>Si decidimos no instalar GIT ni Bower tenemos que descargar el archivo ZIP con la última versión disponible. Phaser es un proyecto Open Source y lo <a href="https://github.com/photonstorm/phaser" rel="nofollow" target="_blank" title="Link: https://github.com/photonstorm/phaser">podemos encontrar en GitHub</a>. Para descargarlo damos click sobre el botón <i>Download Zip</i>.</p>
+<div class="example"><img alt="Download Phaser" src="https://s3.amazonaws.com/quizzpot/images/191-phaser-download.png" title="Image: https://s3.amazonaws.com/quizzpot/images/191-phaser-download.png"/><p>Descargar Phaser</p></div>
+<p>Esto descargará la versión 2.1.3 que actualmente se encuentra en el branch Master del repositorio, si quisieras descargar otra versión asegúrate de seleccionar el tag correcto.</p><p>Es necesario descomprimir el archivo ZIP que descargamos dentro del webroot de nuestro servidor web, esto nos permitirá ejecutar los ejemplos que vienen incluidos.</p><h3>Descargar Phaser con GIT</h3><p>Una de las ventajas de usar GIT es que podremos estar descargando las nuevas versiones muy fácilmente, GIT se encargará de manejar todo automáticamente, también podríamos hacer aportaciones y ayudar al desarrollo de esta librería.</p><p>Para descargar el repositorio ejecutamos el siguiente comando en la terminal.</p><pre class="prettyprint">$ git clone git@github.com:photonstorm/phaser.git</pre><p>Es recomendable hacer esto dentro del webroot  del servidor que estamos usando, esto nos permitirá ejecutar los ejemplos que vienen en el repositorio.</p><h3>Descargar Phaser con Bower</h3><p>Como he mencionado antes Bower es una buena alternativa para manejar dependencias y versiones, para utilizar esta herramienta necesitamos crear un folder donde estará nuestro proyecto, en este caso le llamaremos <i>phaser-course,</i> es importante que este folder esté en el webroot de nuestro servidor.</p><p>Lo siguiente es inicializar nuestro proyecto con Bower, dentro del folder que creamos ejecutamos el siguiente comando.</p><pre class="prettyprint">$ bower init</pre><p>Bower nos hará algunas preguntas, podemos dejar las opciones por default. Una vez que tenemos nuestro proyecto inicializado vamos a descargar Phaser con el siguiente comando.</p><pre class="prettyprint">$ bower install phaser -S</pre><p><span>Con eso se iniciará la descarga y además se agregarán las dependencias al archivo <i>bower.json</i>, permitiéndonos llevar un registro de todas aquellas librerías que usaremos en este proyecto.</span></p><h3>Primera prueba</h3><p>Vamos a realizar una primera prueba con Phaser, por el momento solo crearemos el canvas que contendrá nuestro juego, no voy a detenerme a explicar los conceptos en este primer ejemplo ya que solo queremos ver que hemos descargado Phaser de manera adecuada y que funcione correctamente.</p><p>Vamos a crear el folder <i>01-installation</i>, dentro de este folder crearemos un archivo llamado <i>index.html</i> con el siguiente código.</p><pre class="prettyprint">&lt;!doctype html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset="UTF-8" /&gt;
+        &lt;title&gt;Installation&lt;/title&gt;
+        &lt;script src="/courses/videojuegos-en-html5/bower_components/phaser/build/phaser.js"&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+    &lt;script type="text/javascript"&gt;
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { create: create });
+
+        function create () {
+
+            console.log('Installed!!');
+
+        }
+
+    };
+
+    &lt;/script&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;<br/></pre><p>Como se puede observar estamos importando la librería de Phaser, en este caso desde el folder que Bower nos creo. Si seguiste los otros dos métodos alternativos de descarga, solamente tienes que asegurarte que la ruta al archivo <i>phaser.js</i> esté correcta. </p><p>Esto es todo lo necesario para instalar Phaser, no necesitamos incluir ningún otro archivo adicional. Todo lo que necesitamos está dentro de este archivo. Por el momento no entraremos a detalle sobre las líneas de código en JavaScript, eso lo veremos más adelante.</p><p>Si abrimos ese documento html en el navegador deberíamos ver algo como la siguiente imagen.</p>
+<div class="example"><img alt="Instalacin de Phaser" src="https://s3.amazonaws.com/quizzpot/images/192-phaser-install.png" title="Image: https://s3.amazonaws.com/quizzpot/images/192-phaser-install.png"/><p>Instalación de Phaser</p></div>
+<p>Por el momento todo lo que deberíamos ver es un rectángulo negro, aquí es donde aparecerá nuestro juego más adelante, por el momento esta vacío pero pronto estará mucho más interesante. También deberías ver en la consola el mensaje que imprimimos así como un mensaje con la versión de Phaser.</p><p>Ya estamos listos para iniciar a codificar nuestro juego, en este tutorial hemos descargado Phaser e instalado lo necesario para introducirnos en este divertido mundo del desarrollo de videojuegos con HTML5.</p><p>En el siguiente tema veremos el concepto de estados (state) que nos servirá para definir diferentes escenas en nuestro juego, por ejemplo la precarga, el menu principal, el juego principal, los scores, etc.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/videojuegos-en-html5/">Videojuegos en HTML5</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Amante de los videojuegos y programador, actualmente desarrollando juegos sencillos para dispositivos móviles solo por diversión.</p>
+</span>
+</div>
+
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

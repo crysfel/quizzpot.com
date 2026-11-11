@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Editar una celda mediante un Combobox - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Editar una celda mediante un Combobox
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>14</em></span>
+<span class="separator">Likes: <em>1 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Normalmente tenemos relaciones en nuestras tablas de la base de datos y una de las mejores maneras para mostrárselas al usuario es mediante un Combobox que despliegue los registros de la tabla que necesitamos relacionar.
+
+Ya vimos como editar el contenido de las celdas mediante una caja de texto, en este tutorial vamos a crear una Grid que nos permita editar el contenido de una celda utilizando un Combobox para seleccionar una de varias opciones.
+
+<h3>Demostración</h3>
+He preparado <a href="/demos/extjs/editorgrid/editorgrid-combo.html/" rel="nofollow" target="_blank">una demostración</a> de lo que haremos al final del tutorial, te invito a que la pruebes para que tengas en mente el objetivo final.
+
+
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb1.jpg"/><p>Demostración del tutorial</p></div>
+<h3>Material de apoyo</h3>
+Antes de continuar te recomiendo descargar el <a href="/wp-content/uploads/2009/08/editorgrid-cmb.zip" rel="nofollow" target="_blank">material de apoyo</a> que he preparado, recuerda que se tiene que copiar dentro de un servidor Web, en una carpeta que se llama “editorgrid” donde estamos trabajando.
+
+Puedes ver que en el material de apoyo vienen dos archivos PHP, esto es para simular dos diferentes “controllers” que nos regresan información diferente, uno de ellos (editorgrid-combo.php) nos regresa la información que irá en el Grid y el otro (editorgrid-combo-cmb.php) la información con la que llenaremos las opciones del combo.
+
+<h3>Información del Grid</h3>
+Lo primero que debemos hacer es definir la manera en que recibiremos la información desde nuestro “controller” en este caso “editorgrid-combo.php”.
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$data = array(
+			array('genre'=&gt;2,'title'=&gt;'G-Force','year'=&gt;2009,'weekend'=&gt;32.2,'allTime'=&gt;32.2),
+			array('genre'=&gt;5,'title'=&gt;'Harry Potter and the Half-Blood Prince','year'=&gt;2009,'weekend'=&gt;30,'allTime'=&gt;222),
+			array('genre'=&gt;3,'title'=&gt;'The Ugly Truth','year'=&gt;2009,'weekend'=&gt;27,'allTime'=&gt;27),
+			array('genre'=&gt;4,'title'=&gt;'Orphan','year'=&gt;2009,'weekend'=&gt;12.8,'allTime'=&gt;12.8),
+			array('genre'=&gt;2,'title'=&gt;'Ice Age: Dawn of the Dinosaurs ','year'=&gt;2009,'weekend'=&gt;8.2,'allTime'=&gt;171),
+			array('genre'=&gt;1,'title'=&gt;'Transformers: Revenge of the Fallen','year'=&gt;2009,'weekend'=&gt;8,'allTime'=&gt;379),
+			array('genre'=&gt;3,'title'=&gt;'The Hangover','year'=&gt;2009,'weekend'=&gt;6.46,'allTime'=&gt;247),
+			array('genre'=&gt;3,'title'=&gt;'The Proposal','year'=&gt;2009,'weekend'=&gt;6.42,'allTime'=&gt;140),
+			array('genre'=&gt;1,'title'=&gt;'Public Enemies','year'=&gt;2009,'weekend'=&gt;4.17,'allTime'=&gt;88.1),
+			array('genre'=&gt;8,'title'=&gt;'Brüno','year'=&gt;2009,'weekend'=&gt;2.72,'allTime'=&gt;56.5)
+			
+	);
+		
+	
+	echo json_encode(array(
+		'success'=&gt;true,
+		'total'=&gt;count($data),
+		'data'=&gt; $data
+	));
+?&gt;
+</pre>
+
+He decidido utilizar JSON para el intercambio de información, además se definieron los campos que desplegaremos en el Grid.
+
+<h3>Crear el Grid editable</h3>
+Con el código anterior en mente vamos a crear el Grid Editable, no me voy a detener a explicar este paso pues ya lo hice en repetidas ocasiones en temas pasados.
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({ // 1
+	url: 'editorgrid-combo.php',
+	root: 'data',
+	totalProperty: 'total',
+	fields: ['genre','title','year','weekend','allTime']
+});
+store.load(); //2
+
+var grid = new Ext.grid.EditorGridPanel({ //3
+	store: store,
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'Genre', dataIndex:'genre',width:100,sortable: true},
+		{header:'Title', dataIndex:'title', width:200,sortable: true},
+		{header:'Year', dataIndex:'year', width:60,sortable: true},
+		{header:'Weekend', dataIndex:'weekend', width:55,sortable: true},
+		{header:'All Time', dataIndex:'allTime', width:55,sortable: true}
+	],
+	border: false,
+	stripeRows: true
+});
+</pre>
+
+Primero creamos el “<a href="/2009/04/que-es-un-store-y-como-funciona/" rel="nofollow" target="_blank">store</a>” donde definimos los campos que contendrán los registros, además configuramos la “url” de donde proviene la información (1), después hacemos la petición al servidor mediante el método “load” (2) y por último creamos el <a href="/2009/08/editar-las-celdas-de-un-grid/" rel="nofollow" target="_blank">Grid Editable</a> con las columnas que necesitamos.
+
+<h3>Crear la ventana contenedora</h3>
+Hasta este punto no hemos visto nada en pantalla porque no se ha renderizado el Grid, vamos a usar <a href="/2009/05/una-ventana-flotante/" rel="nofollow" target="_blank">una ventana</a> para desplegarlos.
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title: 'USA Weekend Box-Office Summary',
+	layout: 'fit',
+	width: 520,
+	height:300,
+	items: grid
+});
+win.show();
+</pre>
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb2.jpg"/><p>Grid editable</p></div>
+
+Lo que hemos hecho debe estar perfectamente claro, pero si tienes alguna duda puedes ir a repasar los tutoriales anteriores donde hablo mas a detalle de lo sucedido.
+
+<h3>Crear el combo para seleccionar los años</h3>
+Vamos a crear nuestro <a href="/2009/06/combo-box-cargados-local-y-remotamente-ajax/" rel="nofollow" target="_blank">primer combo</a>, éste será muy sencillo y lo usaremos para permitir que el usuario pueda seleccionar un año. 
+
+<pre class="prettyprint">var comboYear = {
+	xtype: 'combo',
+	triggerAction : 'all',
+	store: [2009,2008,2007,2006]
+}
+</pre>
+
+Quiero hacer notar que el código anterior es solamente la configuración de un combo que desplegará cuatro años anteriores (2009, 2008, 2007, 2006), he decidido hacerlo estático para fines didácticos.
+
+Lo siguiente es asignar este combo a la columna donde necesitemos desplegarlo en el Grid Editable, esto lo hacemos mediante la propiedad “editor”.
+
+<pre class="prettyprint">{header:'Year', dataIndex:'year', width:60,sortable: true,editor:comboYear},
+</pre>
+
+Ahora actualizamos el navegador y veremos algo como la siguiente imagen.
+
+
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb3.jpg"/><p>Grid editable con combo estático</p></div>
+
+Como puedes ver se ha desplegado un combo en el cual podemos seleccionar un año diferente, esto ha sido realmente sencillo, en tan solo unas pocas líneas de código lo hemos logrado.
+
+<h3>Crear un combo dinámico</h3>
+El combo que hicimos anteriormente era muy sencillo, en el mundo real no todo es tan sencillo, lo que vamos hacer ahora es <a href="/2009/06/combo-box-cargados-local-y-remotamente-ajax/" rel="nofollow" target="_blank">crear un combo</a> cuya información provenga de una tabla en la base de datos que se llame “Genres” que esta relacionada de uno a muchos (one-to-many) con otra que se llama “Movies”.
+
+
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb4.jpg"/><p>Diagráma de base de datos (relación "one-to-many")</p></div>
+
+Dada la imagen anterior podemos decir que “Un genero tiene muchas películas”. 
+
+Necesitamos sacar la información de la tabla y exponerla mediante un “controller”, para este ejemplo he creado el siguiente archivo PHP encargado de mostrar la información para el combo (editorgrid-combo-cmb.php), es importante mencionar que para fines didácticos la información está en un arreglo, pero supongamos que esta información viene de la tabla “Genres” en la base de datos:
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$data = array(
+		array('value'=&gt;1,'label'=&gt;'Action'),
+		array('value'=&gt;2,'label'=&gt;'Animation'),
+		array('value'=&gt;3,'label'=&gt;'Comedy'),
+		array('value'=&gt;4,'label'=&gt;'Drama'),
+		array('value'=&gt;5,'label'=&gt;'Fantasy'),
+		array('value'=&gt;6,'label'=&gt;'Horror'),
+		array('value'=&gt;7,'label'=&gt;'Musical'),
+		array('value'=&gt;8,'label'=&gt;'Romance')
+	);
+	
+	
+	echo json_encode(array(
+		'records'=&gt;$data
+	));
+?&gt;
+</pre>
+
+Con el código anterior en mente vamos a crear el combo que despliegue la información expuesta de la tabla “Genres” y asignárselo a la columna correspondiente en el Grid.
+
+<pre class="prettyprint">this.store = new Ext.data.JsonStore({
+	root : 'records',
+	fields : ['value','label'],
+	url: 'editorgrid-combo-cmb.php' //diferent controller
+});
+this.store.load();
+</pre>
+
+Primero creamos el store para el combo, puedes ver que la “url” es diferente al store del grid, esto es porque en el “controller” estamos consultamos la tabla “Genre” para llenar el Combobox, además estamos creando una variable “this.store” para tener una referencia al store que usaremos más adelante.
+
+<pre class="prettyprint">var comboGenre = new Ext.form.ComboBox({
+	triggerAction : 'all',
+	displayField : 'label',
+	valueField : 'value',
+	store : this.store
+});
+</pre>
+
+Por ultimo agregamos el combo a la columna donde se desplegará por medio de la propiedad “editor”.
+
+<pre class="prettyprint">{header:'Genre', dataIndex:'genre',width:100,sortable: true,editor:comboGenre},
+</pre>
+
+Guardemos los cambios y actualicemos la página en el explorador y veremos algo semejante a la siguiente imagen.
+
+
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb5.jpg"/><p>Combobox dinámico en el grid editable</p></div>
+
+Puedes ver que al dar doble clic sobre alguna de las celdas de la columna “genre” se despliega el combo cuya información ha sido cargada dinámicamente desde una tabla en la base de datos y nos sirve para hacer la relación “one to many”.
+
+<h3>Desplegar el género y no el identificador</h3>
+Hasta ahora hemos desplegado la información de la tabla “Movies” en el Grid, pero si has notado esta apareciendo el “id_genre” (que es la llave foránea) en la primera columna, esto no es muy intuitivo y no nos sirve de nada, por lo tanto lo que debemos hacer es reemplazar ese identificador por su respectivo género.
+
+Lo que haremos para solucionar este problema es utilizar la propiedad “renderer” para cambiar el “id” por el texto que necesitamos.
+
+<pre class="prettyprint">{header:'Genre', dataIndex:'genre',width:100,sortable: true, editor:comboGenre, renderer:this.genre},
+</pre>
+
+Ahora necesitamos crear la function “this.genre” que especificamos en el código anterior.
+
+<pre class="prettyprint">com.quizzpot.tutorial.ComboGridTutorial = {
+	init: function(){		
+		//código removido
+	},
+	//esta función es la que se ejecutará antes de
+//que se renderize el contenido de la celda
+	genre: function(value){
+		
+	},
+	
+	money: function(id){
+		//código removido
+	}
+}
+</pre>
+
+Ahora vamos a cambiar el valor por defecto (el “id”) por el respectivo texto, para esto vamos a utilizar el store del combo que contiene la información que necesitamos ¿recuerdan que les comenté que lo usaríamos más adelante? Pues aquí lo usaremos, por eso es que cuando lo definí hice que fuera una propiedad del objeto, de esta manera podemos usarlo dentro de esta función de la siguiente manera:
+
+<pre class="prettyprint">genre: function(id){
+	var index = this.store.find('value',id);
+	if(index&gt;-1){
+		var record = this.store.getAt(index);
+		return record.get('label');
+	}
+	return value;
+}
+</pre>
+
+En el código anterior primero busco donde se encuentra el registro cuyo campo “value” (que es el “id_genre” en la tabla “Genres” de la base de datos) es igual al “id” que estoy recibiendo (la “llave foránea” que se encuentra en la tabla “Movies”), si encontró un registro (debería encontrarlo siempre, de lo contrarío nuestra base de datos no es consistente) lo saca del store para poder obtener el “label” del “id” correspondiente.
+
+Ahora si, todo debería funcionar correctamente, actualiza tu explorador y verás algo como lo siguiente.
+
+
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb6.jpg"/><p>Error en el scope</p></div>
+<h3>Cambiando el “scope”</h3>
+Ops!! ¿Que pasó? Lo que ha sucedido es que la función que acabamos de escribir se está ejecutando en un “<a href="/2009/03/el-contexto-y-la-variable-this/" rel="nofollow" target="_blank">scope</a>” diferente, por lo tanto al hacer referencia a la variable “this.store” nos dice que no existe, para solucionar este problema necesitamos especificarle el “scope” que usará al momento de asignársela a la columna, ya sea mediante la propiedad “scope” o utilizando el método “createDelegate”.
+
+<pre class="prettyprint">{
+header:'Genre', dataIndex:'genre',width:100,sortable: true,
+editor:comboGenre,renderer:this.genre,
+scope: this //definimos el scope para la función “this.genre”
+},
+</pre>
+
+O también funcionaría así:
+
+<pre class="prettyprint">{
+header:'Genre', dataIndex:'genre',width:100,sortable: true,
+editor:comboGenre,
+renderer:this.genre.createDelegate(this)//definimos el scope de la función
+},
+</pre>
+
+Ahora si probemos nuevamente el ejemplo en el navegador y debemos ver algo semejante a la siguiente imagen:
+
+
+<div class="example"><img alt="grid con combo editable" src="/wp-content/uploads/2009/08/editorgrid-cmb7.jpg"/><p>Cambiando el ID por un Texto</p></div>
+<h3>Asegurarse que siempre exista contenido en el store del combo</h3>
+Por último debemos asegurarnos que se cargue primero el contenido del combo y luego el contenido del grid, debemos hacerlo así porque estamos usando el store del combo para renderizar el contenido del grid.
+
+<pre class="prettyprint">//una vez que se cargue el store del combo…
+this.store.on('load',function(){
+	store.load();//…cargamos el store del grid
+});
+</pre>
+
+Solamente necesitamos agregar un “listener” al evento “load” del store del combo para que inmediatamente después de que se cargue solicitemos la información del Grid, así evitamos que aparezcan los identificadores.
+
+<h3>Conclusiones</h3>
+El tutorial de hoy es muy importante, aprendimos como crear combos estáticos y asignárselos a las columnas para ser editadas, pero también aprendimos ha utilizar los combos para crear relaciones entre dos tablas de “one-to-many”, esto es muy común cuando desarrollamos sistemas, también hablamos un poco acerca del “scope”. De tarea les dejo que le agreguen campos de texto a las celdas que hacen falta y que le agreguen el “renderer: this.money” a las ultimas dos celdas donde se muestran cantidades de dinero.
+
+Si tienes dudas con respecto a este tutorial te recomiendo dejar tus comentarios o <a href="http://foro.quizzpot.com/" rel="nofollow" target="_blank">inscribirte en el foro</a>, además si quieres recibir a tu correo estos tutoriales puedes inscribirte de forma gratuita a las Feeds.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/editorgrid/editorgrid-combo.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

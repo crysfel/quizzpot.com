@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Searching DOM elements with selectors - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Searching DOM elements with selectors
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                In this chapter we are going to build a couple of "tabs", so in order to do that we need to search the elements in the DOM and give them the required functionality and styles.
+
+<h3>Resources</h3>
+The resources for this chapter are a HTML document, a JavaScript file and a style sheet to layout the HTML content. What we are going to do in this chapter is search for DOM elements and apply them styles and events, after doing that we will build a couple tabs.
+
+<h3>Ext.DomQuery</h3>
+Ext JS use the object DomQuery to search elements in the DOM in a very simple way, this object provides different methods that return a collection of nodes that will either satisfy a query criteria or only the element we need to have selected by its identifier, also we can choose in which node the search should be made.
+
+<h3>Step 1: Packaging the component</h3>
+The first thing we need to do is create the object "Tabs" with its own "pacakge" to avoid overwriting any other component.
+
+<pre class="prettyprint">Ext.namespace('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Tabs = {
+	init: function(){
+		//The code of the tutorial goes here
+}
+}
+
+Ext.onReady(com.quizzpot.tutorial.Tabs.init,com.quizzpot.tutorial.Tabs);
+</pre>
+
+The previous component has a function called "init" which is invoked as soon as the DOM is ready to be used.
+
+<h3>Step 2: Setting the styles to the tabs</h3>
+Right now the tabs don't have any style, they're only links so we need to add to them the CSS class we previously defined in the style sheet "domquery.css". We need to search for all the links that are in a list and belong to the menu, so we will use the method "select" of the object DomQuery, this method will return an array with the elements found.
+
+<pre class="prettyprint">var items = Ext.DomQuery.select('div[id=menu] &gt; ul li a');
+</pre>
+
+With the previous example we searched the links "a" that are inside of a "div" where the "id" is equals to "menu" and has immediately a list "ul" with a "li" element. Let's iterate the array with the next modifications:
+
+<pre class="prettyprint">Ext.each(items,function(item,i){
+	item.id = item.innerHTML;
+	Ext.fly(item).addClass('menu-item');
+	Ext.fly('content'+item.id).setStyle('display','none');
+});
+</pre>
+
+The first thing you need to do is use the function "Ext.each", this function receives an array that will be iterated as first parameter and the function that will be executed for each element of the array as a second parameter, inside of the function an "id" will be assigned to the menu, this will help us to distinguish the tabs later on, after doing that  we added a "css" class to the element (if you're not sure what is "Ext.fly" I recommend you to read <a href="/2009/04/getting-to-know-the-object-element/" rel="nofollow" target="_blank">the previous chapter</a>), at last we will hide the content that the tab will display.
+
+<h3>Step 3: Displaying the first tab</h3>
+To display the first tab we have to show the content and select the corresponding tab.
+
+<pre class="prettyprint">Ext.fly('contentHome').setStyle('display','block');
+		
+var first = Ext.DomQuery.selectNode('#menu ul li a:last');
+Ext.fly(first).addClass('item-selected');
+</pre>
+
+The most important part of the previous code is where we searched for the selected tab, in this case we use the function "selectNode" from the object DomQuery to search the last element in the list "ul" that is found inside of the div "menu" (notice that I have used "#menu" instead of "div[id=menu"].
+
+<h3>Step 4: Assigned the styles to the div</h3>
+We will use the function "Element.setStyle" to assign the height of the div and apply a border.
+
+<pre class="prettyprint">Ext.fly('content').setStyle({
+	'height':'300px',
+	'border':'5px solid #000',
+	'border-top':'none'
+});
+</pre>
+
+We have talked about the object Element in this course, but if you have any questions about the previous code we recommend you to read the corresponding chapter of this course.
+
+<h3>Step 5: Create the event onClick</h3>
+Let's iterate the array "items" that we previously created and assign the event click on each tab.
+
+<pre class="prettyprint">Ext.each(items,function(item){
+	this.onClick(item);
+},this);
+</pre>
+
+The most important part of the previous code is the third argument of the function "Ext.each" because is the context where the function will be executed, the function is passed in the second parameter; it's very important to assign the correct context to invoke the method "this.onClick".
+
+<h3>Step 6: Defining the click</h3>
+It's necessary to create the method "onClick" inside of the object "Tabs", which will display the correct content whenever a tab is selected.
+
+<pre class="prettyprint">Ext.namespace('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Tabs = {
+	init: function(){
+		var items = Ext.DomQuery.select('div[id=menu] &gt; ul li a');
+
+		// … code removed for better understanding
+		
+		Ext.each(items,function(item){
+			this.onClick(item); //invoking the method onClick
+		},this); //assigning the correct context
+	},
+	
+	onClick: function(el){
+		// the code to show the tabs goes here
+	}
+}
+</pre>
+
+The previous code shows the place where we will define the method click, the function will receive a DOM element.
+
+The first thing we need to do is create the event like this:
+
+<pre class="prettyprint">el.onclick = function(){
+	return false;
+}
+</pre>
+
+With this instruction, each time you click on a tab the function will be executed, that's why this is the correct the place to write the actions that need to be done; the function returns "false" to stop the "href" of the link.
+
+<h3>Paso 7: Selecting the correct tab</h3>
+First we need to remove the class "item-selected" from the tab that is currently selected and assign the same class to the element where we have clicked.
+
+<pre class="prettyprint">var old = Ext.DomQuery.selectNode('#menu ul li a[class*=item-selected]');
+Ext.fly(old).removeClass('item-selected');
+Ext.fly(this).addClass('item-selected');
+</pre>
+<h3>Paso 8: Displaying the selected content</h3>
+Now that we know which tab was clicked we can show the correct content, but before we do that we need to hide the content that is being displayed right now.
+
+<pre class="prettyprint">var content = Ext.DomQuery.selectNode('#content &gt; div{display=block}');
+Ext.fly(content).setStyle('display','none');
+Ext.fly('content'+this.id).setStyle('display','block');
+</pre>
+
+The most important part of the previous code is the line where we make a search inside of the div "content", the content that has the style "display=block", in other words the content that is being displayed right now, after doing the search we need to hide the "old" content and show the new content.
+
+<h3>Conclusions</h3>
+In this chapter we have seen how we can use the class DomQuery to search elements inside of the DOM, using CSS properties, CSS classes, element's tags and element's attributes.
+
+We have created simple but functional tabs, I recommend you to do more examples with this class, because is very useful when we're developing our applications. As you can see, we could have done this example with jQuery if we only have chosen it as the adapter of the Framework, this means that we can choose what Framework.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/doom/domquery.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

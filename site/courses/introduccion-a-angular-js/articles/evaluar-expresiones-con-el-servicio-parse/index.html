@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Evaluar expresiones con el servicio $parse - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Introducción a Angular JS</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Evaluar expresiones con el servicio $parse
+            <a class="bubble-tag article-header-link-videos" href="/courses/introduccion-a-angular-js/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/OKNTwZ8Tiig" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>4</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>9.73 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En el tutorial anterior vimos <a href="/courses/introduccion-a-angular-js/articles/creacion-de-nuestra-primera-directiva/" rel="nofollow" target="_blank">como crear una directiva</a> y <a href="/courses/introduccion-a-angular-js/articles/escuchando-cambios-en-el-scope-usando-el-watch/" rel="nofollow" target="_blank">como utilizar el método $watch</a> para monitorizar los cambios sobre una propiedad en el <i>scope</i>. En este tema veremos como recuperar el valor de la opción seleccionada en el combobox para poder usarlo en el controlador. También veremos como asignar el valor del select de manera dinámica para cuando se quiera editar un registro existente.</p><h3>Removiendo el ngModel</h3><p>Originalmente había planeado utilizar la directiva <i>ngModel</i> dentro de nuestra directiva, inclusive en los tutoriales anteriores la requerimos y también la definimos en nuestro template. Pero sucede que el <i>ngModel</i> en conjunto con el <i>select</i>, generan conflictos con nuestra directiva y suceden algunos errores difíciles de debuguear.</p><p>Esto es porque la directiva ngModel y nuestra directiva están modificando el DOM del select al mismo tiempo, por lo tanto las cosas se desincronizan y hay problemas cuando se selecciona una opción.</p><p>Para evitar problemas vamos evitar usar el ngModel, vamos a borrarlo de nuestro template y de nuestra directiva. Este cambio por otro lado es bueno, ya que conoceremos una técnica avanzada para asignar el valor al modelo de la categoría. El código del template lo cambiaremos por lo siguiente.</p><pre class="prettyprint">&lt;select bootstrap-select="categories" select-value="id" select-label="name" select-model="bookmark.category" class="form-control"&gt;&lt;/select&gt;<br/></pre><p>Ahora usaremos un atributo llamado <i>select-model</i> para indicarle a la directiva donde asignar el valor seleccionado.</p><p>El código de la directiva debe quedar algo semejante a esto.</p><pre class="prettyprint">.directive('bootstrapSelect',function(){
+
+    return {
+        link: function (scope, element, attrs) {
+            var collection = attrs.bootstrapSelect,
+                valueProperty = attrs.selectValue,
+                labelProperty = attrs.selectLabel,
+                model = attrs.selectModel; //&lt;------
+                
+            $(element).selectpicker();
+            
+            scope.$watch(collection,function(data){
+                if(data){
+                    $(element)
+                        .find('option')
+                        .remove();
+
+                    var html = [];
+                    $.each(data, function(index, object) {
+                        html.push('&lt;option value="'+object[valueProperty]+'"&gt;');
+                        html.push(object[labelProperty]);
+                        html.push('&lt;/option&gt;');
+                    });
+                    $(element).append(html.join(''));
+                    $(element).selectpicker('refresh');
+                }
+            });
+        }
+    }
+})<br/></pre><p>Solamente quitamos la propiedad require, el parámetro <i>ngModel</i> del los parámetros que recibe la función <i>link</i> y ahora usamos el atributo <i>selectModel</i> para sacar la propiedad que nos interesa.</p><h3>Editar un Registro</h3><p>Actualmente cuando editamos un bookmark el combobox no está desplegando la categoría correcta, siempre despliega la primera opción; también cuando agregamos un nuevo bookmark la categoría no se selecciona de manera adecuada.</p><p>Lo primero que necesitamos hacer para solucionar esos problemas es agregar un listener a la propiedad <i>bookmark.category</i>, para esto utilizamos el método <i>$watch</i> que ya conocemos. Dentro de la directiva que ya definimos agregamos el siguiente código.</p><pre class="prettyprint">scope.$watch(model,function(data){
+    console.log(data);
+});<br/></pre><p>La variable <i>model</i> la estamos sacando de los atributos que definimos en la directiva, en este caso <i>model</i> contiene el <i>bookmark.category</i>.  Revisa el tutorial anterior si este paso no te queda muy claro.</p><p>Si ejecutamos nuestra app y miramos la consola, observaremos que la primera vez es indefinido, pero tan pronto como abrimos la ventana del formulario el valor cambia, ahora recibimos el objeto de la categoría que debemos seleccionar. Vamos a seleccionar la opción en el combobox de la siguiente manera.</p><pre class="prettyprint">scope.$watch(model,function(data){
+    if(angular.isObject(data)){                             //Step 1
+        $(element).selectpicker('val',data[valueProperty]); //Step 2
+    }
+});<br/></pre><ol><li>En el paso uno revisamos que el nuevo valor a asignar sea un objeto, esto para evitar asignar valores nulos o indefinidos.</li><li>En el paso dos utilizamos el método <i>selectpicker</i> para seleccionar el valor del combobox, por medio del atributo <i>valueProperty</i> es que podemos sacar el <i>ID</i> de la categoría para seleccionar la opción correcta.</li></ol><p>Con eso es suficiente para que el combo se seleccione correctamente cuando agreguemos un nuevo bookmark o bien cuando editemos un bookmark existente.</p><h3>Asignar el valor seleccionado al scope del controlador</h3><p>Seleccionar el valor existente fue realmente sencillo, lo interesante viene cuando tenemos que asignar el valor seleccionado en el combobox a la propiedad <i>bookmark.category</i> en el scope del controlador, originalmente pensaba utilizar el <i>ngModel</i> y sería extremadamente sencillo, pero por ciertos conflictos lo haremos manualmente.</p><p>Angular cuenta con un servicio llamado $parse que es utilizado para evaluar expresiones dentro de un scope, es una utilería no muy conocida por muchos pero realmente muy conveniente. Vamos a agregar el siguiente código a la directiva.</p><pre class="prettyprint">.directive('bootstrapSelect',function($parse){   //Step 1
+
+    return {
+        link: function (scope, element, attrs) {
+            var collection = attrs.bootstrapSelect,
+                valueProperty = attrs.selectValue,
+                labelProperty = attrs.selectLabel,
+                model = attrs.selectModel,
+                getter = $parse(model),         //Step 2
+                setter = getter.assign;         //Step 3
+
+            //...
+        }
+    }
+})</pre><ol><li>En el primer paso inyectamos el servicio $parse, esto nos permitirá utilizarlo dentro de nuestra directiva.</li><li>En el segundo paso generamos el getter para poder acceder al modelo que estamos enviando como atributo, en este caso sería <i>bookmark.category</i>.</li><li>El paso tres es el que más nos interesa, ya que aquí creamos el setter para poder asignar el nuevo valor al modelo que recibimos en los atributos.</li></ol><p>El servicio <i>$parse</i> recibe un string con la expresión a evaluar, en este caso necesitamos tener acceso de escritura y lectura al modelo que definimos en los atributos.</p><p>Por último vamos a definir el evento change al select, para que cada que cambie de valor modifiquemos el modelo que estamos usando. Aquí es donde la magia sucede.</p><pre class="prettyprint">$(element).change(function(){                //Step 1
+    var col = scope[collection],
+        val = $(element).val();              //Step 2
+
+    for(var i=0,len=col.length;i&lt;len;i++){
+        if(val == col[i][valueProperty]){    //Step 3
+            setter(scope,col[i]);            //Step 4
+            break;
+        }
+    }
+});<br/></pre><ol><li>En el paso uno mediante jQuery asignamos el evento <i>change</i>, este se disparará cada que el usuario seleccione una opción del combo.</li><li>En el paso dos tomamos el nuevo valor seleccionado, esto nos regresará el ID de la categoría.</li><li>En el paso tres buscamos la categoría seleccionada en la colección que tenemos en el controlador, aquí estamos usando el atributo valueProperty para hacerlo dinámico y reutilizable.</li><li>Finalmente asignamos el nuevo valor al modelo, es necesario pasarle el scope y el valor que se le asignará, con esto es suficiente para que se actualice el modelo <i>bookmark.category</i> en este caso.</li></ol><p>Ya hemos terminado nuestra directiva, podemos agregar un nuevo bookmark sin problema así como editar alguno existente. Esta directiva la podemos usar cuantas veces necesitemos ya que estaremos enviando parámetros diferentes. </p>
+<div class="example"><img alt="Evaluando expresiones con el servicio parse" src="https://s3.amazonaws.com/quizzpot/images/179-parse-directive.png" title="Image: https://s3.amazonaws.com/quizzpot/images/179-parse-directive.png"/><p>Evaluando expresiones con el servicio $parse</p></div>
+<h3>Conclusión</h3><p>Crear directivas desde cero puede ser complicado, sobre todo si no estamos familiarizados con Angular. En estos últimos tres tutoriales he mostrado como integrar un plugin de jQuery mediante una directiva, es importante tener en cuenta como funciona el Digest Cycle, también debemos mantener el uso moderado de los $watchers, ya que si definimos muchos, nuestra aplicación se verá afectada en el rendimiento.</p><p>Puedes usar <a href="https://quizzpot.com/forum/questions" rel="nofollow" target="_blank">el foro para dejar tus dudas</a> y recuerda compartir este tutorial en tus redes sociales, con esto me ayudarás a seguir publicando contenido de manera gratuita.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/introduccion-a-angular-js/">Introducción a Angular JS</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Ha participado en varios proyectos con Angular y es participante activo del grupo de Angular NYC.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/intro-angularjs/15-parse/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Llenar formularios con información del servidor - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Llenar formularios con información del servidor
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>23</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En el tema de hoy veremos como llenar un formulario utilizando Ajax para realizar la petición al servidor solicitando la información mediante un identificador que mandaremos como parámetro.
+
+Ya vimos como llenar un formulario de Ext JS a través de un record, el día de hoy lo llenaremos sacando la información a través de una petición Ajax al servidor.
+
+<h3>Material de Apoyo</h3>
+Antes de continuar vamos a descargar el <a href="/wp-content/uploads/2009/08/loadform.zip" rel="nofollow" target="_blank">material de apoyo</a>, el cual consta de tres archivos y una carpeta que contiene imágenes, debes copiar estos archivos al servidor Web en el que hemos estado trabajando, recuerda que esto es muy importante para que podamos utilizar Ajax.
+
+<h3>Demostración</h3>
+En el ejercicio de hoy vamos a generar dinámicamente el “Top Ten” de las películas mas vistas en lo que va del 2009, luego al dar clic sobre alguna de estas aparecerá un formulario el cual se cargará haciendo una petición al servidor a través de Ajax, puedes ver la demostración de lo que tendremos cuando terminemos este tutorial.
+
+
+<div class="example"><img alt="Formulario cargado con Ajax" src="/wp-content/uploads/2009/08/loadform1.jpg"/><p>Ejemplo final</p></div>
+<h3>Información</h3>
+Lo más importante en una aplicación es la información, en esta ocasión (y como siempre lo hemos hecho) la información está contenida en un arreglo en el servidor, pero recuerda que puede provenir de una base de datos como MySql, PostgreSQL, Oracle, de algún servicio Web (Web Service) o de cualquier otro lugar.
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$all = isset($_GET['all']);
+	$movie = isset($_POST['id'])?$_POST['id']:rand(0,9);
+	
+	$data = array(
+			array('title'=&gt;'G-Force','year'=&gt;2009,'revenues'=&gt;32.2,'comment'=&gt;'Very good movie, it is an awesome movie','available'=&gt;true,'img'=&gt;'images/gforce.jpg'),
+			array('title'=&gt;'Harry Potter and the Half-Blood Prince','year'=&gt;2009,'revenues'=&gt;30,'comment'=&gt;'Not to good, but it is ok','available'=&gt;true,'img'=&gt;'images/hpotter.jpg'),
+			array('title'=&gt;'The Ugly Truth','year'=&gt;2009,'revenues'=&gt;27,'comment'=&gt;'Another comment to the movie','available'=&gt;false,'img'=&gt;'images/ugly.jpg'),
+			array('title'=&gt;'Orphan','year'=&gt;2009,'revenues'=&gt;12.8,'comment'=&gt;'Testing the comment','available'=&gt;'images/orphan.jpg','img'=&gt;'images/orphan.jpg'),
+			array('title'=&gt;'Ice Age: Dawn of the Dinosaurs ','year'=&gt;2009,'revenues'=&gt;8.2,'comment'=&gt;'Awesome movie, really good','available'=&gt;true,'img'=&gt;'images/ice.jpg'),
+			array('title'=&gt;'Transformers: Revenge of the Fallen','year'=&gt;2009,'revenues'=&gt;8,'comment'=&gt;'Another test','available'=&gt;false,'img'=&gt;'images/transformers.jpg'),
+			array('title'=&gt;'The Hangover','year'=&gt;2009,'revenues'=&gt;6.46,'comment'=&gt;'Testing','available'=&gt;true,'img'=&gt;'images/hangover.jpg'),
+			array('title'=&gt;'The Proposal','year'=&gt;2009,'revenues'=&gt;6.42,'comment'=&gt;'Comment','available'=&gt;true,'img'=&gt;'images/proposal.jpg'),
+			array('title'=&gt;'Public Enemies','year'=&gt;2009,'revenues'=&gt;4.17,'comment'=&gt;'One more comment','available'=&gt;false,'img'=&gt;'images/public.jpg'),
+			array('title'=&gt;'Brüno','year'=&gt;2009,'revenues'=&gt;2.72,'comment'=&gt;'nothing to say','available'=&gt;false,'img'=&gt;'images/bruno.jpg')
+			
+	);
+	
+	if($all){
+		$info = $data;
+	}else{
+		$info = array(
+			'success'=&gt;true,
+			'data'=&gt; $data[$movie]
+		);
+	}
+	
+	echo json_encode($info);
+?&gt;
+</pre>
+
+Lo más importante a mencionar en el código anterior es lo que se imprime dependiendo del parámetro “all”, ya que si es enviado en la petición imprimirá todo el arreglo de objetos en formato “json”, si no está presente se asume que se está solicitando específicamente un elemento.
+
+<h3>Solicitar la información al servidor</h3>
+Si en estos momentos ejecutas el HTML en tu explorador veras que solamente aparece el titulo, lo que tenemos que hacer es solicitar la información que vamos a desplegar <a href="/2009/04/el-objeto-ajax-peticiones-get-y-post/" rel="nofollow" target="_blank">utilizando Ajax</a>, dentro del método “init” del objeto principal vamos a realizar esta petición de la siguiente manera:
+ 
+<pre class="prettyprint">Ext.Ajax.request({
+	url: 'loadform.php',
+	params: {all:true}, //solicitamos todos los registros
+	method: 'GET', //utilizando el método GET
+	scope: this,
+	success: this.createTopTen //e indicamos la función que procesará la respuesta
+});
+</pre>
+
+Como hemos solicitado todos los registros obtenemos el siguiente resultado:
+
+<pre class="prettyprint">[{"title":"G-Force","year":2009,"revenues":32.2,"comment":"Very good movie, it is an awesome movie","available":true,"img":"images\/gforce.jpg"},{"title":"Harry Potter and the Half-Blood Prince","year":2009,"revenues":30,"comment":"Not to good, but it is ok","available":true,"img":"images\/hpotter.jpg"},{"title":"The Ugly Truth","year":2009,"revenues":27,"comment":"Another comment to the movie","available":false,"img":"images\/ugly.jpg"},{"title":"Orphan","year":2009,"revenues":12.8,"comment":"Testing the comment","available":"images\/orphan.jpg","img":"images\/orphan.jpg"},{"title":"Ice Age: Dawn of the Dinosaurs ","year":2009,"revenues":8.2,"comment":"Awesome movie, really good","available":true,"img":"images\/ice.jpg"},{"title":"Transformers: Revenge of the Fallen","year":2009,"revenues":8,"comment":"Another test","available":false,"img":"images\/transformers.jpg"},{"title":"The Hangover","year":2009,"revenues":6.46,"comment":"Testing","available":true,"img":"images\/hangover.jpg"},{"title":"The Proposal","year":2009,"revenues":6.42,"comment":"Comment","available":true,"img":"images\/proposal.jpg"},{"title":"Public Enemies","year":2009,"revenues":4.17,"comment":"One more comment","available":false,"img":"images\/public.jpg"},{"title":"Br\u00fcno","year":2009,"revenues":2.72,"comment":"nothing to say","available":false,"img":"images\/bruno.jpg"}]
+</pre>
+<h3>Crear la lista del “Top Ten”</h3>
+Con la información que recibimos podemos crear la lista del “Top Ten”, vamos a implementar la función “createTopTen” donde primeramente decodificamos el JSON para poder utilizarlo correctamente y luego mediante la clase “DomHelper” vamos a generar e insertar los nodos al DOM.
+
+<pre class="prettyprint">var info = Ext.decode(response.responseText); //decodificamos el texto que recibimos
+Ext.each(info,function(movie){ //iteramos la información recibida
+	Ext.DomHelper.append('content',{ //y creamos una imagen para cada elemento
+		tag:'img',
+		src:movie.img, 
+		alt:movie.title, 
+		title:movie.title,
+		cls: 'movie'
+	});
+},this);
+</pre>
+
+Hemos estudiado previamente la clase “<a href="/2009/03/la-clase-domhelper/" rel="nofollow" target="_blank">Ext.DomHelper</a>”, por lo tanto debemos estar familiarizados con su uso, de no ser así te recomiendo repasar el tema donde <a href="/2009/03/la-clase-domhelper/" rel="nofollow" target="_blank">estudiamos esta clase</a>.
+
+
+<div class="example"><img alt="Formulario cargado con Ajax" src="/wp-content/uploads/2009/08/loadform2.jpg"/><p>Creación de imagenes del Top Ten</p></div>
+<h3>Agregar “listeners” a las imágenes</h3>
+Lo siguiente que necesitamos hacer es agregar un “<a href="/2009/04/manejo-de-eventos-sobre-elementos/" rel="nofollow" target="_blank">listener</a>” al evento “clic” de cada imagen que creamos, para que podamos mostrar el formulario con la información adecuada. 
+
+Justo después de crear las imágenes vamos a seleccionar los nodos del DOM, las iteramos y le agregamos el evento a cada una.
+
+<pre class="prettyprint">var items = Ext.DomQuery.select('div[id=content] &gt; img');
+Ext.each(items,function(el,i){
+	el = Ext.get(el);
+	el.on('click',function(){
+		this.showDetail(i); //esta función será disparada cuando se dé clic a una imagen
+	},this);
+},this);
+</pre>
+
+En el código anterior podemos ver que se disparará la función “showDetail(i);” cuando se de clic sobre alguna imagen, es importante mencionar que está recibiendo un parámetro “i” el cual indica el “id” de la imagen en la que se ha dado clic, esto nos servirá para solicitar la información correspondiente al servidor.
+
+<h3>Crear el formulario</h3>
+Es momento de crear el formulario dentro de la función “showDetail” de la siguiente manera:
+
+<pre class="prettyprint">var form = new Ext.form.FormPanel({
+	url: 'loadform.php', //la URL de donde vamos a llenar el formulario
+	border:false,
+	labelWidth: 80,
+	defaults: {
+		xtype:'textfield',
+		width: 150
+	},
+	items:[
+		{fieldLabel:'Title',name:'title'},
+		{xtype:'combo',fieldLabel:'Year',name:'year',triggerAction:'all',store:[2009,2008,2007,2006]},
+		{xtype:'numberfield',fieldLabel:'Revenues',name:'revenues'},
+		{xtype:'textarea',fieldLabel:'Comment',name:'comment'},
+		{xtype:'checkbox',fieldLabel:'',labelSeparator:'',boxLabel:'Available',name:'available'}
+	]
+});
+</pre>
+
+A estas alturas del curso debemos estar completamente familiarizados con <a href="/2009/06/formularios-y-campos-comunes-en-ext-js/" rel="nofollow" target="_blank">el código</a> <a href="/2009/06/combo-box-cargados-local-y-remotamente-ajax/" rel="nofollow" target="_blank">anterior</a>, lo único diferente y que es importante mencionar es la propiedad “url” en la cual se configura la “url” donde haremos la petición Ajax para llenar el formulario, además es importante notar que usamos la propiedad “name” en los campos del formulario.
+
+Lo siguiente que debemos hacer es <a href="/2009/05/una-ventana-flotante/" rel="nofollow" target="_blank">crear la ventana</a> que contendrá el formulario anterior.
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title: 'Loading data into a form',
+	bodyStyle: 'padding:10px;background-color:#fff;',
+	width:300,
+	height:270,
+	items:[form],
+	buttons: [{text:'Save'},{text:'Cancel'}]
+});
+
+win.show();
+</pre>
+
+Si en este momento damos clic sobre cualquier imagen veremos algo semejante a la siguiente imagen.
+
+
+<div class="example"><img alt="Formulario cargado con Ajax" src="/wp-content/uploads/2009/08/loadform3.jpg"/><p>Formulario vacio</p></div>
+<h3>Solicitar la información al servidor</h3>
+Ya creamos el formulario y aparece al momento de dar clic sobre cada imagen, lo siguiente que haremos es llenarlo con la información correspondiente a la imagen solicitada, esto es muy sencillo ya que simplemente invocamos el método “load” con los parámetros necesarios:
+
+<pre class="prettyprint">form.getForm().load({params:{id:id}});
+</pre>
+
+Debemos recordar que el formato JSON que debe regresar el servidor con la información es el siguiente:
+
+<pre class="prettyprint">{
+	"success":true,
+	"data":{"title":"The Proposal","year":2009,"revenues":6.42,"comment":"Comment","available":true,"img":"images\/proposal.jpg"}
+}
+</pre>
+
+Es de suma importancia regresar el parámetro “success” en “true” (si no ha sucedido ningún error) para que se llene correctamente el formulario, de lo contrario el componente asume que se ocasionó algún error en el servidor y no lo llenará.
+
+
+<div class="example"><img alt="Formulario cargado con Ajax" src="/wp-content/uploads/2009/08/loadform4.jpg"/><p>Formulario cargado mediante Ajax</p></div>
+<h3>Conclusiones</h3>
+Hoy aprendimos a llenar el formulario mediante una llamada Ajax al servidor, es muy importante que la respuesta contenga la propiedad “success:true” para que funcione correctamente, desde mi punto de vista (muy personal) no me agrada que el componente nos obligue a realizar esto, sería mejor utilizar algún estado http para detectar si se ha ocasionado un error, de esta manera podríamos desarrollar nuestras aplicaciones utilizando complemente “REST” (más adelante hablaré al respecto).
+
+Como siempre si tienen dudas o sugerencias pueden hacerla en los foros, además recuerden seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> para estar al tanto de las actualizaciones o bien si utilizas algún lector de RSS inscríbete a <a href="http://feeds2.feedburner.com/quizzpot-es" rel="nofollow" target="_blank">las Feeds</a> o a déjanos tu <a href="http://feedburner.google.com/fb/a/mailverify?uri=quizzpot-mail-es&amp;loc=es_ES" rel="nofollow" target="_blank">correo electrónico</a> y te mandaremos las actualizaciones allí.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/forms/loadform.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

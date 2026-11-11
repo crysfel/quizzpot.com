@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Ordenar los nodos de un TreePanel - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Ordenar los nodos de un TreePanel
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>13</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En el tutorial de hoy veremos cómo podemos ordenar los elementos del TreePanel y además los guardaremos en una base de datos MySQL, este es el primer tutorial donde mostraré un poco más allá del uso de ExtJS y hablare de cómo generar el árbol a partir de una tabla en la base de datos.
+
+Supongamos que tenemos una tienda en línea, los productos que se venderán estarán categorizados para que el usuario final pueda navegar fácilmente por la tienda, una categoría puede estar contenida dentro de otra categoría principal, por ejemplo podríamos tener la categoría “Música” y tener alguna subcategoría como “Rock”, el número de niveles será definido por el administrador de la tienda, así que no pondremos límite de niveles.
+
+<h3>La demostración</h3>
+El día de hoy solamente veremos cómo podemos ordenar las categorías existentes, en el siguiente tutorial prometo mostrar cómo podemos agregar o eliminar categorías. Te recomiendo visitar el <a href="/demos/extjs/tree/tree-order.html/" rel="nofollow" target="_blank">ejemplo que he preparado</a>.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order8.jpg"/><p>Ejemplo del tutorial</p></div>
+<h3>Material de apoyo</h3>
+Antes de continuar <a href="/wp-content/uploads/2009/12/tree-order.zip" rel="nofollow" target="_blank">descarguemos el material de apoyo</a> para este tutorial. Lo descomprimimos y copiamos los archivos a nuestro servidor Web que instalamos al inicio del curso, esto es necesario porque usaremos Ajax, si es necesario cambia las rutas a la librería ExtJS dentro del archivo “tree-order.html”.
+
+<h3>Creación de la base de datos</h3>
+Lo primero que haremos será crear la tabla que usaremos para almacenar las categorías, vamos a crear una tabla que se llame “categories” y que contenga los campos “id, id_parent, category, order_number y description”.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order1.jpg"/><p>Descripción de la tabla "categories"</p></div>
+
+Para los que solo les gusta copiar/pegar aquí les dejo el SQL necesario para hacer lo que describí anteriormente.
+
+<pre class="prettyprint">CREATE TABLE  categories (
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	id_parent INT NULL ,
+	category VARCHAR( 255 ) NOT NULL ,
+	order_number INT NULL,
+	description TEXT NOT NULL
+) ENGINE = INNODB;
+</pre>
+
+Ahora vamos a crear algunas categorías para que podemos probar el funcionamiento del tutorial, aquí dejo unos cuantos “inserts” a la tabla “categories”:
+
+<pre class="prettyprint">INSERT INTO categories (id, id_parent, category, description) 
+ VALUES (NULL, NULL, 'Music', 'The music category'), 	
+		(NULL, NULL, 'Movies', 'All about movies and stuff'),	
+		(NULL, NULL, 'Games', 'Are you a gamer?'),	
+		(NULL, 1, 'Classic', 'For those who love a quiet moment'),	
+		(NULL, 1, 'Rock', 'Let\'s rock and roll!'),	
+		(NULL, 1, 'Pop', 'Do you like pop music?'),	
+		(NULL, 2, 'Action', 'Actions movies for everyone'),	
+		(NULL, 2, 'Romantic', 'Watch this with your girlfriend'),
+		(NULL, 3, 'Sports', 'Want to play a game?'),
+		(NULL, 3, 'First person shooter', 'Let\'s kill some fools'),
+		(NULL, 3, 'Racing', 'For those who like to drive!'),
+		(NULL, 9, 'Soccer', 'All about foot ball soccer'),
+		(NULL, 9, 'Hockey', 'Ready for the ice?');
+</pre>
+
+Aquí lo único interesante es el campo “id_parent”, este campo tendrá el “id” de la categoría “padre”, de esta manera podremos construir una estructura de árbol con “n” cantidad de niveles, los otros campos creo que son muy descriptivos por lo tanto no hablaré de ellos.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order2.jpg"/><p>Información de prueba</p></div>
+<h3>Creación de la estructura de árbol</h3>
+El siguiente paso es crear una estructura de árbol con los registros que tenemos en nuestra base de datos, he creado una clase en PHP que nos hará la vida mucho más sencilla.
+
+<pre class="prettyprint">/**
+ * This class creates a Tree structure of information for the TreePanel component
+ * of the ExtJS library.
+ *
+ * @author Crysfel Villa
+ * @date 12/18/2009
+ *
+ */
+class TreeExtJS{
+	private $tree = array();
+	private $index = array();
+	private $cont = 0;
+	
+	/**
+	 * 	This method inserts a node to the Tree, the child param may contain an
+	 * 	"id" property that will be use as a "key", if the child param doesn't contains
+	 *	an "id" property a generated "key" is given to the node.
+	 *
+	 *	@child the node to insert
+	 *	@parentKey(optional) The parent key where the node will be inserted, if null 
+	 *	the node is inserted in the root of the Tree
+	 */
+	public function addChild($child,$parentKey = null){
+		$key = isset($child["id"])?$child["id"]:'item_'.$this-&gt;cont;
+		$child["leaf"] = true;
+		if($this-&gt;containsKey($parentKey)){
+			//added to the existing node
+			$this-&gt;index[$key] =&amp; $child;
+			$parent =&amp; $this-&gt;index[$parentKey];
+			if(isset($parent["children"])){
+				$parent["children"][] =&amp; $child;
+			}else{
+				$parent["leaf"] = false;
+				$parent["children"] = array();
+				$parent["children"][] =&amp; $child;
+			}
+		}else{
+			//added to the root
+			$this-&gt;index[$key] =&amp; $child;
+			$this-&gt;tree[] =&amp; $child;
+		}
+		$this-&gt;cont++;
+	}
+	
+	/**
+	 *	Return a node by the given key
+	 *	@key
+	 */
+	public function getNode($key){
+		return $this-&gt;index[key];
+	}
+	
+	/**
+	 *	@TODO Remove the node from the Tree
+	 *	@key
+	 */
+	public function removeNode($key){
+		//unset($this-&gt;index[key]);
+	}
+	
+	/**
+	 *	Check if exist a node with the given key
+	 */
+	public function containsKey($key){
+		return isset($this-&gt;index[$key]);
+	}
+	
+	/**
+	 *	Return a representation of the Tree structure in JSON format
+	 */
+	public function toJson(){
+		return json_encode($this-&gt;tree);
+	}
+}
+</pre>
+
+He documentado los métodos que contiene esta clase, te recomiendo copiar/pegar el código en un archivo que se llame “TreeExtJs.class.php” (ya viene en el material de apoyo), la idea de esta clase es ir insertando nodos dentro de algún nodo existente en el árbol o bien a la raíz, una vez construida la estructura podremos generar una representación de esta en formato JSON para que se lo enviemos al componente TreePanel y este pueda desplegarla correctamente.
+
+Es importante mencionar que es la primera versión de esta clase, y que en el futuro planeo agregarle más funcionalidades  y mejoras, pero por ahora hace lo necesario para este tutorial.
+
+<h3>Generar el JSON a desplegar</h3>
+Ahora tenemos que conectarnos a la base de datos y sacar la información que necesitamos desplegar, vamos a escribir el siguiente código dentro el archivo “tree-order.php”:
+
+<pre class="prettyprint">// Include the Tree class to generate the TreePanel JSON easily
+include("TreeExtJS.class.php"); 
+
+// Make a MySQL Connection and select the database
+$conn = mysql_connect("localhost", "root", "") or die(mysql_error());
+mysql_select_db("testing") or die(mysql_error());
+
+// Retrieve all the data from the "categories" table
+$result = mysql_query("SELECT * FROM categories order by id_parent,order_number asc") or die(mysql_error());
+</pre>
+
+Notemos que estamos haciendo uso de “order by” para que las categorías sean regresadas ordenadas por el “id_parent” y “order_number”, esto es de suma importancia ya que de esta manera nos será más sencillo crear la estructura de árbol.
+
+Lo siguiente es crear un “array” con la información que hemos sacado de la base de datos, esto lo hacemos de la siguiente manera:
+
+<pre class="prettyprint">// Create an array of the data
+$data = array();
+while($row = mysql_fetch_array( $result )){
+	array_push($data,array(
+		"id" =&gt; $row["id"],
+		"idParent" =&gt; $row["id_parent"],
+		"text" =&gt; $row["category"],
+		"orderNumber" =&gt; $row["order_number"],
+		"description" =&gt; $row["description"]
+	));
+}
+</pre>
+
+Aquí no hay nada complicado, solamente estamos “populando” la colección “$data” con los registros de la base de datos.
+
+Por último necesitamos crear la estructura de árbol haciendo uso de la clase “TreeExtJs”, esto será muy sencillo.
+
+<pre class="prettyprint">// Creating the Tree
+$tree = new TreeExtJS();
+for($i=0;$i&lt;count($data);$i++){
+	$category = $data[$i];
+	$tree-&gt;addChild($category,$category["idParent"]);
+}
+
+echo $tree-&gt;toJson();
+</pre>
+
+Mediante un ciclo vamos recorriendo la información que sacamos de la base de datos y vamos agregando nuevos nodos al árbol, aquí es donde es de suma importancia que vengan ordenados los elementos por el campo “id_parent” ya debemos insertar primero los nodos padre para que al insertar los hijos no se ocasione ningún error.
+
+No olvidemos cerrar la conexión a la base de datos.
+
+<pre class="prettyprint">mysql_close($conn);
+
+</pre>
+
+Hemos terminado la parte más complicada de este tutorial, ahora vamos a escribir el JavaScript necesario para desplegar correctamente la información que creamos en el servidor.
+
+<h3>Creación del TreePanel</h3>
+Editamos el archivo “tree-order.js” y dentro de la función “init” creamos el componente que necesitamos.
+
+<pre class="prettyprint">var tree = new Ext.tree.TreePanel({  	
+	border: false,
+	autoScroll:true,
+	dataUrl:'tree-order.php',
+	enableDD: true,			// Step 1
+	root: new Ext.tree.AsyncTreeNode({
+		text: 'Categories',
+		draggable: false		//Step 2
+	})
+});
+
+var win = new Ext.Window({		
+	title:'Reorder the nodes',
+	layout:'fit',
+	width:300,
+	height:400,
+	items: tree
+});
+win.show();	
+</pre>
+
+Anteriormente hemos visto como <a href="/2009/10/arboles-generados-con-ajax/" rel="nofollow" target="_blank">crear un TreePanel</a>, en el código anterior solamente hay dos diferencias con respecto a los tutoriales pasados.
+
+En el paso uno habilitamos que los nodos puedan ser arrastrados y soltados (Drag and Drop), esto nos permitirá que el usuario pueda reacomodar las categorías a su gusto.
+
+En el paso dos le indicamos al nodo “root” que no se pueda arrastrar, esto es importante para que el usuario no pueda mover el nodo principal.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order3.jpg"/><p>Creación de un TreePanel</p></div>
+
+Si colapsamos el nodo principal podremos ver la información que tenemos en nuestra base de datos.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order4.jpg"/><p>Información cargada de la base de datos MySQL</p></div>
+
+También podemos arrastrar los nodos de un lugar a otro con el mouse.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order5.jpg"/><p>Drag and Drop a los elementos</p></div>
+
+El mismo componente se encarga de monitorear donde se soltará el nodo que se está arrastrando.  Si es un lugar incorrecto simplemente no permitirá que sea soltado avisando al usuario con un ícono en color rojo.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order6.jpg"/><p>Restricciones del componente</p></div>
+<h3>Guardando el orden</h3>
+Hasta ahora podemos ordenar los elementos en el TreePanel, pero si actualizamos la página vemos que el orden es el mismo que teníamos al principio, para que los cambios puedan persistir debemos guardar los cambios efectuados en nuestra base de datos.
+
+Debemos buscar el evento adecuado para guardar los cambios, podríamos crear un botón “guardar” para que el usuario guarde los cambios cuando crea que es necesario, o bien podríamos hacerlo más transparente al usuario y guardar los cambios automáticamente cuando suceda cualquier movimiento en los nodos.
+
+Para este tutorial haremos la segunda opción, para eso debemos utilizar el evento “movenode” que se disparará cuando un nodo cambió de lugar.
+
+<pre class="prettyprint">tree.on('movenode',function(tree,node,oldParent,newParent,index ){
+	//save the new order
+});
+</pre>
+
+Podemos ver en los parámetros que uno lleva por nombre “newParent”, necesitamos utilizar este parámetro para iterar por todos sus hijos de primera generación, es decir aquellos que sean descendientes directos de él, luego sacamos el “ID” de cada uno de ellos para enviarlos en el orden correcto al servidor y que éste los guarde en la base de datos.
+
+<pre class="prettyprint">var nodes = [];
+newParent.eachChild(function(n){
+	nodes.push(n.attributes.id);		//Step 1
+});
+tree.el.mask('Saving…', 'x-mask-loading');	//Step 2
+Ext.Ajax.request({
+	url: 'tree-order.php',			//Step 3
+	params:{				//Step 4
+		updateOrder: true,
+		parent: newParent.attributes.id,
+		nodes: nodes.join(',')
+	},
+	success: function(){
+		tree.el.unmask();		//Step 5
+	},
+	failure: function(){
+		tree.el.unmask();		//Step 6
+		Ext.Msg.alert('Error','Error saving the changes');
+	}
+});
+</pre>
+
+En el paso uno recolectamos los “ID” de cada nodo, esto es necesario para generar el orden que guardaremos en la base de datos.
+
+En el paso dos enmascaramos el TreePanel y mostramos un mensaje de “Saving…” esto es importante para que el usuario se dé cuenta que se están guardando sus cambios.
+
+En el paso tres indicamos la “url” que procesará la petición Ajax, en este caso usaremos el mismo PHP, pero si estuviésemos usando algún Framework como: CodeIgniter, Ruby on Rails, Groovy and Grails, etc., pondríamos un “controller” diferente.
+
+En el paso cuatro definimos los parámetros que enviaremos al servidor cuando se realice la petición Ajax, estos parámetros son “updateOrder” con el cual decidiremos si vamos hacer un “update” o un “select” a la tabla en la base de datos, el parámetro “parent” es importante porque permitiremos que el usuario cambie los nodos inclusive a otras “ramas”, por lo tanto necesitamos saber el padre de los nodos que enviamos en el parámetro “nodos”.
+
+El paso cinco se ejecutará si se realizó satisfactoriamente la actualización, aquí solamente quitamos la máscara que pusimos al inicio de la petición Ajax.
+
+El paso seis se ejecutará si ha sucedido algún error en el servidor o en la petición, aquí solamente quitamos la máscara y enviamos un mensaje de error al usuario para informarle que los cambios no se guardaron.
+
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order7.jpg"/><p>Guardando los cambios den la base de datos</p></div>
+
+Por el momento es todo lo que escribiremos en JavaScript ahora es el momento de hacer la lógica necesaria en el servidor para que guardemos los cambios efectuados.
+
+En el archivo “tree-order.php” escribiremos el siguiente código después de abrir la conexión a la base de datos:
+
+<pre class="prettyprint">// Include the Tree class to generate the TreePanel JSON easily
+include("TreeExtJS.class.php"); 
+
+// Make a MySQL Connection and select the database
+$conn = mysql_connect("localhost", "root", "") or die(mysql_error());
+mysql_select_db("testing") or die(mysql_error());
+
+if(isset($_POST["updateOrder"])){	// Step 1
+	//Aquí vamos a crear el UPDATE a la tabla categories
+}else{
+	//aquí dejamos el código necesario para generar el JSON del…
+// TreePanel que escribimos anteriormente
+}
+
+mysql_close($conn);
+</pre>
+
+En el paso uno solamente estamos tomando la decisión de hacer el UPDATE o hacer el SELECT, esto es definido por el parámetro “updateOrder”, si el parámetro existe en el request haremos un UPDATE a la tabla, si no existe entonces se hace todo lo que ya escribimos anteriormente.
+
+Para guardar los cambios lo hacemos de la siguiente manera:
+
+<pre class="prettyprint">$nodes = $_POST["nodes"];		//Step 1
+$ids = explode(",",$nodes);
+$idParent = (int)$_POST["parent"];	//Step 2
+for($i=0;$i&lt;count($ids);$i++){
+       $id = (int)$ids[$i];
+       $query = sprintf("UPDATE categories SET order_number = %d,id_parent = %d WHERE id = %d",
+				$i,$idParent,$id);	//Step 3
+	mysql_query($query);		//Step 4
+}
+</pre>
+
+Primero tomamos los nodos que editaremos y creamos un arreglo con cada “ID”.
+
+El segundo paso es tomar el parámetro “parent” y convertirlo a entero.
+
+En el tercer paso creamos el query para actualizar el campo “order_number” y “id_parent”, lo hacemos de esta manera para asegurarnos que no hagan un SQL Injection, los parámetros “id” e “idParent” deben ser enteros.
+
+En el paso cuatro ejecutamos el query para que se guarden los cambios correspondientes. 
+Ahora solo queda probar la aplicación, debería ser capaz de mostrar y guardar los cambios efectuados inclusive si la ejecutamos de diferentes computadoras, esto es posible porque la información esta contenida en la base de datos y no solamente en la memoria de nuestra computadora u ordenador.
+
+<div class="example"><img alt="Ordenar un TreePanel" src="/wp-content/uploads/2009/12/tree-order8.jpg"/><p>El orden persiste</p></div>
+<h3>Conclusiones</h3>
+Hemos visto como es muy sencillo ordenar los nodos de un TreePanel, la parte más complicada en mi opinión es crear la estructura de arbol, esto lo había comentado en tutoriales anteriores pero ahora hemos visto como crearla.
+
+Recuerda seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter</a> para estar actualizado de los nuevos tutoriales, tenemos algunas sorpresas para el próximo año que seguramente les gustarán, sigan pendientes y nos vemos en la segunda parte de este tutorial.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/tree/tree-order.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

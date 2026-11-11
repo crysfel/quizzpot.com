@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Agrupado y Sumatoria de Columnas - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Agrupado y Sumatoria de Columnas
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>16</em></span>
+<span class="separator">Likes: <em>1 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Ya hemos visto como editar las celdas de un Grid en tutoriales anteriores; muchas veces es necesario realizar cálculos al cambiar el valor de una celda, por ejemplo algún reporte de ventas por mes o catálogo de existencias en un almacén, etc. para realizar esto usaremos el plugin “Summary”.
+
+En este tutorial se hablará de cómo podemos agrupar en un Grid la información que cuenta con un atributo en  común.  Veremos cómo podemos sumar los campos que representan cierta cantidad de dinero o artículos y mostrar ese resultado en una fila de nuestro Grid.
+
+La siguiente imagen es un ejemplo de lo que tendremos al final de este tutorial:
+
+
+<div class="example">
+<img alt="resultado final" src="/wp-content/uploads/2010/11/agrupado-sumatoria-1.png"/><p>Resultado Final</p>
+</div>
+
+Durante el tutorial se irá explicando el código necesario para realizar lo que se muestra en la imagen, recuerda que puedes descargar el código fuente si es necesario.
+
+<h3>La base de datos</h3>
+La información para el Grid estará en una base de datos de MySQL que contendrá una tabla llamada “destinations”, en esta tabla solo tenemos la información para poder trabajar a lo largo de este tutorial. El código para generar la tabla se muestra a continuación:
+
+<pre class="prettyprint">-- phpMyAdmin SQL Dump
+-- version 3.2.0.1
+-- http://www.phpmyadmin.net
+--
+-- Servidor: localhost
+-- Tiempo de generación: 10-11-2010 a las 06:51:06
+-- Versión del servidor: 5.1.36
+-- Versión de PHP: 5.3.0
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Base de datos: `test`
+--
+-- --------------------------------------------------------
+--
+-- Estructura de tabla para la tabla `destinations`
+--
+
+CREATE TABLE IF NOT EXISTS `destinations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `continent` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `country` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `hotel` int(11) NOT NULL,
+  `plane` int(11) NOT NULL,
+  `food` int(11) NOT NULL,
+  `souvenirs` int(11) NOT NULL,
+  `cost` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+
+--
+-- Volcar la base de datos para la tabla `destinations`
+--
+
+INSERT INTO `destinations` (`id`, `continent`, `country`, `hotel`, `plane`, `food`, `souvenirs`, `cost`) VALUES
+(1, 'Ameria', 'USA', 300, 900, 150, 200, 0),
+(2, 'Europe', 'Spain', 300, 1100, 200, 100, 0),
+(3, 'Ameria', 'Mexico', 200, 500, 150, 100, 0);
+</pre>
+
+La base de datos se llama “test” pero puedes usar el nombre que te agrade, solo recuerda cambiar el nombre cuando se haga la conexión mediante PHP.
+
+<h3>Exponer la información</h3>
+Como la información está almacenada en una base de datos, necesitamos realizar la conexión vía PHP o cualquier otro lenguaje de servidor y un simple “SELECT”. El siguiente código se debe escribir en un archivo llamado “serverside/getGroups.php”.
+
+<pre class="prettyprint">&lt;?php	
+	$connection= mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+	
+	$result= mysql_query("SELECT * FROM destinations");  //step 1
+	
+	$data= array();
+	
+	while($row= mysql_fetch_array($result)){  //strp 2
+		array_push($data,array(
+			"id"		=&gt; $row["id"],
+			"continent"	=&gt; $row["continent"], 
+			"country"	=&gt; $row["country"], 
+			"hotel"		=&gt; $row["hotel"],
+			"plane"		=&gt; $row["plane"],
+			"food"		=&gt; $row["food"],
+			"souvenirs"	=&gt; $row["souvenirs"],
+			"cost"		=&gt; $row["cost"]
+		));
+	}
+	
+	//step 3
+	echo json_encode(
+		array(  
+		"success"	=&gt; true,
+		"data"		=&gt; $data
+	));
+</pre>
+
+En el paso uno se hace el query que regresa todo lo que contiene la tabla “destinations”, es un query muy sencillo.
+
+En el paso dos se itera el resultset que regresó la consulta, dentro del ciclo creamos un arreglo con la información de cada uno de los contactos.
+
+En el paso cuatro se imprime la información en formato JSON, la respuesta será como el siguiente ejemplo:
+
+<pre class="prettyprint">{"success":true,"data":[{"id":"1","continent":"Ameria","country":"USA","hotel":"300","plane":"900","food":"150","souvenirs":"200","cost":"0"},{"id":"2","continent":"Europe","country":"Spain","hotel":"300","plane":"1100","food":"200","souvenirs":"100","cost":"0"},{"id":"3","continent":"Ameria","country":"Mexico","hotel":"200","plane":"900","food":"150","souvenirs":"100","cost":"0"}]}
+</pre>
+
+Esto es suficiente para poder generar la interface del Grid mediante JavaScript ya que tenemos toda la información necesaria.
+
+<h3>Preparando el Entorno</h3>
+Para poder usar el GridSummary es necesario importar algunos archivos en nuestro archivo HTML (groupSummary-example.html). Los archivos que necesitamos son los siguientes: GroupSummary.css y  GroupSummary.js.
+
+<pre class="prettyprint">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+	
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+&lt;title&gt;Demo: Group Summary Example | Quizzpot&lt;/title&gt;
+
+&lt;link rel="stylesheet" type="text/css" href="/courses/aprendiendo-ext-js-3/ext-3.3.0/resources/css/ext-all.css" /&gt;
+&lt;link rel="stylesheet" type="text/css" href="/courses/aprendiendo-ext-js-3/ext-3.3.0/examples/ux/css/GroupSummary.css" /&gt;
+
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/ext-3.3.0/adapter/ext/ext-base.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/ext-3.3.0/ext-all.js"&gt; &lt;/script&gt;
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/ext-3.3.0/examples/ux/GroupSummary.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript" src="/courses/aprendiendo-ext-js-3/articles/Group-Summary.js"&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+
+ Como podemos notar estos archivos los encontramos en el directorio donde está la librería de Ext JS en la carpeta de ejemplos donde encontraremos la carpeta ux. Si notamos solo es un archivo de estilos (.css) y un archivo de JavaScript, con estos archivos podremos cumplir lo propuesto en este tutorial. 
+
+También podríamos copiarlos en una carpeta “plugins” que tengamos en nuestro proyecto, de esta manera cuando se realice el deploy del proyecto eliminamos los ejemplos, para este ejemplo los dejaremos en el directorio “ejemplos” solo para mostrar el lugar exacto donde se encuentran.
+
+<h3>Empaquetando el Tutorial</h3>
+Ya en nuestro archivo de JavaScript (Group-Summary) vamos a empaquetar el código para evitar conflictos con otras variables o librerías. Esto es algo muy importante y siempre lo debemos realizar.
+
+<pre class="prettyprint">Ext.ns("com.quizzpot.tutorials");
+
+com.quizzpot.tutorials.Group = {
+	init : function() {
+		//code
+	}
+}
+Ext.onReady(com.quizzpot.tutorials.Group .init,com.quizzpot.tutorials.Group );
+</pre>
+
+La función “init” se ejecutará tan pronto como el DOM esté listo, por lo tanto ahí debemos colocar el código que necesitamos ejecutar primero.
+
+<h3>Preparando la Información para el GRID</h3>
+Lo primero que haremos es preparar  la información que recibimos de la base de datos. Lo que necesitamos hacer es crear un JsonReader para poder interpretar la información que recibimos del servidor:
+
+<pre class="prettyprint">var reader = new Ext.data.JsonReader({  //step 1
+	totalProperty	: 'total',
+	successProperty	: 'success',
+	messageProperty	: 'message',
+	idProperty	: 'id',
+	root		: 'data'
+	},[
+	//step 2
+		{name: "continent", type: "string"},
+		{name: "country", type: "string"},
+		{name: "hotel", type: "float"},
+		{name: "plane", type: "float"},
+		{name: "food", type: "float"},
+		{name: "souvenirs", type: "float"},
+		{name: "cost", type: "float"}
+	]
+);
+</pre>
+
+En el paso uno lo que hacemos es crear una instancia del “JsonReader” este componente nos permitirá leer e interpretar la respuesta del servidor para cada petición Ajax realizada. Lo que tenemos que notar es el atributo “messageProperty” que define la propiedad que aloja un mensaje en la respuesta del servidor, otra propiedad importante es “successProperty” la cual indicará si la operación ha sido realizada con éxito.
+
+En el paso dos colocamos los campos que conforman el “Record” que contendrá la información que usaremos en el Grid.
+
+Lo siguiente es hacer el store que tendrá al “JsonReader”, en esta ocasión veremos un nuevo tipo de store, es el “GroupingStore” este tipo de store es utilizado para agrupar la información de un Grid. Su implementación es la siguiente:
+
+<pre class="prettyprint">this.gstore =new Ext.data.GroupingStore({ //step 1
+	url		: "serverside/getGroups.php", //step 2
+	reader		: reader,
+	sortInfo		: {field:"continent", direction:"ASC"},
+	groupField	: "continent"
+});
+
+this.gstore.load();
+</pre>
+
+En el paso uno lo que hacemos es crear la instancia del “GroupingStore”, lo que este store nos permite hacer es agrupar los registros usando uno de los campos disponibles. Notemos el atributo “groupField”, este es el atributo que se encarga de hacer lo antes mencionado.
+
+En el paso dos configuramos el “GroupingStore” de la misma manera como se configura un “JsonStore” o un “Store” a excepción del atributo “groupField” del cual hicimos mención hace uno momentos. Y por último cargamos el store.
+
+<h3>Creando el GRID</h3>
+Ya que tenemos todo listo, lo que debemos hacer es configurar el Grid para mostrar la información agrupada. Lo haremos de la siguiente manera:
+
+<pre class="prettyprint">//step 1
+var textField = new Ext.form.TextField({allowBlank: false,}),
+	numField = new Ext.form.NumberField({allowBlank: false, allowNegative: false});
+
+this.grid = new Ext.grid.EditorGridPanel({  //step 2
+	store	: this.gstore, // le pasamos el GroupStore
+	columns : [  //configuración de las columnas del Grid
+		{header		: "Continent",
+		dataIndex	: "continent",
+		hideable	: false,
+		groupable	: true,
+		width		: 100,
+		editor		: textField,
+		},{
+		header		: "Country",
+		dataIndex	: "country",
+		groupable	: true,
+		editor		: textField,
+		},{
+		header		: "Hotel",
+		dataIndex	: "hotel",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		renderer	: Ext.util.Format.usMoney,
+		editor		: numField,
+		},{
+		header		: "Plane",
+		dataIndex	: "plane",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		renderer	: Ext.util.Format.usMoney,
+		editor		: numField
+		},{
+		header		: "Food",
+		dataIndex	: "food",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		renderer	: Ext.util.Format.usMoney,
+		editor		: numField,
+		},{
+		header		: "Souvenirs",
+		dataIndex	: "souvenirs",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		renderer	: Ext.util.Format.usMoney,
+		editor		: numField,
+		},{
+		header		: "Total Cost",
+		dataIndex	: "cost",
+		width		: 100,
+		sortable	: true,
+		groupable	: false
+		}
+	], //sterp 3
+	view : new Ext.grid.GroupingView({
+		forceFit 			: true,
+		ShowGroupName		: true,
+		enableNoGroup		: false,
+		enableGropingMenu	: false,
+		hideGroupedColumn	: true
+	}),
+});
+</pre>
+
+En el paso uno creamos los campos “textField” y “numField” esto con el fin de ponerlo en las columnas del Grid para que este pueda ser editado.
+
+En el paso dos solo hacemos una instancia del EditorGridPanel, y realizamos la configuración necesaria para el Grid, en el atributo store le pasamos el nuevo store como lo haríamos normalmente con los otros tipos de store.
+
+No entraremos en detalle de la configuración de las columnas del Grid pero si haremos mención de los dos nuevos atributos que usamos en la configuración de las columnas, estos son: groupable y renderer.
+
+El primero es un tributo te tipo Boolean, éste nos permite decidir si deseamos que esta columna pueda ser usada para agrupar la información del Grid.
+
+La propiedad renderer nos permite darle un formato a los campos de la columna como en esta ocasión estamos trabajando con números que representan dinero usamos “Ext.util.Format.usMoney”, si quieres conocer más al respecto de esta propiedad te recomiendo leer el tutorial que ya hemos publicado al respecto.
+
+En el paso tres hacemos el “view” que es usado por el Grid para algunas configuraciones extra relacionadas con la manera de como agrupara la información.
+
+Con esto ya tenemos nuestro Grid, los siguiente mostrarlo en una ventana:
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title	: "Destinations Summary ",
+	layout	: "fit",
+	width	: 550,
+	height	: 300,
+	items	: this.grid
+});
+
+win.show();
+</pre>
+
+Con esto tendríamos algo como lo que se muestra en la siguiente imagen:
+
+
+<div class="example">
+<img alt="grid agrupado" src="/wp-content/uploads/2010/11/agrupado-sumatoria-2.png"/><p>Grid Agrupado</p>
+</div>
+
+Con esto terminas el primer objetivo de nuestro tutorial. Como podemos ver los registros están agrupados bajo el campo “continente” como fue especificado en el GroupingStore.
+
+<h3>Group Summary </h3>
+Lo siguiente es crear el resumen de la información del Grid. Para esto usaremos el plugin Summary como se muestra a continuación.
+
+<pre class="prettyprint">var textField = new Ext.form.TextField({allowBlank: false,}),
+numField = new Ext.form.NumberField({allowBlank: false, allowNegative: false});
+	
+//step 1
+var summary = new Ext.ux.grid.GroupSummary();
+
+//step 2
+Ext.ux.grid.GroupSummary.Calculations["totalCost"] =function(v, record, field){
+     return v + (record.data.hotel + record.data.plane + record.data.food + record.data.souvenirs);
+};
+	
+this.grid = new Ext.grid.EditorGridPanel({
+     store	: this.gstore,
+     plugins	: summary,  //step 3
+     columns : [
+	//…. Configuración del las columnas del grid.
+     ]
+});
+</pre>
+
+El código anterior está un poco resumido, pero son los mismos pasos que la sección anterior, solo le agregaremos lo que se describe a continuación. 
+
+En el paso uno lo que hacemos es crear una instancia del GroupSummary para poder mostrar los resúmenes de las columnas del Grid.
+
+En el paso dos lo que hacemos es crear una nueva forma de “calculo”, como podemos ver le estamos dando el nombre de “totalCost” lo único que esto hace es ir a la columna, buscar en la fila que se especifica, tomar su valor y sumarlo a la siguiente. Es importante mencionar que es posible hacer distintos tipos de “cálculos” de esta manera.
+
+En el paso tres agregamos el Summary via plugin, con esto ya podremos usar los “cálculos” disponibles para los distintos tipos de información que se pueden manejar.
+
+Lo que sigue es realizar estos cálculos, esto ya se hace directamente en las columnas.
+
+<pre class="prettyprint">this.grid = new Ext.grid.EditorGridPanel({
+	store	: this.gstore,
+	plugins	: summary,
+	columns : [
+		{header		: "Continent",
+		dataIndex	: "continent",
+		hideable	: false,
+		groupable	: true,
+		width		: 100,
+		editor		: textField,
+		},{
+		header		: "Country",
+		dataIndex	: "country",
+		groupable	: true,
+		editor		: textField,
+		//step 1
+		summaryType	: "count",
+		summaryRenderer: function(v, params, data){
+				return ((v === 0 || v &gt; 1) ? '(' + v +' Countries)' : '(1 Coutry)');
+			}
+		},{
+		header		: "Hotel",
+		dataIndex	: "hotel",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		editor		: numField,
+		renderer	: Ext.util.Format.usMoney,
+		//step 2
+		summaryType : "sum",
+		render : function(v){
+			return v;
+			}
+		},{
+		header		: "Plane",
+		dataIndex	: "plane",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		editor		: numField,
+		renderer	: Ext.util.Format.usMoney,
+		summaryType : "sum",
+		render : function(v){
+			return v;
+			}
+		},{
+		header		: "Food",
+		dataIndex	: "food",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		editor		: numField,
+		renderer	: Ext.util.Format.usMoney,
+			summaryType : "sum",
+		render : function(v){
+			return v;
+			}
+		},{
+		header		: "Souvenirs",
+		dataIndex	: "souvenirs",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		editor		: numField,
+		renderer	: Ext.util.Format.usMoney,
+		summaryType : "sum",
+		render : function(v){
+			return v;
+			}
+		},{
+		header		: "Total Cost",
+		dataIndex	: "cost",
+		width		: 100,
+		sortable	: true,
+		groupable	: false,
+		//step 3
+		renderer: function(v, params, record){
+				return Ext.util.Format.usMoney(record.data.hotel + record.data.plane + record.data.food + record.data.souvenirs);
+			},
+		//step 4
+		summaryType	: "totalCost",
+		summaryRenderer: Ext.util.Format.usMoney
+		}
+	],
+//..el código del view esta aquí
+});
+</pre>
+
+En el paso uno usamos “summaryType” para especificar qué tipo de cálculo queremos hacer, para este registro usaremos “count” esto con el motivo de saber cuántos registros tenemos en esta columna. 
+
+El atributo “summaryRenderer” se encarga de mostrar el resultado del calculo que se realizo en el “summaryType”. 
+
+En el paso dos usamos “summaryType” con “sum”, con esto sumamos todos los registros que se encuentran en esta columna. La única diferencia con el paso anterior es que usamos “render” para imprimir el resultado en el Grid, esto es porque no le estamos concatenando nada a la respuesta.
+Las demás columnas tienen los mismos atributos que en el paso dos ya que también queremos conocer la suma de esos campos.
+
+En el paso tres pasa algo interesante, lo primero que hacemos es hacer la suma de todos los campos que pertenecen al registro que se encuentra en esa fila, desplegamos el  resultado en la columna “Total Cost” de ese registro. Para esto usamos el atributo “renderer” ya que estamos haciendo una sumatoria de los campos sin el uso de un “summaryType”.
+En segundo lugar usamos el “summaryType” que creamos hace unos momentos atrás, y usamos un “summaryRenderer” porque queremos modificar el resultado del “summaryType”, lo único que le agregamos es el signo de dinero.
+
+Con esto terminamos el segundo objetivo de este tutorial, hasta este momento se tiene que tener algo semejante a esto:
+
+
+<div class="example">
+<img alt="summeries" src="/wp-content/uploads/2010/11/agrupado-sumatoria-1.png"/><p>Summeries</p>
+</div>
+
+Notemos algo interesante que sucede cuando editamos una de las cantidades, los campos de la columna “Total Cost” son actualizados automáticamente esto gracias a lo que sucede en la primera parte del paso tres que mencionamos hace unos instantes.
+
+<h3>Guardando la Información</h3>
+Lo que debemos hacer ahora es guardar los registros conforme van siendo editados ya que si alguno de estos registros es editado no se mostrará la información la siguiente vez que se abra la aplicación. Para esto usaremos nuestra base de datos, lo primero que haremos es agregar un “listener” al Grid que nos dirá los campos que han sido modificados y por último modificaremos esos registros en la base de datos.
+
+Usaremos el evento “afteredit” que se disparará después de que se ha editado una celda.
+
+<pre class="prettyprint">this.grid = new Ext.grid.EditorGridPanel({
+	//configuración previo del grid
+});
+
+this.grid.on('afteredit', this.afterEdit, this );
+</pre>
+
+Como podemos notar lo único que hacemos es decirle que cada vez que se edite algo en la tabla se llame a la función “afterEdit” esto mediante el evento “afteredit” también es importante mencionar que mediante “this” indicamos el scope en el que se ejecutará la función “afterEdit”. Esta función se encarga de obtener los nuevos valores de los registros editados.
+
+<pre class="prettyprint">afterEdit : function(e){	
+	//step 1
+	var recordsToSend = [];
+	recordsToSend = Ext.encode(e.record.data);
+
+	this.grid.el.mask("Saving...","x-mask-loading");
+	Ext.Ajax.request({
+		scope	: this,
+		url		: "serverside/saveGroups.php",
+		params	: {records:recordsToSend},
+		success	: this.onSuccess
+	});
+},
+</pre>
+
+Se crea la función que recibe como parámetro lo que nos manda el evento “afteredit”. En la función se crea el arreglo “recordsToSend”, con el fin de guardar en este arreglo los valores modificados.
+
+En el paso uno se realiza lo antes mencionado, usando los parámetros que mandó el evento, obtenemos la información y la codificamos para poder mandarla en la petición Ajax.
+
+En el paso dos se hace la petición Ajax, se especifica mediante el atributo “url” el archivo que tratará esta consulta. Y con “params” le decimos que es lo que enviara a ese archivo, es necesario también mencionar que en “scope” se indica donde se ejecutará la función indicada en “success”.
+
+Esta función tiene la siguiente estructura:
+
+<pre class="prettyprint">onSuccess	: function(response,options){
+	this.grid.el.unmask();
+	this.grid.getStore().commitChanges();
+}
+</pre>
+
+Esta función se encarga de quitar la máscara que colocamos en el Grid mientras se ejecuta la petición Ajax. También se encarga de mostrar los cambios que sufrió el Grid.
+
+El código del archivo responsable de guardar la información en la base de datos se muestra a continuación:
+
+<pre class="prettyprint">&lt;?php	
+	$connection=mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+	
+	$info = $_POST["records"];
+	//step 1
+	$data = json_decode(stripslashes($info));
+	
+	//srtep 2
+	$continent	= $data-&gt;continent;
+	$country	= $data-&gt;country;
+	$hotel		= $data-&gt;hotel;
+	$plane		= $data-&gt;plane;
+	$food		= $data-&gt;food;
+	$souvenirs	= $data-&gt;souvenirs;
+	$cost		= $data-&gt;cost;
+	
+	//step 3
+	$query = sprintf("UPDATE  destinations SET continent = '%s', country = '%s', hotel = %d, plane = %d, food = %d, souvenirs = %d, cost = %d WHERE country='%s' ",
+		mysql_real_escape_string($continent),
+		mysql_real_escape_string($country),
+		mysql_real_escape_string($hotel),
+		mysql_real_escape_string($plane),
+		mysql_real_escape_string($food),
+		mysql_real_escape_string($souvenirs),
+		mysql_real_escape_string($cost),
+		mysql_real_escape_string($country));
+
+	$rs  = mysql_query($query);
+	
+
+	//step 4
+	echo json_encode(array(
+		"success" 	=&gt; mysql_errno() == 0,
+		"msg"		=&gt; mysql_errno() == 0?"redor updated successfully":mysql_error()
+	));
+</pre>
+
+En el paso uno, una vez que recibimos la información que mandó la petición Ajax la decodificamos con la función json_decode() de PHP, con esto ya podemos acceder a la información que fue editada en el “Grid”. La función “stripslashes” elimina el carácter “\” que Apache le agrega, es posible que la configuración de tu servidor lo haga, pero es bueno prevenir esto para evitar errores en el futuro.
+
+En el paso tres obtenemos la información y la separamos en variables para poder insertarlas a la base de datos, esto es opcional ya que podríamos utilizar el mismo objeto $data.
+
+En el paso cuatro hacemos un “update” a la tabla “destinations” que es donde esta grabada la información que desplegamos en el Grid y le damos como valores la información que fue mandada mediante Ajax.
+
+En el paso cinco lo que hacemos es mandar un mensaje de éxito si es que todo sale bien, de lo contrario se manda el mensaje de error de MySQL.
+
+Con esto los registros editados serán guardados en la base de datos.
+
+<h3>Conclusión</h3>
+Hoy vimos como podemos agrupar los registro de un Grid que tienen un campo en común, también vimos como podemos usar el Summary plugin para poder resumir un la información del Grid. Esto es algo que le dará más vista a nuestras aplicaciones, una mejor experiencia a los usuarios.
+
+Te recordamos que puedes usar “user voice” para darnos ideas de los tutoriales que se pueden publicar en este sitio, también puedes votar por las ideas que más te gusten. También tenemos un foro donde puedes realizar tu preguntas, la comunidad está creciendo poco a poco y hay varios miembros dispuestos a ayudarte en tus dudas.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/editorgrid/groupSummary-example.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

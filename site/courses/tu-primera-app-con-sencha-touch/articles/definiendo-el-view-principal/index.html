@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Definiendo el view principal - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Tu primera app con Sencha Touch</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Definiendo el view principal
+            <a class="bubble-tag article-header-link-videos" href="/courses/tu-primera-app-con-sencha-touch/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>3</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En el tema anterior creamos la estructura principal de nuestro proyecto, a continuación vamos a crear el viewport principal donde únicamente vamos a definir el layout que usaremos. El objetivo principal de este tutorial es mostrar como podemos utilizar los layouts de Sencha Touch.</p><p>Lo primero que haremos será abrir el archivo <i>app/view/Main.js</i> y borrar su contenido para poner nuestro código.</p>
+<pre class="prettyprint">Ext.define('Itunes.view.Main', {
+    extend: 'Ext.Container',
+    xtype : 'main',
+    requires : [
+        
+    ],
+    config : {
+        items   : []
+    }
+});</pre>
+<p>Aquí estamos definiendo la clase <i>Main</i> que extiende de la clase <i>Container</i>, declaramos el <i>xtype</i> para poder definir selectores en nuestros controllers (Más adelante en este curso), definimos los <i>requires</i> que en este momento esta vacío y también definimos el objeto <i>config</i> con el arreglo de <i>items</i> vacío.</p><p>Es importante comentar que todas las propiedades que encontramos en la documentación para los componentes tienen que definirse dentro del objeto <i>config</i>, en este caso solo estamos usando la propiedad <i>items</i>, pero podríamos utilizar cualquier otra como más adelante lo haremos.</p><h3>El layout principal</h3><p>Solamente necesitamos dos contenedores principales, uno en la parte superior donde colocaremos la caja de búsqueda, el reproductor, algunos filtros y un contenedor en la parte inferior donde colocaremos los resultados de la búsqueda.</p><p>Para eso podemos utilizar un layout de tipo <i>vbox</i>, este layout nos permite alinear de manera vertical los componentes, y nos viene perfecto porque definiremos una altura específica para la cabecera y para los resultados haremos que ocupe todo el espacio disponible, esto nos permitirá que el contenido se ajuste automáticamente si el usuario ve la app en modo <i>portrait</i> o <i>landscape</i>.</p><pre class="prettyprint">config : {
+    layout  : 'vbox',                  //Step 1
+    items   : [{
+        xtype   : 'container',
+        height  : 120,                 //Step 2
+        style   : 'background:#bdc3c7',
+        html    : 'The Header'
+    },{
+        xtype   : 'component',
+        flex    : 1,                   //Step 3
+        style   : 'background:#ecf0f1',
+        html    : 'Te Results'
+    }]
+}<br/></pre><ol><li>Mediante la propiedad <i>layout</i> definimos la manera en como queremos acomodar los hijos del componente padre, en este ejemplo estamos utilizando el layout de tipo <i>vbox</i>, pero Sencha Touch viene con varios otros más que podemos utilizar te recomiendo <a href="http://docs.sencha.com/touch/2.3.2/#!/api/Ext.layout.Card" rel="nofollow" target="_blank">revisar la documentación</a>.</li><li>El siguiente paso es definir la altura de 120 pixels a la cabecera mediante la propiedad <i>height</i>. </li><li>En el paso 3 hemos hecho flexible los resultados mediante la propiedad <i>flex</i>.<br/></li></ol>
+<p>Si refrescamos nuestro navegador para que tomo los cambios anteriores podrémos observar la siguiente pantalla.</p>
+<div class="example"><img alt="VBox layout" src="https://s3.amazonaws.com/quizzpot/images/30-vbox-layout-sencha-touch.png"/><p>VBox layout</p></div>
+<h3>Profundizando en el uso de layouts</h3><p>En Sencha Touch todo se maneja mediante clases, esto significa que por cada layout existe una clase responsable de manejar el renderizado, en el ejemplo anterior utilizamos el layout de type <i>vbox</i> que corresponde a la clase <i>Ext.layout.VBox</i>.</p><p>Dentro del paquete <i>Ext.layout</i> encontraremos todos los layouts disponibles, entre ellos veremos el <i>card</i>, <i>hbox</i>, <i>fit</i> y algunos otro mas. Cada uno de ellos funciona de diferente manera, te recomiendo revisar la documentación y familiarizarte con los ejemplos.</p><p>Por el momento nos enfocaremos en el <i>vbox</i>, este layout lo utilizamos cuando queremos hacer flexibles los componentes hijos, en este caso hicimos flexible el contenedor de los resultados, por lo tanto este contenedor tomará todo el espacio disponible.</p><p>También podemos tener todos los componentes flexibles que necesitamos, por ejemplo si le quitamos el <i>height</i> a la cabecera y le ponemos <i>flex:1</i> veremos que cada contenedor tomará el 50% del tamaño total del viewport. </p><h3>Guardando los cambios en GIT</h3><p>Vamos a hacer el commit necesario para guardar nuestros nuevos cambios en el historial de GIT.</p><pre class="prettyprint">$ git add .
+$ git commit -m 'Adding the main layout'</pre><p>Con eso es suficiente para registrar nuestro avance.</p><h3>Experimentos</h3><p>Intenta agregar un nuevo contenedor al arreglo de <i>items</i> con <i>flex:1</i>, verás que cada componente toma el 33.33% del alto del viewport, ahora intenta cambiar el el valor a uno de los contenedores por <i>flex:2</i> y observa el resultado.</p><p>Intenta utilizar el layout de tipo <i>hbox</i>, oberva los resultados y luego intenta utilizar el layout de tipo <i>fit</i>.</p><p>Los layouts nos permitirán acomodar los componentes internos de una manera muy sencilla, por el momento dejaremos hasta aquí nuestra aplicación, en el siguiente tutorial comenzaremos a crear el header. </p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/tu-primera-app-con-sencha-touch/">Tu primera app con Sencha Touch</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>He desarrollado varias aplicaciones con Sencha Touch, algunas las puedes encontrar en el App Store de apple.</p>
+</span>
+</div>
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/senchatouch-itunes/step2/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

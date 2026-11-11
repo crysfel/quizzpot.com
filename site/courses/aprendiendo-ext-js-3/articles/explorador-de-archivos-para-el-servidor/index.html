@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Explorador de archivos para el servidor - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Explorador de archivos para el servidor
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>20</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En esta ocasión veremos como desplegar los archivos que tenemos en el servidor en un TreePanel, luego mediante un panel desplegaremos el contenido del archivo cuando el usuario de click sobre este.
+
+Ya vimos como <a href="/2009/11/desplegar-el-sistema-de-archivos-en-un-treepanel/" rel="nofollow" target="_blank">leer el contenido de una carpeta</a> en el servidor con PHP y también lo desplegamos en un TreePanel utilizando Ajax, en este tutorial haremos exactamente lo mismo pero le agregaremos la funcionalidad de permitir al usuario ver en un panel el contenido del archivo seleccinado, sea una imagen, un archivo de texto, un Html o inclusive un Pdf.
+
+He preparado <a href="/demos/extjs/tree/tree-show-files.html/" rel="nofollow" target="_blank">una demostración</a> de lo que obtendremos al final de este tutorial, te recomiendo le des un vistazo para tener una idea clara de lo que estaremos haciendo.
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files7.jpg"/><p>Demostración del tutorial</p></div>
+<h3>Material de apoyo</h3>
+El <a href="/wp-content/uploads/2009/12/tree-show-files.zip" rel="nofollow" target="_blank">material de apoyo</a> es el código que escribimos en <a href="/demos/extjs/tree/tree-show-files.html/" rel="nofollow" target="_blank">el tutorial anterior</a>, trabajaremos sobre lo hecho para evitar explicaciones, no modificaremos el archivo PHP que lee los archivos, solo modificaremos el JavaScript.
+
+Una vez que copiemos todos los archivos que descargamos podremos ver algo como la siguiente imagen en nuestro explorador:
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files2.jpg"/><p>Utilizamos el código del tutorial anterior</p></div>
+<h3>Creando el Layout</h3>
+Primero vamos a crear el layout que tendrá nuestra aplicación, necesitamos que en la parte izquierda aparezca el TreePanel y en la parte derecha aparezca el panel donde cargaremos el contenido de cada archivo.
+
+Vamos a modificar el código de la ventana de la siguiente manera.
+
+<pre class="prettyprint">var win = new Ext.Window({		
+	title:'Reading files example',
+	layout:'border', 		// Step 1
+	width:600,			// Step 2
+	height:400,
+	items: tree
+});
+win.show();		
+</pre>
+
+En el paso uno cambiamos el layout de “fit” a “border”, recordemos que con el valor “fit” el contenido de la ventana se ajustará a las dimensiones de la misma ventana, pero ahora si usamos el layout “border” podremos crear “regiones” dentro de la ventana, en tutoriales siguientes explicaré más a detalle esto, por ahora es suficiente.
+
+En el paso dos cambiamos las dimensiones de la ventana, dando espacio para agregar el panel donde se desplegará el contenido de cada archivo.
+
+<h3>Crear las regiones</h3>
+Cuando usamos un layout de tipo “border” es necesario definir las regiones que contendrá, es importante mencionar que debemos crear una región “center” obligatoriamente, de lo contrario aparecerá un error como el siguiente:
+
+<pre class="prettyprint">uncaught exception: No center region defined in BorderLayout ext-comp-1002
+</pre>
+
+El layout de tipo “border” cuenta con cinco regiones, norte (north), sur (south), este (east), oeste (west) y centro (center), ya sabemos que la región central es obligatoria, para este ejemplo usaremos la región “oeste” para colocar el TreePanel  y la región “central” para poner el contenido del archivo seleccionado.
+
+<pre class="prettyprint">var tree = new Ext.tree.TreePanel({  	
+	region:'west',		// Step 1
+	border: false,
+	autoScroll:true,
+	dataUrl:'get-files.php',
+	root: new Ext.tree.AsyncTreeNode({
+		id:'.',
+		text: 'User files'
+	})
+});
+
+var main = new Ext.Panel({
+	region:'center',		// Step 2
+	layout:'fit',
+	border:false
+});
+
+var win = new Ext.Window({		
+	title:'Reading files example',
+	layout:'border', 
+	width:600,	
+	height:400,
+	items: [tree,main] 	// Step 3
+});
+</pre>
+
+En el paso uno le asignamos al TreePanel la región “west”, con esto se alineará en la parte izquierda de la ventana contenedora.
+
+En el paso dos creamos el panel central, aquí no hay nada diferente solamente la región es lo que debemos poner atención.
+
+En el paso tres le asignamos a la ventana los dos elementos que necesitamos que contenga, si creamos más regiones aquí las asignaríamos.
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files3.jpg"/><p>Layout border con dos regiones</p></div>
+<h3>Permitir que se redimensione el TreePanel</h3>
+Vamos asignarle algunas otras configuraciones al TreePanel con el fin de que el usuario pueda cambiar su tamaño  y que también lo pueda ocultar.
+
+<pre class="prettyprint">var tree = new Ext.tree.TreePanel({  	
+	region:'west',		
+	split:true,		// Step 1
+	collapsible:true,	// Step 2
+title:'Files',		// Step 3
+	width:130,
+	border: false,
+	autoScroll:true,
+	dataUrl:'get-files.php',
+	root: new Ext.tree.AsyncTreeNode({
+		id:'.',
+		text: 'User files'
+	})
+});
+</pre>
+
+En el paso uno hicimos que el panel se pueda redimensionar, con esto permitimos que el usuario tenga la capacidad de cambiar el ancho del panel.
+
+En el paso dos hacemos que el panel pueda colapsarse, esto permite que pueda ocultarse para tener más espacio y ver mejor el contenido principal.
+
+En el paso tres le asignamos un título y también hemos cambiado la dimensión inicial.
+
+Al actualizar el explorador podremos redimensionar el TreePanel y veremos algo como la siguiente imagen:
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files4.jpg"/><p>Redimencionar el TreePanel</p></div>
+
+Y si damos click sobre la flecha que se encuentra en el título del TreePanel, éste se colapsará de la siguiente manera:
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files5.jpg"/><p>Ocultar el TreePanel</p></div>
+<h3>Desplegando el contenido de los archivos</h3>
+Hasta ahora nuestra aplicación no hace nada, solo despliega los archivos que el servidor nos permite ver, necesitamos agregar más interacción para el usuario y esto lo logramos asignándole los eventos adecuados a los componentes.
+
+<pre class="prettyprint">tree.on('click',function(node){
+	// Solicitar el contenido del nodo seleccionado	
+});
+</pre>
+
+En el código anterior estamos asignándole un listener al evento “click” del TreePanel, de esta manera cuando el usuario seleccione un archivo la función que definimos será ejecutada y recibirá como parámetro el “nodo” seleccionado.
+
+Lo siguiente es desplegar el archivo seleccionado, para esto usaremos un “iframe” al cual le asignaremos la “url” que contiene el nodo.
+
+<pre class="prettyprint">// Step 1
+var el = Ext.get(Ext.DomQuery.select('.x-panel-body',main.el.dom)[0]);
+
+el.createChild({		// Step 2
+	tag:'iframe',
+	src:'files/'+node.id,
+	style:'border:none;width:100%;height:100%;'
+});
+</pre>
+
+En el paso uno obtenemos el div del panel central, este div es necesario pues ahí es donde colocaremos el “iframe”.
+
+En el paso dos creamos un “iframe” dentro del div que tomamos anteriormente, este “iframe” que apunta hacia el documento seleccionado, también le agregamos algunos estilos.
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files6.jpg"/><p>Mostrar el contenido de los archivos</p></div>
+
+Ya podemos desplegar el contenido de los archivos, pero tenemos un problema, una vez que seleccionamos un archivo al dar clic sobre otros ya no se despliegan en el panel principal, esto sucede porque los iFrames se van creando por debajo de los anteriores, para solucionar este problema solamente tenemos que eliminar los iFrames anteriores.
+
+<pre class="prettyprint">tree.on('click',function(node){
+	var el = Ext.get(Ext.DomQuery.select('.x-panel-body',main.el.dom)[0]);
+
+	while (el.dom.childNodes[0]){			// Step 1
+		el.dom.removeChild(el.dom.childNodes[0]);	//Step 2
+	}
+
+	el.createChild({
+		tag:'iframe',
+		src:'files/'+node.id,
+		style:'border:none;width:100%;height:100%;'
+	});
+});
+</pre>
+
+En el paso uno creamos un ciclo que se estará ejecutando hasta que no haya más elementos dentro del div principal.
+
+En el paso dos eliminamos el primer nodo del div principal.
+
+
+<div class="example"><img alt="Explorador de archivos para el servidor" src="/wp-content/uploads/2009/12/tree-show-files7.jpg"/><p>Mostrar los archivos seleccionados</p></div>
+
+Ahora si funciona correctamente nuestra aplicación, podemos ver el contenido de los archivos que tenemos en el servidor.
+
+<h3>Conclusión</h3>
+En este tema vimos como crear una layout de tipo “border”, no entramos en detalles sobre este tipo de layout ya que la idea es hacerlo más adelante, también vimos como utilizar el evento “click” en un TreePanel.
+
+<a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Síguenos en Twitter</a> para estar al tanto de las actualizaciones en el sitio.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/tree/tree-show-files.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

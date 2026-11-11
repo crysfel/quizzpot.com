@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Las Pestañas o Tabs - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Las Pestañas o Tabs
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>21</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Las pestañas son muy útiles para dividir la información por secciones o por categorías, en Ext JS es muy sencillo realizar esto, este tutorial se muestra como hacerlo.
+
+<h3>Material de apoyo</h3>
+Antes de continuar asegúrate de <a href="/wp-content/uploads/2009/06/tabs.zip" rel="nofollow" target="_blank">descargar los recursos</a> para este tema, descomprimir el ZIP y copiar el contenido dentro de la carpeta “paneles” que creamos al inicio de este capítulo. 
+
+Para este tutorial vamos a crear una ventana, dentro de ésta vamos a colocar un TabPanel con varios tabs que crearemos dinámicamente en tiempo de ejecución, te invito que veas <a href="/demos/extjs/panels/tabs.html/" rel="nofollow" target="_blank">el demo</a> que he preparado.
+
+
+<div class="example"><img alt="Tab1" src="/wp-content/uploads/2009/06/tabs1.jpg"/><p>Ejemplo final</p></div>
+<h3>El TabPanel</h3>
+Un TabPanel es un contenedor de pestañas o tabs, no existe un componente “Tab” pero podemos agregarle el componente “Ext.Panel”, “Ext.grid.GridPanel”, “Ext.tree.TreePanel” y cualquier componente que herede del “Panel”.
+
+A continuación vamos a crear el TabPanel de la siguiente manera:
+
+<pre class="prettyprint">//creamos el primer tab
+var home = new Ext.Panel({
+	title:'Home',
+	iconCls: 'home-icon',
+	html: 'This is the home page example'
+});
+		
+this.tabs = new Ext.TabPanel({
+	items: home //le agregamos el primer tab
+});
+</pre>
+
+En el código anterior primero se creó un panel que será el home, luego se ha creado el “TabPanel” y únicamente se le está asignando la variable “home” para convertirse en el primer tab, hasta ahora no se ve nada en la pantalla, esto es porque no lo hemos “renderizado”, para mostrarlo podemos utilizar la propiedad “renderTo”, o el método “render” o en este caso utilizar una ventana que contenga el “TabPanel” de la siguiente manera:
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title:'Tabs example',
+	width:600,
+	height:500,
+	bodyStyle: 'background-color:#fff;',
+	items: this.tabs //le asignamos el tabpanel
+});
+win.show();
+</pre>
+
+El código anterior debe ser familiar para nosotros, pues ya lo hemos estudiado en <a href="/2009/05/una-ventana-flotante/" rel="nofollow" target="_blank">temas anteriores</a>, si actualizamos la página donde se ejecuta este script veremos algo semejante a la siguiente imagen.
+
+
+<div class="example"><img alt="Tab2" src="/wp-content/uploads/2009/06/tabs2.jpg"/><p>Tab panel en ventana con solo un tab</p></div>
+
+Si eres observador notarás que el tab “home” no aparece activado hasta que le damos clic con el Mouse y aparece su contenido; si queremos que el contenido aparezca desde el principio tenemos que utilizar la propiedad “activeTab” y asignarle el índice del tab que queremos activar, entonces el código del “TabPanel” quedaría de la siguiente manera:
+
+<pre class="prettyprint">this.tabs = new Ext.TabPanel({
+	border: false,
+	activeTab: 0, //&lt;--activar el primer tab
+	items:[home]
+});
+</pre>
+
+Es importante notar que los índices comienzan en “0”, por lo tanto para activar el primero tenemos que activar el tab con el índice cero.
+
+
+<div class="example"><img alt="Tab3" src="/wp-content/uploads/2009/06/tabs3.jpg"/><p>Primer tab activado automáticamente</p></div>
+<h3>Agregar Tabs en tiempo de ejecución</h3>
+Ahora vamos a agregar varios tabs en tiempo de ejecución, es decir dinámicamente, para eso vamos a escribir el código necesario dentro del método “addTab” que se encuentra en el objeto “TabPanelTutorial” el cual ya viene definido en el material de apoyo que descargamos, dentro de este método vamos a crear un panel y se lo vamos a agregar el “TabPanel” que hemos creado anteriormente.
+
+<pre class="prettyprint">addTab: function(i){
+	//aquí va el código para agregar un nuevo tab
+	var tab = new Ext.Panel({
+		title: 'Tab '+i,
+		closable: true, //&lt;-- este tab se puede cerrar
+		iconCls: 'app-icon',
+		tbar:[{iconCls:'save-icon'},{iconCls:'spell-icon'},{iconCls:'search-icon'},{iconCls:'send-icon'},{iconCls:'print-icon'}],
+		html: 'This is the content for the tab number '+i
+	});
+	
+	this.tabs.add(tab); //con esto le agregamos el tab
+}
+</pre>
+
+El código anterior crea un panel con la propiedad “closable”, esto hace que el tab pueda ser cerrado por el usuario en cualquier momento, además se le agregó una <a href="/2009/05/barras-de-herramientas-en-paneles-y-ventanas/" rel="nofollow" target="_blank">barra de herramientas</a>, la cual no hace nada pero quiero enfatizar que podemos utilizar cualquier configuración del componente Panel.
+
+ 
+Por último necesitamos invocar el método que acabamos de crear mediante un ciclo dentro del método “init” de la siguiente manera:
+
+<pre class="prettyprint">init: function(){
+	//… código removido
+	win.show();
+	
+//creamos 10 tabs
+	for(var i=0;i&lt;10;i++){
+		this.addTab(i+1);
+	}
+},
+</pre>
+<div class="example"><img alt="Tab4" src="/wp-content/uploads/2009/06/tabs4.jpg"/><p>Tabs agregados dinámicamente</p></div>
+<h3>Agregar un scroll a los tabs</h3>
+Hasta ahora tenemos un problema, y es que no aparecen los últimos tabs porque la ventana es más pequeña, esto lo podemos solucionar agregando un “scroll” para que podamos desplazar los tabs y mirar todos por medio de la propiedad “enableTabScroll” del “TabPanel” de la siguiente manera:
+
+<pre class="prettyprint">this.tabs = new Ext.TabPanel({
+	border: false,
+	activeTab: 0,
+	enableTabScroll:true, //&lt;-- muestra un scroll para los tabs
+	items:[home]
+});
+</pre>
+<div class="example"><img alt="Tab5" src="/wp-content/uploads/2009/06/tabs5.jpg"/><p>TabPanel con scroll para mover los tabs</p></div>
+
+El código completo para este tutorial queda de la siguiente manera:
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.TabPanelTutorial = {
+	init: function(){
+		//Aquí está el código inicial
+		var home = new Ext.Panel({
+			title:'Home',
+			iconCls: 'home-icon',
+			html: 'This is the home page example'
+		});
+		
+		this.tabs = new Ext.TabPanel({
+			border: false,
+			activeTab: 0,
+			enableTabScroll:true,
+			items:[home]
+		});
+		
+		var win = new Ext.Window({
+			title:'Tabs example',
+			width:600,
+			height:500,
+			bodyStyle: 'background-color:#fff;',
+			items: this.tabs
+		});
+		win.show();
+		
+		for(var i=0;i&lt;10;i++){
+			this.addTab(i+1);
+		}
+	},
+	
+	addTab: function(i){
+		//here the code to add a new tab
+		var tab = new Ext.Panel({
+			title: 'Tab '+i,
+			closable: true, //&lt;-- this tab is closable
+			iconCls: 'app-icon',
+			tbar:[{iconCls:'save-icon'},{iconCls:'spell-icon'},{iconCls:'search-icon'},{iconCls:'send-icon'},{iconCls:'print-icon'}],
+			html: 'This is the content for the tab number '+i
+		});
+		
+		this.tabs.add(tab);
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.TabPanelTutorial.init,com.quizzpot.tutorial.TabPanelTutorial);
+</pre>
+<h3>Conclusiones</h3>
+El TabPanel es un Widget muy utilizado para crear interfaces usables, además es muy flexible y fácil de utilizar, te recomiendo mirar el API para que conozcas algunas otras propiedades de este componente y como siempre si tienes dudas o sugerencias favor de hacerlas en los comentarios o bien suscríbete en <a href="http://foro.quizzpot.com" rel="nofollow" target="_blank">el foro</a> el cual esta creciendo poco a poco con la ayuda de todos ustedes.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/panels/tabs.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

@@ -1,0 +1,6 @@
+# Unmodified crawl (contains reader comments and usernames) - never publish.
+raw/
+crawl-log.tsv
+tools/.venv/
+__pycache__/
+.DS_Store

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Modelos, Vistas y Controladores en Ext JS 4 - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Blog</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 posts-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Modelos, Vistas y Controladores en Ext JS 4
+            <a class="bubble-tag article-header-link-videos" href="/blog/">Blog</a>
+</h2>
+<div class="article-information">
+<!--class="separator"-->
+<span>Likes: <em>0 Persona</em></span>
+<span class="separator">Comentarios: <em>0</em></span>
+<span class="separator">Publicado: <em>31/10/2013</em></span>
+</div>
+<div class="course-tags">
+<span class="tags-text">Tags:</span>
+<span class="bubble-tag">Ext JS 4</span>
+</div>
+<div class="article-description">
+<div class="article-description-text">Cuando desarrollamos aplicaciones de gran escala es de suma importancia definir una buena arquitectura, dividir nuestro código en capas nos permite tener un mejor control sobre el mismo así como facilitarnos el mantenimiento en un futuro. Ext 4 nos permite implementar de una forma sencilla el patrón MVC para organizar nuestro código y separandolo en capas delegando resposabilidades específicas en cada una de ellas.
+
+<h3>Los Modelos</h3>
+Un modelo de datos nos permite definir y abstraer las propiedades de una entidad, en Ext JS usamos los modelos para llenar una colección para luego desplegar la información en un widget por ejemplo un Grid, View, Combobox o algún otro. 
+
+Es importante mencionar que en la capa del modelo solo modelamos la información que usaremos en las otras dos capas, aquí no definimos ni widgets ni tampoco eventos para agregar interacción con el usuario. Para definir un modelo lo hacemos de la siguiente manera:
+
+<pre class="prettyprint">Ext.define("Bleext.movies.model.Movie",{
+	extend		: "Ext.data.Model",
+	fields		: [
+		{name:"title",type:"string"},
+		{name:"tns",type:"string"},
+		{name:"url",type:"string"},
+{name:"author",type:"string"},
+		{name:"duration",type:"float"},
+		{name:"releaseDate",type:"date",formatDate:"Y-m-d"},
+		{name:"description",type:"string"}
+	]
+});
+</pre>
+
+Primeramente debemos extender de la clase “Ext.data.model”, esta clase nos da la funcionalidad necesaria para definir los modelos que usaremos en nuestra aplicación.
+
+La clase que hemos creado contiene el campo “fields” que es un arreglo con los campos que contendrá este modelo, en este caso una película contiene título, url, tns, autor, duración, duración, fecha de salida y descripción.
+
+Un último punto a considerar es que debemos guardar el archivo dentro de la ruta “Bleext/movies/model/” con el nombre “Movie.js”, esto para que pueda ser <a href="/2011/10/carga-de-clases-dinamicamente-con-extjs-4/" rel="nofollow" target="_blank">cargado dinámicamente</a> con el Loader.
+
+Como parte de la capa de datos vamos a definir aquí el “store” que almacenará los modelos para luego ser usados en un grid, para definir un store lo hacemos de la siguiente manera:
+
+<pre class="prettyprint">Ext.define("Bleext.movies.store.Movies",{
+	extend		: "Ext.data.Store",
+	model		: "Bleext.movies.model.Movie",
+	
+	proxy		: {
+		url		: "services/movies.json"
+		reader	: {
+			type	: "json",
+			root	: "data"
+		}
+	}
+});
+</pre>
+
+En primer lugar extendemos de la clase “Ext.data.Store” que es la clase que nos permite almacenar los los modelos y manipularlos de una manera sencilla.
+
+En segundo lugar le asignamos el modelo “Movie”, de esta manera le asociamos los objetos que manejara este store llamado “Movies”.
+
+Tercer paso definimos el proxy y le asignamos un reader para que interprete JSON, ahí podemos definir algunas otras configuraciones.
+
+Esta clase la guardamos en la ruta “Bleext/movies/store” y el archivo llamado “Movies.js”, por ahora hemos terminado con la capa de datos.
+
+Si has notado el store ha definido una “url” que apunta a “services/movies.json”, este servicio debería consultar algún sitio como youtube o vimeo para sacer la información a desplegar y regresar un JSON como el siguiente:
+
+<pre class="prettyprint">{
+	"data"	: [
+		{"title":"A History of the Sky","author":"Ken Murphy","releaseDate":"2011-11-15","tns":"http://b.vimeocdn.com/ts/216/862/216862163_200.jpg","duration":4.52,"url":"http://player.vimeo.com/video/32095756","description":"This is a year-long time-lapse study of the sky. A camera installed on the roof of the Exploratorium museum in San Francisco captured an image of the sky every 10 secobnds. From these images, I created a mosaic of time-lapse movies, each showing a single day. The days are arranged in chronological order. My intent was to reveal the patterns of light and weather over the course of a year."},
+		{"title":"the raid on zuccotti park","author":"Casey Neistat","releaseDate":"2011-11-17","url":"http://player.vimeo.com/video/32215878","duration":3.32,"tns":"http://b.vimeocdn.com/ts/217/760/217760559_200.jpg","description":"My office isn't far from Zuccotti Park and when I heard it was being cleared I went down with my camera. I ended up filming for 18 hours until the Park was reopened at 6pm on November 15, 2011. The police presence was overwhelming, more than I've ever seen - more than during the blackout, more than the days after September 11th."},
+		{"title":"Black Ocean","author":"Zelig Sound: Composition &amp; Sound","releaseDate":"2011-11-18","tns":"http://b.vimeocdn.com/ts/218/080/218080637_200.jpg","duration":2.34,"url":"http://player.vimeo.com/video/32256774","description":"We were asked to create some excellent intricate sound design and score for this very beautiful visual journey through Black Ocean's ecosystem. We used some very interesting and unique sound tools when creating this piece. The result is very detailed, subtle and reserved."}
+	]
+}
+</pre>
+<h3>Las Vistas</h3>
+En Ext JS las vistas son los componentes o widget, por ejemplo un grid, un formulario y todo aquello que se renderiza en la pantalla, es importante mencionar que aquí no debemos definir ningún listener ni agregar alguna clase de interacción con el usuario, simplemente definimos la vista de nuestra aplicación.
+
+Para este ejemplo crearemos un grid que desplegará la información que contiene el Store que definimos anteriormente:
+
+<pre class="prettyprint">Ext.define("Bleext.movies.view.MoviesGrid",{
+	extend		: "Ext.grid.Panel",
+	
+	store		: "Bleext.movies.store.Movies",
+	border		: false,
+
+	initComponent	: function() {
+		var me = this;
+		
+		me.columns = [
+			{header:"Image",dataIndex:"tns",width:100,renderer:me.showImage},
+			{header:"Title",dataIndex:"title",width:180},
+			{header:"Author",dataIndex:"author",flex:1},
+			{header:"Release date",dataIndex:"releaseDate",flex:1},
+			{header:"Duration",dataIndex:"duration",width:60}
+		];
+        
+		me.callParent();
+	},
+	
+	showImage		: function(value,record){
+		return '<img alt=""/>';
+	}
+});
+</pre>
+
+Primero extendemos de la clase “Ext.grid.Panel” asignandole el store que estará usando para llenar la información de los rows, también se define un renderer en la columna “Image” para desplegar la imagen asociada al video.
+
+No olvidar seguir las convenciones para crear el archivo “MoviesGrid.js” que alojará el código anterior.
+
+Además de crear el grid, voy a crear una ventana que contenga al grid anterior, el código para generar la ventana es el siguiente:
+
+<pre class="prettyprint">Ext.define("Bleext.movies.view.MoviesWindow",{
+	extend		: "Ext.window.Window",
+	
+	layout		: "fit",
+	title		: "Movies",
+	width		: 550,
+	height		: 350,
+
+initComponent	: function(){
+		var me = this;
+		
+		me.items = Ext.create("Bleext.movies.view.MoviesGrid");
+		
+		me.callParent();
+	}
+});
+</pre>
+
+La clase anterior extiende de “Ext.window.Window” y únicamente añade el grid de películas que ya habíamos creado.
+
+Es importante resaltar que el código de las vistas anteriores no tienen ningún listener o interacción con el usuario, son simples componentes que podrían ser usados en cualquier lugar de nuestra aplicación donde requiramos desplegar un grid de películas o bien una ventana conteniendo el grid.
+
+<div class="example">
+<img alt="ExtJS 4 MVC example" src="/wp-content/uploads/2011/11/extjs-mvc-01.png"/>
+<p>Grid en ventana</p>
+</div>
+<h3>El controlador</h3>
+Una vez que tenemos definidos nuestros modelos en la capada de datos y nuestros componentes en la capa de las vistas necesitamos agregar la interacción y funcionalidad, esto lo hacemos en la capa del controlador.
+
+El siguiente código muestra el controlador que une todas las piezas.
+
+<pre class="prettyprint">Ext.define("Bleext.movies.controller.Movies",{
+	extend		: "Ext.app.Controller",	// Step 1
+	models		: ["Bleext.movies.model.Movie"],	// Step 2
+	stores		: ["Bleext.movies.store.Movies"],
+	views		: [
+		"Bleext.movies.view.MoviesWindow",
+		"Bleext.movies.view.MoviesGrid"
+	],
+
+	init	: function() {	// Step 3
+		var me = this;
+		
+		me.control({	// Step 4
+			"window gridpanel"	: {	//Step 5
+				itemclick	: me.showMovie	//Step 6
+			}
+		});
+	},
+	
+	showMovie	: function(grid,record){
+		Ext.Msg.alert("Alert","Now playing: '"+record.get("title")+"'");
+	}
+});
+</pre>
+
+En el código anterior hay muchas cosas por explicar, así que vamos por partes.
+
+En el paso uno la clase extiende de “Ext.app.Controller”, esta clase nos proporciona algunos métodos para poder agregar listeners a los componentes de una manera sencilla, también define el método “init”.
+
+En el paso dos importamos todas las clases que usaremos para este módulo, los modelos, los stores y las vistas implicadas para que todo funcione correctamente.
+
+En el paso tres sobre escribimos el método “init” que es ejecutado automáticamente cuando se crea el controlador, aquí deberíamos definir todo aquello que necesitemos, es importante mencionar que cuando se ejecuta este método todavía no se han renderizado los componentes.
+
+El paso cuatro es muy importante, es aquí donde mediante el método “control” definimos los listeners y agregamos la interacción necesario para los componentes que tenemos ya definidos, este método internamente registra los selectores con sus respectivos eventos y listeners en el “bus de eventos” el cual es un objeto por el cual todos los eventos que generan los componentes tienen que pasar, más adelante hablaré a detalle al respecto ya que vale la pena conocerlo.
+
+En el paso cinco definimos los selectores, estos selectores son como los de CSS y nos sirven para seleccionar componentes de una manera muy sencilla usando por debajo el “Ext.ComponentQuery” un componente que sin duda dedicaré un tutorial para hablar a detalle sobre él. Mi consejo es que seas lo más específico posible al definir los selectores para que no tengas problemas de conflictos cuando tu aplicación crezca, la búsqueda de los componentes se hace por su “alias” o “xtype”, también podemos usar propiedades y algunos otros comodines.
+
+En el paso seis le indicamos al componente seleccionado cual es el evento que queremos escuchar, en este caso será el “itemclick” que se dispara cuando el usuario da click sobre una fila, a este evento le asignamos una función que se ejecutará cada vez que se dispare el evento “itemclick”.
+
+La función “showMovie” únicamente muestra un alerta, aquí podríamos hacer cualquier otra cosa que queramos ejecutar cuando el usuario da click en una fila, por ejemplo abrir una ventana donde reproduzca el video y muestre más información o lo que se nos ocurra.
+
+<div class="example">
+<img alt="ExtJS 4 MVC example" src="/wp-content/uploads/2011/11/extjs-mvc-02.png"/>
+<p>Listeners desde el controller</p>
+</div>
+<h3>Creando la aplicación</h3>
+Hasta ahora hemos definido el módulo de “movies”, para poderlo ejecutar necesitamos agregarlo a la aplicación, en proyectos reales lo ideal sería ir cargando los módulos bajo demanda, en el Bleextop así sucede pero para este ejemplo cargaremos el módulo desde el inicio de la aplicación.
+
+En un archivo llamado “myapp.js” hubicado dentro de la carpeta “js” escribiremos el siguiente código:
+
+<pre class="prettyprint">Ext.Loader.setConfig({
+enabled	: true,
+	paths	: {
+		Bleext	: "js/Bleext"
+	}
+});
+
+Ext.application({
+	name		: "Bleext",
+	appFolder 	: "js/Bleext",
+	controllers	: ["Bleext.movies.controller.Movies"],
+	launch		: function(){
+		
+		var win = Ext.create("Bleext.movies.view.MoviesWindow");
+		win.show();
+	}
+});
+</pre>
+
+Si el código anterior se te hace desconocido te recomiendo darle una leida al tutorial donde he hablado <a href="/2011/11/definiendo-aplicaciones-en-ext4/" rel="nofollow" target="_blank">acerca de las aplicaciones</a> y del <a href="/2011/10/carga-de-clases-dinamicamente-con-extjs-4/" rel="nofollow" target="_blank">cómo cargar clases dinámicamente</a>.
+
+La clase “Ex.app.Application” hereda de “Ext.app.Controller”, por lo tanto para importar el módulo de “movies” simplemente importamos el controller correspondiente y el internamente importará todas las clases necesarias.
+
+En la función “launch” creamos una instancia de la clase “window” y luego le hacemos un “show” para poder desplegarla en pantalla.
+
+El html donde importamos la libraría de Ext, el CSS y la aplicación sería de la siguiente manera.
+
+<pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8" /&gt;
+	&lt;title&gt;ExtJS MVC&lt;/title&gt;
+	&lt;link rel="stylesheet" href="http://extjs.cachefly.net/ext-4.0.2a/resources/css/ext-all.css" type="text/css" media="screen" title="no title" charset="utf-8"&gt;
+	&lt;script src="http://extjs.cachefly.net/ext-4.0.2a/ext-all.js" type="text/javascript" charset="utf-8"&gt;&lt;/script&gt;
+	
+	&lt;script src="/blog/js/myapp.js" type="text/javascript" charset="utf-8"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+<h3>Conclusion</h3>
+Usando el patrón MVC podemos crear una arquitectura fácil de mantener, fácil de administrar y puede crecer cuan grande como queramos siempre definiendo el código necesario en la capa adecuada, los modelos con la información, las vistas con los componentes y los controlers con la interacción que agregaremos a los componentes.
+
+En futuros tutoriales veremos más ejemplos de MVC, por ahora sólo quería mostrar los pasos necesarios para poder hacer funcionar nuestra primera aplicación, <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">síguenos en twitter</a> o en nuestra lista de correos para estar pendiente de los nuevos tutoriales y materiales disponibles.</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Soy un geek que disfruta crear y compartir cosas en internet! Sígueme en twitter @crysfel</p>
+</span>
+</div>
+<div>
+
+</div>
+</div>
+</div>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<!-- Modal -->
+
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+    
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br/><br/>
+<a href="/about/">Leer más...</a>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

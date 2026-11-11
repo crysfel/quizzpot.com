@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>El contexto y la variable “this” - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            El contexto y la variable “this”
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>18</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                El contexto es el objeto en el que se está operando al tiempo de ejecución, en JavaScript tu código siempre tendrá un contexto. En este tema se muestra como se puede cambiar o asignar el contexto a métodos o funciones.
+
+<h3>El video</h3>
+Quiero pedir una disculpa por que no se ha realizado el video para este tema, pues por falta de tiempo me ha sido imposible hacerlo, pero creo que con la explicación escrita es suficiente para comprender el concepto.
+
+<h3>El contexto</h3>
+La manera como funciona el contexto es mediante la variable “this” la cual hace referencia al objeto en el que está contenido el código en ejecución. En temas anteriores se ha mostrado que el “global scope” está contenido en el objeto “window” por lo tanto si se imprime en la consola de Firebug, la variable “this” desplegará al objeto “window”.
+
+<pre class="prettyprint">// this == window
+console.debug(this);
+
+function test(){
+	// this == window
+console.debug(this);
+}
+
+test();
+</pre>
+
+La función “test” ha creado un nuevo scope pero no se le ha especificado un contexto en cual debe ejecutarse por lo tanto toma el contexto global y la variable “this” dentro del scope de la función “test” apunta al objeto “window”, es por eso que al imprimir en la consola la variable “this” mostrará al objeto “window”. Ahora veamos un ejemplo de una función en el contexto de un objeto:
+
+<pre class="prettyprint">var obj = {
+	name: 'obj',
+	run: function(){
+		// this == obj
+		this.value = 1;
+		console.debug(this.name);
+	}
+};
+
+obj.run();
+</pre>
+
+En el código anterior se muestra cómo es que mediante la palabra reservada “this” se hace referencia al objeto “obj”, de esta manera se le pueden agregar o leer propiedades al objeto en cuestión.
+ 
+<h3>Cambiar el contexto de una función</h3>
+Cuando se crea una función anónima o una función dentro de algún método del objeto “obj” adopta un nuevo contexto por lo tanto estas funciones están en el contexto global, examinemos el siguiente ejemplo:
+
+<pre class="prettyprint">var obj = {
+	name: 'obj',
+	run: function(){
+		this.value = 1;
+		console.debug(this); // this == obj
+		
+		(function(){ // se crea un nuevo scope
+			console.debug(this); // this == window
+		})();
+		
+		function test(){ // se crea un nuevo scope
+			console.debug(this); // this == window
+		}
+		
+		test();
+	}
+};
+
+obj.run();
+</pre>
+
+Como se puede ver la variable “this” dentro de la función anónima y la función “test” apuntan al objeto “window” en lugar de apuntar al objeto “obj”, esto sucede porque estas funciones no han sido definidas como métodos el objeto “obj”, por lo tanto no pertenecen a “obj” y adoptan el contexto global. A continuación se muestra el mismo código anterior con una modificación en la función anónima y en la función “test”:
+
+<pre class="prettyprint">var obj = {
+	name: 'obj',
+	run: function(){
+		this.value = 1;
+		console.debug(this); // this == obj
+		
+		(function(){
+			console.debug(this); // this == obj
+		}).call(this); // se autoejecuta con el método call
+		
+		this.test = function(){ // se define como método de obj
+			console.debug(this); // this == obj
+		}
+		
+		this.test(); // se ejecuta dentro del contexto de obj
+	}
+};
+
+obj.run();
+</pre>
+
+En la función anónima se está utilizando el método “call” para ejecutarse a si misma y se le pasa como parámetro el objeto que utilizará como contexto al momento de ser ejecutada; de esta manera hemos cambiado el contexto global que anteriormente tenía por el contexto “obj”. Para la función “test” se ha cambiado la manera en que se definía anteriormente y ahora se ha definido como un método del objeto “obj”, de esta manera se ejecutará en el mismo contexto. El llamado de la función también ha cambiado, ya que ahora le anteponemos la variable “this” al método “test”.
+
+Existe otro método para cambiar el contexto de una función y es el método “apply” que recibe como primer parámetro el objeto que utilizará como contexto al ejecutarse y como segundo parámetro un arreglo con los parámetros que se necesiten pasar. El siguiente ejemplo muestra como usar esta función:
+
+<pre class="prettyprint">function notGlobal(){
+	console.debug(this);
+}
+
+notGlobal.apply(obj,[1,2,'3',true]);
+</pre>
+<h3>Conclusiones</h3>
+Este tema es muy importante pues es necesario comprender el uso de la variable “this” para los siguientes temas de este curso. El contexto puede ser una herramienta muy poderosa si se sabe utilizar correctamente, pero también puede darnos muchos dolores de cabeza si no se ha comprendido su uso.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

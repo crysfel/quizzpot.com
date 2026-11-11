@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>¿Que es un panel, para que sirve y cómo se crean? - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            ¿Que es un panel, para que sirve y cómo se crean?
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="385" mozallowfullscreen="" src="https://player.vimeo.com/video/4407393" webkitallowfullscreen="" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>50</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>22.08 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                El panel es un componente básico dentro del Framework de Ext JS ya que muchos componentes heredan de éste, es por eso que conocer su funcionamiento es fundamental.
+
+<h3>Material de apoyo</h3>
+Antes de continuar es necesario <a href="/wp-content/uploads/2009/04/panels.zip" rel="nofollow" target="_blank">descargar el material de apoyo</a>, descomprimirlo y copiar los archivos al servidor Web que instalamos en el primer capitulo de este curso, dentro de la carpeta “curso”, en la cual hemos estado trabajando; vamos a crear una carpeta que se llame “panels” y pegamos el material de apoyo.
+
+<h3>¿Qué es un panel?</h3>
+Un panel es un contenedor con funcionalidades específicas que nos permiten construir perfectamente interfaces de usuario, entre algunas características podemos agregarle barras de herramientas superiores e inferiores, botones en la parte inferior o hacer que pueda colapsarse. Los paneles pueden ser fácilmente asignados a cualquier otro contenedor.
+
+<h3>Crear un primer panel</h3>
+Para crear un panel es muy sencillo, basta con hacer lo siguiente:
+
+<pre class="prettyprint">var main = new Ext.Panel({
+	title: 'My first panel', //el título del panel
+	width:250, //la anchura del panel
+	height:300, //la altura que tendrá
+	renderTo: 'frame', //el elemento donde será insertado
+	html: 'Nothing important just dummy text' //el contenido del panel
+});
+</pre>
+
+El código anterior crea un panel con el título de “My first panel”, con dimensiones de 250 por 300 píxeles y lo colocará dentro del elemento “frame” que se encuentra en el HTML, el contenido es solamente el texto “Nothing important just dummy text”.
+
+<div class="example"><img alt="My first panel" src="https://s3.amazonaws.com/quizzpot/images/161-panel1.jpg"/><p>Ejemplo básico de un panel</p></div>
+
+Lo más importante en el código anterior es notar la propiedad “renderTo”, esta propiedad acepta el “id” del nodo en el DOM en el cual será insertado el panel que estamos creando. En el siguiente ejemplo se muestra otra alternativa por si necesitamos “renderizar” el panel en algún otro momento.
+
+<pre class="prettyprint">var main = new Ext.Panel({
+	title: 'My first panel',
+	width:250,
+	height:300,
+	html: 'Nothing important just dummy text'
+});
+//usamos el método “render” para imprimir el panel en la pantalla
+main.render('frame');  
+</pre>
+
+Como se puede observar el objeto “Panel” cuenta con un método capaz de “renderizar” o insertar el HTML necesario para que el usuario pueda mirar el panel en la pantalla, este método se llama “render” y acepta como parámetro el “id” del nodo en el DOM donde será insertado.
+
+<h3>El contenido del panel</h3>
+El contenido de un panel puede ser asignado de cuatro maneras diferentes, hemos visto una de ellas en los códigos anteriores, usando la propiedad “html” se le puede especificar el contenido que se necesite agregar.
+
+Una segunda opción es definir mediante la propiedad “contentEl” el “id” del elemento que necesitemos meter al panel, es necesario que este elemento ya se encuentre en el DOM para que pueda ser insertado en el panel, vamos a descomentar el código HTML que viene en el material de apoyo y luego escribimos el siguiente código.
+
+<pre class="prettyprint">var main = new Ext.Panel({
+	title: 'My first panel',
+	width:250,
+	height:300,
+	contentEl: 'content' //usamos un elemento del DOM como contenido
+});
+main.render('frame'); 
+</pre>
+<div class="example"><img alt="My first panel" src="https://s3.amazonaws.com/quizzpot/images/162-panel2.jpg"/><p>Contenido cargado de un elemento del DOM</p></div>
+
+La tercera opción consiste en realizar una llamada Ajax para solicitar el contenido al servidor e insertar dentro del panel la respuesta obtenida, es importante mencionar que el servidor debe enviar código HTML para que sea “renderizado” correctamente en el navegador.
+
+<pre class="prettyprint">var main = new Ext.Panel({
+	title: 'My first panel',
+	width:250,
+	height:300
+});
+main.render('frame'); 
+//usando Ajax para insertar el contenido
+main.load('panel.php'); 
+</pre>
+<div class="example"><img alt="Ajax call" src="/wp-content/uploads/2009/04/panel3.jpg"/><p>Contenido cargado mediante Ajax</p></div>
+
+También podemos utilizar la propiedad “autoLoad”, de esta manera cuando creamos la instancia automáticamente se solicitará el contenido mediante una llamada Ajax.
+
+<pre class="prettyprint">var main = new Ext.Panel({
+	title: 'Mi primer panel',
+	width:250,
+	height:300,
+	autoLoad: 'panel.php' //&lt;--- El contenido será sacado de aquí automáticamente
+});
+main.render('frame'); 
+</pre>
+
+ 
+La cuarta opción es insertar otros componentes de Ext JS, pueden ser Paneles, Tabs o pestañas, árboles, acordeones, formularios, etc. Para hacer esto primero necesitamos crear el componente que necesitemos agregar y después asignárselo mediante la propiedad “items” que es un arreglo de componentes.
+
+<pre class="prettyprint">//creamos el panel interior
+var panel1 = new Ext.Panel({
+	title: 'Users',
+	html: "The content",
+	bodyStyle: 'padding:10px;', //podemos asignarle estilos al div contenedor
+	height:200,
+	border: false //le podemos quitar el borde al panel
+});
+	
+//el panel principal que contendrá otros paneles dentro de si	
+var main = new Ext.Panel({
+	title: 'My first panel',
+	width:250,
+	height:600,
+	items: [panel1] //aqui se le asignan componentes que contendrá
+});
+//se renderizan todos los paneles creados
+main.render('frame'); 
+</pre>
+
+En el código anterior se creo un panel y después se insertó dentro de otro, esto es muy común cuando desarrollamos layouts con Ext JS, es importante mencionar que al llamar el método “render” del panel principal, automáticamente “renderiza” todos los componentes que contenga.
+
+<div class="example"><img alt="Panels" src="https://s3.amazonaws.com/quizzpot/images/163-panel4.jpg"/><p>Componentes dentro del un panel</p></div>
+<h3>Colapsar los paneles</h3>
+Una de las características que tiene los paneles es que pueden ser colapsados mediante un botón en la parte superior derecha del panel, para realizarlo simplemente se le asigna “true” a la propiedad “collapsible”.
+
+<pre class="prettyprint">//creamos el panel interior
+var panel1 = new Ext.Panel({
+	title: 'Users',
+	html: 'The content',
+	bodyStyle: 'padding:10px;',
+	height:200,
+	border: false,
+	collapsible: true //mediante esta propiedad el panel se colapsa
+});
+	
+//… no se muestra el resto del código por cuestiones de aprendizaje
+</pre>
+<div class="example"><img alt="Panels" src="https://s3.amazonaws.com/quizzpot/images/164-panel5.jpg"/><p>Panel colapsable</p></div>
+
+También es posible que al dar clic sobre cualquier parte del titulo el panel se colapse, esto lo logramos asignando “true” a la propiedad “titleCollapse” de la siguiente manera:
+
+<pre class="prettyprint">//creamos el panel interior
+var panel1 = new Ext.Panel({
+	title: 'Users',
+	html: 'The content,
+	bodyStyle: 'padding:10px;',
+	height:200,
+	border: false,
+	collapsible: true,
+	titleCollapse: true  //ahora se colapsará dando clic sobre el título
+});
+	
+//… no se muestra el resto del código por cuestiones de aprendizaje
+</pre>
+<h3>Agregar un icono en el título del panel</h3>
+Es común que alguna vez necesitemos agregar iconos en la barra de título para realizar un buen “look and feel”, para hacerlo solo se necesita definir una clase de CSS la cual pondrá como “background” la imagen que usaremos como icono.
+
+<pre class="prettyprint">.users{
+	background: url(/2009/04/icons/users.png) 0px 0px no-repeat !important;
+}
+</pre>
+
+Una vez definida la clase CSS se le debe asignar al panel mediante la propiedad “iconCls” de la siguiente manera:
+
+<pre class="prettyprint">//creamos el panel interior
+var panel1 = new Ext.Panel({
+	title: 'Users',
+	html: 'The content',
+	bodyStyle: 'padding:10px;',
+	height:200,
+	border: false,
+	collapsible: true,
+	titleCollapse: true, 
+	iconCls: 'users'  //con esto se le agregará el icono deseado
+});
+	
+//... no se muestra el resto del código por cuestiones de aprendizaje
+</pre>
+<div class="example"><img alt="Panels" src="/wp-content/uploads/2009/04/panel6.jpg"/><p>Panel con ícono personalizado</p></div>
+<h3>La propiedad “defaults”</h3>
+Vamos a crear otros dos paneles exactamente iguales al anterior, solo que le vamos a cambiar el título y el icono que tendrán.
+
+<pre class="prettyprint">var panel1 = new Ext.Panel({
+	title: 'Users',
+	iconCls: 'users',
+collapsible:true,
+	border: false,
+	bodyStyle: 'padding:10px;',
+	titleCollapse: true,
+	height:200
+});
+
+var panel2 = new Ext.Panel({
+	title: 'Reports',
+	iconCls: 'reports',
+collapsible:true,
+	border: false,
+	bodyStyle: 'padding:10px;',
+	titleCollapse: true,
+	height:200
+});
+
+var panel3 = new Ext.Panel({
+	title: 'Documents',
+	iconCls: 'documents',
+collapsible:true,
+	border: false,
+	bodyStyle: 'padding:10px;',
+	titleCollapse: true,
+	height:200
+});
+
+var main = new Ext.Panel({
+	title: 'My first panel',
+	width:250,
+	height:600,
+	items: [panel1,panel2,panel3]
+});
+main.render('frame');	
+</pre>
+
+Si has notado hay mucho código que se repite cuando creamos los primeros tres paneles, exactamente cinco propiedades que no varían en lo absoluto, Ext JS nos permite definir propiedades por defecto para los componentes que utilizan las mismas propiedades, de esta manera evitamos escribir código de más; mediante la propiedad “defaults” podemos definir las propiedades que queramos que sean aplicadas a los componentes que contiene el componente padre.
+
+<pre class="prettyprint">var panel1 = new Ext.Panel({
+	title: 'Users',
+	iconCls: 'users'
+});
+var panel2 = new Ext.Panel({
+	title: 'Reports',
+	iconCls: 'reports'
+});
+var panel3 = new Ext.Panel({
+	title: 'Documents',
+	iconCls: 'documents'
+});
+		
+var main = new Ext.Panel({
+	title: 'My first panel',
+	width:250,
+	height:600,
+	defaults: { // con esto evitamos...
+		collapsible:true, //duplicar código...
+		border: false, // y todas estas...
+		bodyStyle: 'padding:10px;', // propiedades ...
+		titleCollapse: true, // son agregadas a...
+		height:200 //todos los paneles internos
+	},
+	items: [panel1,panel2,panel3]
+});
+main.render('frame');
+</pre>
+<div class="example"><img alt="My first panel" src="/wp-content/uploads/2009/04/panel7.jpg"/><p>Varios panels dentro de un panel principal</p></div>
+<h3>Cargar la información</h3>
+Hemos visto como cargar el contenido de los paneles utilizando Ajax, lo que vamos a realizar en este momento es pasarle parámetros para que nos regrese la información correcta, para esto en el método “load” del panel le pasamos un objeto a la “url”, el método a usar y los parámetros que necesitemos.
+
+<pre class="prettyprint">panel1.load({
+	url: 'panel.php',
+	method: 'GET',
+	params: {data:'users'}
+});
+panel2.load({
+	url: 'panel.php',
+	method: 'GET',
+	params: {data:'report'}
+});
+panel3.load({
+	url: 'panel.php',
+	method: 'GET',
+	params: {data:'documents'}
+});
+</pre>
+
+Todas las peticiones son realizadas al mismo archivo de PHP el cual recibe un parámetro y dependiendo de su contenido nos regresa la información adecuada.
+
+<div class="example"><img alt="My first panel" src="/wp-content/uploads/2009/04/panel8.jpg"/><p>Producto final</p></div>
+<h3>Conclusiones</h3>
+En este tema vimos como utilizar el Panel, vimos también algunas propiedades y métodos de los más comunes así que te recomiendo <a href="http://extjs.com/deploy/dev/docs/?class=Ext.Panel" rel="nofollow" target="_blank">mirar el API</a> y jugar un poco con este componente.
+
+En el siguiente capitulo voy a mostrar como realizar diferentes layouts para generar diferentes interfaces, por ahora hemos realizado una especie de acordeón muy semejante a la que utiliza el Microsoft Outlook en la parte izquierda.
+
+Si tienes algún comentario, sugerencia o duda puedes realizarla utilizando el formulario que se encuentra en la parte inferior de esta página.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/panels/panel.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

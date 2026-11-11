@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Validaciones personalizadas - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Validaciones personalizadas
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>12</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Muchas veces es necesario hacer validaciones propias de nuestra aplicación y que son necesarias para el correcto funcionamiento de nuestro sistema, en este tema se explica como podemos crear “vtype’s” para validar nuestros formularios de Ext JS.
+
+En el tutorial anterior vimos como hacer validaciones comunes, el día de hoy vamos aprender como hacer validaciones personalizadas además veremos como restringir la entrada de caracteres en las cajas de texto.
+
+Te invito a <a href="/demos/extjs/forms/customvalidations.html/" rel="nofollow" target="_blank">probar la demostración</a> de lo que haremos en este tutorial.
+
+
+<div class="example"><img alt="Vtype en Ext JS" src="/wp-content/uploads/2009/08/vtype1.jpg"/><p>Formulario con validaciones personalizadas</p></div>
+<h3>Material de apoyo</h3>
+Antes de seguir es necesario descargar el <a href="/wp-content/uploads/2009/08/vtypes.zip" rel="nofollow" target="_blank">material de apoyo</a>, el cual consta de dos archivos solamente, un HTML y un JS; he creado un formulario y lo he puesto dentro de una ventana, asi que el ejercicio será agregar validaciones para algunos campos.
+
+<h3>Mostrar los mensajes de error</h3>
+Si en este momento ejecutamos el material de apoyo veremos que tres campos son requeridos, y al presionar el botón “save” nos dice que existen errores (si no ponemos nada en las cajas de texto), pero únicamente se esta poniendo en color rojo el contorno de los campos. 
+
+
+<div class="example"><img alt="Vtype en Ext JS" src="/wp-content/uploads/2009/08/vtype2.jpg"/><p>No muestra mensajes de error</p></div>
+
+El usuario debe recibir suficiente información para saber que esta mal y como solucionarlo, por lo tanto lo que necesitamos hacer es mostrar el mensaje del error ocasionado, para esto solamente necesitamos escribir las siguientes líneas al inicio del método “init”:
+
+<pre class="prettyprint">Ext.QuickTips.init();
+Ext.form.Field.prototype.msgTarget = 'side';
+</pre>
+
+La primera línea permite que aparezcan los mensajes flotantes cuando posicionamos el Mouse sobre la caja de texto, con la segunda línea de indicamos que aparezca un ícono de error en la parte lateral del campo.
+
+
+<div class="example"><img alt="Vtype en Ext JS" src="/wp-content/uploads/2009/08/vtype3.jpg"/><p>Desplegamos un mensaje flotante con el error de validación</p></div>
+<h3>Validar mayoría de edad</h3>
+En el campo “Date of birth” vamos a validar que dada la fecha de nacimiento calculemos cuantos años hay hasta el día de hoy, luego verificamos que sea mayor de 18 para pasar la validación del campo.
+
+En el tema anterior vimos como utilizar los “vtype’s” que vienen incluidos en el framework de Ext JS, hoy vamos agregar algunas validaciones mas a la clase “Ext.form.VTypes”.
+Lo primero que necesitamos hacer es extender la clase mencionada de la siguiente manera:
+
+<pre class="prettyprint">Ext.apply(Ext.form.VTypes,{
+
+	//aqui vamos a definer las validaciones necesarias
+
+});
+</pre>
+
+
+Lo siguiente es definir el “vtype” de la siguiente manera:
+
+<pre class="prettyprint">Ext.apply(Ext.form.VTypes,{
+	adult: function(val, field){
+		try{
+			var birth = field.getValue();
+			var now = new Date();
+			// The number of milliseconds in one year
+			var ONE_YEAR = 1000 * 60 * 60 * 24 * 365;
+		    	// Convert both dates to milliseconds
+		    	var date1_ms = birth.getTime()
+		    	var date2_ms = now.getTime()
+		    	// Calculate the difference in milliseconds
+		    	var difference_ms = Math.abs(date1_ms - date2_ms)
+		    	// Convert back to years
+		    	var years = difference_ms/ONE_YEAR;
+			return years &gt;= 18;
+		}catch(e){
+			return false;
+		}
+	},
+	adultText: 'You are underage!', //mensaje de error
+	adultMask: / /  //regexp para filtrar los caracteres permitidos
+});
+</pre>
+
+Primero se define el nombre que le daremos al “vtype”, en este caso “adult” luego le asignamos una función que recibe dos parámetros, el contenido del campo y la instancia del campo que se está validando, dentro de esta función pondremos la lógica para validar y debe regresar “true” para cuando el valor capturado sea correcto o “false” para cuando el valor del campo sea incorrecto.
+
+Lo siguiente que debemos hacer es definir el texto que se mostrará en caso de que la información capturada sea incorrecta, debemos recordar que existen más validaciones dentro de este objeto (Ext.form.VTypes), por lo tanto para relacionar el mensaje con la función de validación simplemente le agregamos la palabra “Text” al final del nombre la función, en este caso “adultText”.
+
+Opcionalmente podemos definir un filtro para capturar solamente los caracteres correctos, para eso necesitamos definir una mascara con la expresión regular adecuada.
+
+<pre class="prettyprint">adultMask: /[\d\/]/
+</pre>
+
+La expresión regular anterior valida que solamente se puedan capturar dígitos y una diagonal, estos caracteres son los únicos que necesitamos para escribir una fecha en el formato que hemos definido, nótese que la propiedad se llama “adultMask”, solamente le agregamos al final la palabra “Mask” para relacionarla con la validación que creamos anteriormente.
+
+Una vez definida el “vtype” necesitamos asignárselo al campo que necesitamos validar, en este caso al campo “birth” del formulario:
+
+<pre class="prettyprint">{xtype:'datefield',fieldLabel:'Date of birth',name:'birth',allowBlank:false,format:'d/m/Y',vtype:'adult'},
+</pre>
+<div class="example"><img alt="Vtype en Ext JS" src="/wp-content/uploads/2009/08/vtype4.jpg"/><p>Validar una fecha de nacimiento, para que sea mayor de edad</p></div>
+<h3>Validar un teléfono</h3>
+
+Vamos a validar el formato de un número telefónico, primero necesitamos definir las reglas de validación.
+
+<ul>
+<li>Tiene que ser de 10 dígitos, ejemplo: 8192847135</li>
+<li>Solamente puede aceptar paréntesis, guiones, espacios y números, ejemplos: (81) 92 847 135, 81 92-847-135, (81) 92-847-135, 81 92 84 71 35, 8192847135</li>
+<li>No debe capturar ningún otro carácter de los definidos anteriormente</li>
+</ul>
+
+Con esas reglas en mente definimos el “vtype” correspondiente:
+
+<pre class="prettyprint">phone: function(value,field){
+	return value.replace(/[ \-\(\)]/g,'').length == 10;
+},
+phoneText: 'Wrong phone number, please make sure it contains 10 digits',
+phoneMask: /[ \d\-\(\)]/
+</pre>
+
+La función definida en la propiedad “phone” solamente remueve los caracteres aceptados (espacios, guiones, paréntesis) dejando solamente los números, luego valida que sean diez dígitos, la mascara solo acepta los caracteres definidos en las reglas.
+
+Por último necesitamos asignarle el “vtype” al campo del formulario que necesitamos validar.
+
+<pre class="prettyprint">{fieldLabel:'Phone number',name:'phone',vtype:'phone'},
+</pre>
+<div class="example"><img alt="Vtype en Ext JS" src="/wp-content/uploads/2009/08/vtype5.jpg"/><p>Validar un número telefónico</p></div>
+<h3>Validar una tarjeta de crédito</h3>
+En este último ejemplo vamos a validar el número de una tarjeta de crédito, primero necesitamos definir las reglas de validación para tener una idea clara de lo que haremos.
+
+<ul>
+<li>El número debe ser de 16 dígitos, ejemplo: 1234567891234567</li>
+<li>Solo puede aceptar dígitos, espacios y guiones, ejemplo:  1234 5678 9123 4567, 1234-5678-9123-4567</li>
+<li>No debe aceptar ningún otro carácter que de los anteriores mencionados</li>
+</ul>
+
+Si te das cuenta estas reglas son muy semejantes a las del teléfono, así que podemos hacer un copy/paste y modificar el código para que se adapte a estos requerimientos.
+
+<pre class="prettyprint">creditcard: function(value,field){
+	return value.replace(/[ \-]/g,'').length == 16;
+},
+creditcardText: 'Wrong credit card number',
+creditcardMask: /[ \d\-]/
+</pre>
+
+No cambié muchas cosas en esta parte ya que las reglas son muy semejantes, ahora necesitamos agregar el “vtype” al campo “credit”.
+
+<pre class="prettyprint">{fieldLabel:'Credit card',name:'credit',vtype:'creditcard'},
+</pre>
+<div class="example"><img alt="Vtype en Ext JS" src="/wp-content/uploads/2009/08/vtype6.jpg"/><p>Validar una tarjeta de crédito</p></div>
+<h3>Conclusiones</h3>
+El día de hoy aprendimos a crear nuestras propias validaciones del lado del cliente, como puedes ver fue realmente sencillo. Ext JS nos provee una manera muy fácil de lograr validar e inclusive poner una mascara a nuestros campos.
+
+Si tienes alguna duda o sugerencia puedes hacerlo en los comentarios, o bien si es algo más complicado te recomiendo ir a <a href="http://foro.quizzpot.com/" rel="nofollow" target="_blank">los foros</a> donde la comunidad crece diariamente, es muy amable y sobre todo nos ayudamos entre todos, también recuerda seguirnos en <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> para estar al tanto de las noticias del sitio.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/forms/customvalidations.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

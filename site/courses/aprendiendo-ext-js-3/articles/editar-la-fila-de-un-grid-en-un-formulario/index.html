@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Editar la fila de un Grid en un formulario - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Editar la fila de un Grid en un formulario
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>15</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En este tutorial voy a explicar como podemos editar una fila de un Grid utilizando un formulario en una ventana por separado, vamos a llenar los campos del formulario con la información que tenemos capturada en el Grid.
+
+<h3>Demostración</h3>
+Vamos a desplegar en un Grid las películas que han sido más vistas, al dar doble clic sobre una de las filas vamos abrir una ventana que contenga un formulario con campos que serán llenados con la información que tengamos en el Grid, puedes probar la demostración la cual es semejante a la siguiente imagen:
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform1.jpg"/><p>Ejemplo Final</p></div>
+<h3>Material de apoyo</h3>
+Para continuar es necesario <a href="/wp-content/uploads/2009/07/gridform.zip" rel="nofollow" target="_blank">descargar el material de apoyo</a> donde ya esta creada el Grid que muestra la información. Recuerda que tienes que copiar los archivos descargados al servidor Web que <a href="/2009/02/instalacion-basica-del-framework/" rel="nofollow" target="_blank">instalamos al inicio</a> de este curso.
+
+Si en este momento ejecutas en tu explorador el material de apoyo, podrás ver la información en el Grid.
+
+ 
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform2.jpg"/><p>Material de apoyo</p></div>
+
+También se pueden <a href="/2009/07/paginado-remoto-en-un-grid/" rel="nofollow" target="_blank">paginar las filas</a> de cinco en cinco. Si tienes alguna duda en cuanto al código necesario para realizar lo anterior mencionado, te recomiendo leer los temas anteriores donde se explica a detalle como realizarlo.
+
+<h3>Doble clic en una fila</h3>
+Necesitamos lograr que cuando el usuario de doble clic sobre una fila se abra una ventana con un formulario para poder editar la información, para esto necesitamos crear un “listener” del evento “rowdblclick” del grid. Al final del método “init” vamos a crear este “listener” de la siguiente manera:
+
+<pre class="prettyprint">grid.on('rowdblclick',this.editMovie);
+</pre>
+
+Con la instrucción anterior logramos hacer que al dar doble clic sobre una fila (row) se ejecuta la función “editMovie”, así que es necesario crear esta función:
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.GridFormTutorial = {
+	init: function(){		
+		//… código removido
+		
+		//TODO: create a listener for the "rowdblclick" event here
+		grid.on('rowdblclick',this.editMovie); //&lt;-- creamos el listener
+	},
+	
+	//éste método se ejecuta cuando se da doble clic sobre una fila
+	editMovie: function(grid,index,event){
+		//aqui vamos a escribir el código donde creamos
+		//la ventana y llenamos el formulario.
+	},
+	
+	image: function(value,metadata,record){
+		//… código removido
+	},
+	
+	title: function(value, metadata, record){
+		//… código removido
+	},
+	
+	money: function(value){
+		//código removido
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.GridFormTutorial.init,com.quizzpot.tutorial.GridFormTutorial);
+</pre>
+
+Es importante mencionar los parámetros que está recibiendo la función “editMovie”, el primero es el grid sobre el cual se dio doble clic, el segundo es el índice en el store donde se encuentra la información que despliega la fila y el tercer parámetro es el evento ocurrido.
+
+<h3>Obtener el record del store</h3>
+Con los parámetros recibidos es suficiente para obtener el “record” con la información a editar, utilizando el “grid” obtenemos el “store” y utilizando el “index” podemos sacar el “record” que necesitamos del “store”.
+
+<pre class="prettyprint">//este código va en la función “editMovie”
+var record = grid.getStore().getAt(index);
+
+Ext.Msg.alert('Test','Title: '+record.get('title')); //alert temporal
+</pre>
+
+Al actualizar el navegador y dar doble clic sobre alguna fila del grid podremos ver algo semejante a la siguiente imagen:
+
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform3.jpg"/><p>Obtener el record del store </p></div>
+<h3>Crear el formulario de edición</h3>
+Ahora vamos a crear el formulario que utilizaremos para editar la información que tenemos en el “record” y que fue sacada del grid.
+
+<pre class="prettyprint">var form = new Ext.form.FormPanel({
+	width:270,
+	bodyStyle:'margin-left:10px;',
+	border:false,
+	labelWidth: 80, //Con esto hacemos mas pequeñas las etiquetas
+	defaults: {
+		xtype:'textfield',
+		width:150
+	},
+	items:[
+		{fieldLabel:'Title',id:'title'},
+		{xtype:'combo', fieldLabel:'Year', id:'year' ,triggerAction:'all', store:[2009,2008,2007,2006]},
+		{xtype:'numberfield',fieldLabel:'Weekend',id:'weekend'},
+		{xtype:'numberfield',fieldLabel:'All Time',id:'allTime'},
+		{fieldLabel:'Image',id:'img'}
+	]
+});
+</pre>
+
+Ya hemos estudiado <a href="/2009/06/formularios-y-campos-comunes-en-ext-js/" rel="nofollow" target="_blank">como crear formularios</a>, si tienes alguna duda al respecto puedes ir a repasar el tema correspondiente. Este formulario no tiene nada especial, solamente se están creando cinco campos, dos de ellos son cajas de texto que aceptan cualquier caracter, los otros dos son cajas de texto que aceptan solamente números y el último campo es un combo para poder seleccionar el año.
+
+Del código anterior es importante resaltar que el “id” de los campos se llamen igual que los campos que contiene el “record” que se definió en el store, esto es importante para que podamos llenarlos de una manera muy sencilla, más adelante veremos como hacerlo, por ahora solamente asegúrate que tengan el mismo nombre.
+
+<h3>Crear la ventana contenedora del formulario</h3>
+Ya creamos el formulario, pero aún no se muestra en pantalla, es por eso que vamos a crear una ventana que contenga el formulario anterior.
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title: 'Edit Movie',
+	width:400,
+	height:250,
+	modal: true,
+	bodyStyle: 'padding:10px;background-color:#fff',
+	buttons: [{text:'Save'},{text:'Cancel'}],
+	items: [form]
+});		
+win.show();
+</pre>
+
+El código anterior debe ser familiar para ti, ya que en repetidas ocasiones lo hemos hecho, pero si existe alguna duda es mejor aclararla en el tutorial donde hablamos <a href="/2009/05/una-ventana-flotante/" rel="nofollow" target="_blank">acerca de las ventanas</a>. 
+
+Si actualizamos el explorador y damos doble clic sobre alguna fila veremos algo como la siguiente imagen.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform4.jpg"/><p>Formulario en una ventana</p></div>
+<h3>Llenar los campos del formulario</h3>
+Hasta ahora aparece el formulario vacío, en este paso vamos a llenarlo de una manera muy sencilla.
+
+<pre class="prettyprint">form.getForm().loadRecord(record);
+</pre>
+
+Con la línea anterior es suficiente para que la información de la fila en la que hicimos doble clic se cargue en los campos del formulario, esto es posible ya que nombramos el “id” de cada campo igual a los campos del registro.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform5.jpg"/><p>Información cargada en el formulario</p></div>
+<h3>Vista previa de la imagen</h3>
+Para darle un toque especial a nuestro formulario vamos a desplegar en la parte izquierda la imagen de cada película a editar, para esto vamos a crear un panel que contenga una imagen la cual podremos modificarle su “src” mediante su “id”.
+
+<pre class="prettyprint">var preview = new Ext.Panel({
+	width:91, 
+	height:140,
+	html: '&lt;img id="preview" /&gt;' //imagen vacía
+});	
+
+var win = new Ext.Window({
+	title: 'Edit Movie',
+	width:400,
+	height:250,
+	modal: true,
+	bodyStyle: 'padding:10px;background-color:#fff',
+	buttons: [{text:'Save'},{text:'Cancel'}],
+	items: [preview,form]
+});		
+win.show();
+</pre>
+
+Si actualizas el explorador verás que el formulario no se ve bien, esto es por que los paneles se van posicionando como en una pila.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform6.jpg"/><p>Se desacomoda el formulario</p></div>
+
+Para solucionar esto es necesario cambiar el “layout” de la ventana, en este caso vamos a utilizar el “column” para crear columnas, no quiero profundizar en el tema de los “layout” porque en el futuro hablaré en detalle sobre esto, por ahora simplemente ten en mente que al cambiar el layout a columnas solucionaremos el problema.
+
+<pre class="prettyprint">var win = new Ext.Window({
+	layout: 'column', //cambiamos la manera en que se posicionan los paneles
+	title: 'Edit Movie',
+	width:400,
+	height:250,
+	modal: true,
+	bodyStyle: 'padding:10px;background-color:#fff',
+	buttons: [{text:'Save'},{text:'Cancel'}],
+	items: [preview,form]
+});	
+</pre>
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform7.jpg"/><p>Utilizando columnas para mostrar correctamente el formulario</p></div>
+
+Lo siguiente es modificar el “src” dinámicamente para que aparezca la imagen dentro del contenedor.
+
+<pre class="prettyprint">Ext.get('preview').dom.src = record.get('img');
+</pre>
+
+Recuerda colocar la línea anterior después de mostrar la ventana que “renderiza” el formulario y la ventana.
+
+
+<div class="example"><img alt="Grid editable" src="/wp-content/uploads/2009/07/gridform1.jpg"/><p>Mostrar la imagen inicial</p></div>
+
+Por último necesitamos refrescar la imagen al actualizar el campo “img” del formulario, para esto necesitamos poner un “listener” al evento “blur” del campo “img”.
+
+<pre class="prettyprint">Ext.getCmp('img').on('blur',function(field){
+	Ext.get('preview').dom.src = field.getValue();
+});
+</pre>
+<h3>Guardar la información del formulario</h3>
+Para guardar la información de un formulario simplemente ejecutamos el método “submit”, con esto hacemos que el formulario envíe la información contenida en sus campos al servidor mediante Ajax, en esta ocasión no voy a mostrar como hacerlo pues quiero dedicar un tema exclusivamente a esto.
+
+<h3>Conclusiones</h3>
+El día de hoy vimos como llenar un formulario con información de un “record”, también aprendimos como crear columnas en una ventana, si tienes alguna duda puedes preguntar <a href="http://foro.quizzpot.com" rel="nofollow" target="_blank">en el foro</a> donde la comunidad puede ayudarte, además recuerda inscribirte a las Feeds mediante tu lector preferido de <a href="http://feeds2.feedburner.com/quizzpot-es" rel="nofollow" target="_blank">RSS</a> o mediante <a href="http://feedburner.google.com/fb/a/mailverify?uri=quizzpot-mail-es&amp;loc=es_ES" rel="nofollow" target="_blank">correo electrónico</a>.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/grids/gridform.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

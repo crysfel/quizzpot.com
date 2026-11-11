@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Definiendo dependencias - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Fundamentos de Ext 4</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Definiendo dependencias
+            <a class="bubble-tag article-header-link-videos" href="/courses/fundamentos-de-ext-4/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="385" mozallowfullscreen="" src="https://player.vimeo.com/video/68708363" webkitallowfullscreen="" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>1</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>9.41 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En esta sesión vamos a ver como podemos definir dependencias y hacer que el <i>Loader</i> se encargue de cargarlas cuando requerimos la clase principal.<br/>Para el ejemplo que vamos a desarrollar necesitamos crear un HTML llamado <i>02-dependencias.html</i> adentro de la carpeta <i>03-loader</i>, podemos copiar el código que utilizamos en el archivo HTML de la sesión anterior donde ya tenemos configurado el <i>Loader</i>. <br/><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8" /&gt;
+    &lt;title&gt;Loader&lt;/title&gt;
+    &lt;link rel="stylesheet" href="/courses/fundamentos-de-ext-4/ext-4.2.1/resources/css/ext-all.css"/&gt;
+    &lt;script type="text/javascript" src="/courses/fundamentos-de-ext-4/ext-4.2.1/ext-all-dev.js"&gt;&lt;/script&gt;
+
+    &lt;script type="text/javascript"&gt;
+        
+        Ext.Loader.setConfig({  //paso 1
+            enabled : true,
+            paths   : {
+                MyApp : 'js/MyApp'
+            }
+        });
+
+        Ext.require('MyApp.view.ClientePanel');  //paso 2
+
+        Ext.onReady(function(){ 
+            var panel = Ext.create('MyApp.view.ClientePanel',{  /paso 3
+                renderTo    : Ext.getBody(),
+                width       : 250,
+                height      : 200,
+                cliente     : {
+                    nombre  : 'John',
+                    apellido: 'Doe'
+                }
+            });
+
+            panel.center();  //paso 4
+        });
+
+    &lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre><ul><li>En el paso 1 configuramos y habilitamos el <i>Loader</i>.</li><li>En el paso 2 estamos requiriendo la clase <i>ClientePanel</i>, la cual vamos a crear posteriormente. </li><li>En el paso 3 creamos una instancia de la clase <i>ClientePanel</i>, especificamos donde va a ser renderizado el panel, el ancho, la altura y agregamos la propiedad <i>cliente</i> la cual será la información que le estaremos mandando a la clase <i>ClientePanel</i>, en este caso será: <i>nombre</i> y <i>apellido</i>.</li><li>En el paso 4 simplemente estamos centrando el <i>panel</i>.</li></ul>Lo siguiente que necesitamos hacer es crear la clase <i>ClientePanel</i> en el namespace correspondiente, así que creamos la carpeta <i>view</i> adentro de la carpeta de <i>MyApp</i>. <br/><pre class="prettyprint">Ext.define('MyApp.view.ClientePanel',{
+    extend      : 'Ext.panel.Panel',  //paso 1
+    alias       : 'widget.clientepanel',  //paso 2
+    requires    : [  //paso 3
+        'MyApp.model.Client',
+        'MyApp.model.User'
+    ],
+
+    initComponent   : function(){
+        var me = this;
+
+        me.callParent();
+    }
+});<br/></pre><ul><li>En el paso 1 estamos definiendo de que clase va a heredar la clase ClientePanel.</li><li>En el paso 2 definimos un alias a esta clase. Es importante recordar que el prefijo <i>widget</i> se utiliza cuando la clase esté heredando de la clase <i>Component</i>.</li><li>En el paso 3 estamos usando la configuración <i>requires</i>, la cual es un arreglo con todas las clases que la clase <i>ClientePanel</i> va a utilizar internamente. En este caso la clase <i>ClientePanel</i> va a usar la clase <i>Client</i> y la clase <i>User</i>.</li></ul>En el <i>initComponent</i> vamos a crear una instancia de la clase <i>MyApp.model.Client</i> y vamos mostrar el nombre y apellido en la pantalla usando un template:<br/><pre class="prettyprint">me.model = Ext.create('MyApp.model.Client',me.cliente);
+me.tpl = [
+   '&lt;p&gt;{nombre} {apellido}&lt;/p&gt;'
+];
+me.data = me.model.getData();</pre>Al crear la instancia le estamos asignando al modelo la información que estamos pasando con la propiedad <i>cliente</i>. Para mostrar el nombre y apellido estamos usando una propiedad llamada <i>tpl</i>, que es una propiedad de la clase <i>Ext.XTemplate</i> la cual permite definir fragmentos de HTML donde le podemos asignar información.<br/>Por último le estamos asignando a la propiedad <i>data</i> la información que va a ser renderizada con el template que definimos anteriormente usando el método <i>getData()</i>. Este método regresa la información que contiene el modelo <i>Client</i>, si bien recordamos esta información la estamos mandando con la propiedad <i>cliente</i> de la instancia que creamos en el archivo HTML. <br/>Ahora bien podemos probar el ejemplo en nuestro navegador y deberíamos ver un panel con el nombre y apellido: <i>John Doe</i>.<br/>Esta es la forma en como agregamos las dependencias a las clases que definimos de una manera muy sencilla, solo es necesario especificar que clases queremos incluir con la propiedad <i>requires</i>.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/fundamentos-de-ext-4/">Fundamentos de Ext 4</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es Ingeniero de Software con más de 7+ años de experiencia profesional, durante 5 de los cuales ha estado desarrollando con Ext JS. Es autor del libro "Learning Ext JS 4" publicado por Packt Publishing en enero del 2013.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/fundamentos-ext4/13-dependencias/02-dependencias.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

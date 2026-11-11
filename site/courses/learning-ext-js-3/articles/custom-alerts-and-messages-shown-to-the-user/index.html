@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Custom alerts and messages shown to the user - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Custom alerts and messages shown to the user
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>3</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                The messages are very important for the user interaction with our applications, Ext JS has an especial component to replace the typical "alert" or "confirm" messages with a more appealing ones.
+
+<h3>Resources</h3>
+Before we start you need to download <a href="/wp-content/uploads/2009/04/messages.zip" rel="nofollow" target="_blank">the resources</a> for this chapter, which include a HTML document with buttons and some styles, an empty JS file where we are going to work and an image that we will use for this example, also you can see the <a href="/demos/extjs/messages/messages.html/" rel="nofollow" target="_blank">demo</a> of what we are going to do in this tutorial.
+
+<h3>Packaging the tutorial</h3>
+Let's define a "package" in where we're working on, we have seen the advantages of doing this in previous tutorials.
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Msg = {
+	init: function(){
+	//The code of this tutorial goes here
+	}
+}
+
+//executing the "init" function when the DOM is ready to be used
+Ext.onReady(com.quizzpot.tutorial.Msg.init,com.quizzpot.tutorial.Msg);
+</pre>
+<h3>Alerts</h3>
+Through the component "Ext.MessageBox", Ext JS provides the necessary methods to generate different type of messages, one of those messages are the "alerts", which are generated like this:
+
+<pre class="prettyprint">Ext.MessageBox.alert('Title','The message we want to display');
+//or we can use the shortcut
+Ext.Msg.alert('Title','The message we want to display');
+</pre>
+
+Let's add the event click to the button "alert" which is in the HTML, inside of this event we will display an alert message.
+
+<pre class="prettyprint">Ext.get('alert').on('click',function(){
+	Ext.Msg.alert('Alert','This is an alert!');
+},this);
+</pre>
+
+In this way, when we are pressing the button "Alert", the message we have defined in the previous code will be displayed.
+ 
+<div class="example">
+<img alt="Alert image" src="/wp-content/uploads/2009/05/msg1.jpg"/>
+<p>Custom alert</p>
+</div>
+<h3>Confirmation</h3>
+To show a confirmation message we use the method "confirm", in the next example we're going to add the event "click" to the button "confirmation" like this:
+
+<pre class="prettyprint">Ext.get('confirm').on('click',function(){
+	Ext.Msg.confirm('Confirmation','Are you sure you want to do this?');
+},this);
+</pre>
+<div class="example">
+<img alt="Confirm image" src="/wp-content/uploads/2009/05/msg2.jpg"/>
+<p>Confirm message</p>
+</div>
+
+
+Later on we will see how to detect the button that was pressed but for now we will only show the dialog.
+
+<h3>Prompt</h3>
+This component allow us to request information to the user through a dialog that has an input text. In the following code we will add the event "click" to the corresponding button and when the event is triggered, a message is shown requesting the name of the user.
+
+<pre class="prettyprint">Ext.get('prompt').on('click',function(){
+	Ext.Msg.prompt('Prompt','What is your name?');
+},this);
+</pre>
+<div class="example">
+<img alt="Prompt image" src="/wp-content/uploads/2009/05/msg3.jpg"/>
+<p>Prompt message</p>
+</div>
+
+Later on we will see how to get the information that the user has entered in the input text.
+
+<h3>Wait</h3>
+With this method we can send a waiting message to the user, this message has a progress bar which progresses slowly indicating that something is happening. 
+
+<pre class="prettyprint">Ext.get('wait').on('click',function(){
+	Ext.Msg.wait('Loading... please wait!');	
+},this);
+</pre>
+<div class="example">
+<img alt="Waiting image" src="/wp-content/uploads/2009/05/msg4.jpg"/>
+<p>Wait message</p>
+</div>
+
+If we don't change the previous code, the message will stay there forever because it doesn't have an option to close it, this happens because we have to close it manually with an instruction, normally we will close it when the process we were running is finished, but for now I will send a "timeout" to close the message after 6 seconds.
+
+<pre class="prettyprint">Ext.get('wait').on('click',function(){
+	Ext.Msg.wait('Loading... please wait!');
+	window.setTimeout(function(){
+		Ext.Msg.hide();
+	},6000);
+},this);
+</pre>
+
+It's important to remember that the method "hide" closes the message that is being displayed at that moment.
+ 
+<h3>Callbacks</h3>
+The previous methods (except the wait method) receive a function as a third parameter, this function will be executed when the user clicks in any button or closes the message, this function receives in the first parameter the button when the user has clicked and in the case of the method "prompt" receives a second parameter which is the text that the user typed in the text box. The next example shows how we can execute instructions according to what the user chose in the confirmation message.
+
+<pre class="prettyprint">Ext.get('confirm').on('click',function(){
+	Ext.Msg.confirm('Confirmation','Are you sure?',function(btn){
+		if(btn === 'yes'){
+			//if the user has accepted
+			alert('You have accepted the terms!')
+		}else{
+			//if the user has canceled
+			alert('The user has canceled!')!
+		}	
+	});
+},this);
+</pre>
+
+Also we can pass a function to be executed, for example:
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.Msg = {
+	init: function(){
+		// code removed for better understanding…
+		Ext.get('confirm').on('click',function(){
+			Ext.Msg.confirm('Confirmation','Are you sure you want to do this?',this.callback);
+		},this);
+		
+		// code removed for better understanding…
+
+	},
+	
+	callback: function(txt){
+		alert(txt);
+	}
+}
+</pre>
+
+In the previous example we created a function inside of the object "Msg" which is invoked when the user clicks in a button of the confirmation message.
+ 
+<h3>Customized Messages</h3>
+If we need to display a customized message, for example changing the icon of the message or use different buttons, then we can do it using the method "show" which receives a configuration object.
+
+<pre class="prettyprint">Ext.get('custom').on('click',function(){
+	Ext.Msg.show({
+		title: 'Customized', //&lt;- the dialog's title
+		msg: 'This is a customized message!', //&lt;- the message
+		buttons: Ext.Msg.YESNO, //&lt;- YES and NO buttons
+		icon: Ext.Msg.ERROR, // &lt;- error icon
+		fn: this.callback //&lt;- the function that is executed when the user clicks on any button
+	});
+},this);
+</pre>
+
+This is a message that has an error icon, there are other icons we can use in our applications:
+
+<pre class="prettyprint">Ext.Msg.ERROR //Error icon
+Ext.Msg.INFO //Information icon
+Ext.Msg.WARNING //Warning icon
+Ext.Msg.QUESTION //Question icon
+</pre>
+
+If we need to show a different icon we must create a CSS class and place the image as the background like this:
+
+<pre class="prettyprint">.profile{
+	background:transparent url(/courses/learning-ext-js-3/articles/profile.png) no-repeat;
+}
+</pre>
+
+After doing that, we need to specify the name of the class to the property 'icon'.
+
+<pre class="prettyprint">Ext.Msg.show({
+	title: 'Customized',
+	msg: 'This is a customized message!',
+	buttons: Ext.Msg.YESNO,
+	icon: 'profile', // &lt;- customized icon
+	fn: this.callback
+});
+</pre>
+<div class="example">
+<img alt="Custom message image" src="/wp-content/uploads/2009/05/msg5.jpg"/>
+<p>Custom message</p>
+</div>
+<h3>Conclusions</h3>
+Ext JS has different methods to communicate with the user and we can use them instead of the typical "alert" or "confirm" messages that the browser has by default, in this way our messages will be more appealing.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/messages/messages.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

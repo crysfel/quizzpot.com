@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>El día que le dije adiós a Ext JS - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Blog</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 posts-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            El día que le dije adiós a Ext JS
+            <a class="bubble-tag article-header-link-videos" href="/blog/">Blog</a>
+</h2>
+<img alt="El día que le dije adiós a Ext JS" height="180" src="https://s3.amazonaws.com/quizzpot/images/240-sencha-ext-js.png" width="604"/>
+<div class="article-information">
+<!--class="separator"-->
+<span>Likes: <em>0 Persona</em></span>
+<span class="separator">Comentarios: <em>0</em></span>
+<span class="separator">Publicado: <em>23/07/2015</em></span>
+</div>
+<div class="course-tags">
+<span class="tags-text">Tags:</span>
+<span class="bubble-tag">Ext JS</span> <span class="bubble-tag">JavaScript</span> <span class="bubble-tag">Development</span>
+</div>
+<div class="article-description">
+<div class="article-description-text"><p>Como muchos de ustedes ya sabrán, he trabajado con Ext JS desde las primeras versiones. He realizado tutoriales, videos e inclusive escribí un libro sobre esta librería.</p><p>Pero ha sido el momento de partir, de decirle adiós y especializarme en nuevas herramientas. Esta decisión ha sido en base a algunos acontecimientos dentro de la comunidad y Sencha, la empresa detrás de este framework.</p><h3>ES6</h3><p>En primero lugar he decidido dejar Ext JS por el nuevo estándar de JavaScript, ES6. Por lo visto Sencha no planea actualizar sus frameworks a este nuevo estándar. Lo que siempre me gusto de Ext fue su sistema de clases, pero ahora que sale ES6 ha quedado obsoleto, ahora podemos crear clases, hacer herencia, sobre escritura de métodos y aplicar todos estos conceptos de POO directamente con JavaScript nativo.</p><p>Migrar todos los componentes de Ext JS a este nuevo estándar definitivamente será toda una odisea, prácticamente re-escribir todo el framework.</p><h3>MVVM</h3><p>Ext JS siempre se caracterizó por tener una curva de aprendizaje muy alta, entre tantos componentes, clases y subclases es fácil perderse. En la versión 1, 2 y 3 se hizo un buen trabajo de encapsulamiento e ingeniería. </p><p>Para la versión 4 fue genial el MVC que se introdujo, fácil para los que teníamos experiencia y por supuesto para aquellos que decidían aventurarse era bastante más complicado que las versiones anteriores.</p><p>Para la versión 5 definitivamente complicaron mucho más las cosas, el MVVM que decidieron introducir a mi parecer tiene una sobre ingeniería que simplemente ahuyenta a cualquiera. Frameworks como Angular JS y React hacen las cosas mucho más sencilla, Ext JS simplemente es un dolor de cabeza con tantas configuraciones, me recuerda aquellos frameworks en Java donde había que configurar cientos de XMLs para hacer algo sencillo.</p><h3>Theming</h3><p>¿Alguna vez has hecho temas personalizados para tus aplicaciones? Bueno, yo si, todo el tiempo! Cada proyecto que hago requiere su propio tema, a nadie le gusta ya el color azul claro del tema por Clásico, Neptune o Crisp.</p><p>Crear un tema en Ext JS verdaderamente es un dolor de cabeza, se pierde mucho tiempo compilando todo el SASS que se tiene. Es posible poner un watch sobre tu código, pero igual sigue siendo lento comparado con otras herramientas como Gulp o Grunt.</p><p>Conocer todas las convenciones que Sencha definió para poder estilizar los componentes también es dolorozo, su problema principal radica en que muchos de los estilos y los layouts principalmente, están definidos directamente con JavaScript. En algunos proyectos hemos perdido al menos una semana entera intentando crear un layout personalizado, fluido y responsivo (Y eso que decimos ser "expertos" xD).</p><h3>Sencha CMD</h3><p>El Sencha CMD simplemente es una herramienta muy anticuada. Al parecer están trabajando en mejorarla, pero creo que ya es muy tarde para eso, personalmente no veo mucho sentido tener una herramienta como esta si es posible utilizar Gulp o Grunt.</p><p>La documentación siempre fue inexistente y muy complicado realizar cosas más allá de aquellas por default.</p><h3>Licencias</h3><p>Las licencias siempre fueron el talón de Aquiles de Ext JS, siempre fue muy confuso el tema legal pero aún así era aceptable comprar una o dos licencias, en especial para los freelancers que no necesitamos tantos. Pero el año pasado cuando cambió la administración de Sencha decidieron dejar de vender licencias únicas, ahora es necesario comprar como mínimo cinco licencias, si de por si ya se sentía cara comprar una sola, comprar cinco simplemente es imposible para aquellos que no las necesitan.</p><p>En mi opinión creo que esta fue una decisión muy absurda por parte de los directivos de la empresa, toda la comunidad reacciono mal y para muchos esta fue la gota que derramó el baso.</p><h3>Enterprise</h3><p>En el último SenchaCon dejaron muy claro que Sencha ahora apunta a las compañías grandes, no están interesados en vender a pequeñas empresas o estudios menores a 5 desarrolladores. Su objetivo son las grandes empresas.</p><p>Creo que le han dado la espalda a la comunidad y la comunidad ha desaparecido, prueba de ellos es que en el Sencha Con del 2013 los asistentes fueron cerca de los 1000, estaba completamente lleno y realmente que fue un excelente evento. Para este último Sencha Con 2015, muy poca gente asistió, podría decir que cerca de 300 personas o posiblemente menos.</p><h3>Conclusión</h3><p>En fin, no creo volver a escribir algún tutorial de Ext JS o Sencha Touch en este sitio. Ahora escribiré <a href="/blog/mi-expereicia-con-react-native/" title="Link: https://quizzpot.com/blog/mi-expereicia-con-react-native">sobre React Native</a>, una herramienta en la que he estado introduciéndome en los últimos meses y que realmente me está agradando. Así mismo planeo escribir sobre Angular 2 cuando estén cerca del RC.</p><p>Con este post no quiero decir que dejaré de programar y usar Ext JS, simplemente que ya no lo haré con el gusto como lo hacía antes, además de que trataré evitar involucrarme en estos proyectos. También aclarar que esta es solo mi opinión personal.</p><p>Gracias a Ext JS pude viajar a varios países fuera de México para consultar y resolver problemas. Fueron muy buenos momentos y hoy con nostalgia simplemente he decidido decir adiós.</p><p><br/></p></div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Soy un geek que disfruta crear y compartir cosas en internet! Sígueme en twitter @crysfel</p>
+</span>
+</div>
+<div>
+
+</div>
+</div>
+</div>
+<script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<!-- Modal -->
+
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+    
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br/>
+<a href="/about/">Leer más...</a>
+</br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

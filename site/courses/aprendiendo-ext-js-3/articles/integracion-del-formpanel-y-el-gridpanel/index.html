@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Integración del FormPanel y el GridPanel - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Integración del FormPanel y el GridPanel
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>23</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                En esta ocasión vamos a Crear, Leer, Actualizar y Borrar (CRUD) un catalogo de contactos usando un formulario y mostrando los resultados en un “Grid” este es el que se encargara de hacer las operaciones antes mencionadas, con esto veremos otra aplicación básica de la integración de un FormPanel y el GridPanel, utilizando un Writer dentro del Store que maneja el Grid.
+
+En este tutorial haremos un CRUD para poder editar la información contenida en el Grid, esto lo lograremos mediante el Writter de un store y usaremos un formulario para poder editar esa información.
+
+La siguiente imagen es un ejemplo de lo que tendremos al final de este tutorial.
+
+
+<div class="example">
+<img alt="resultado final" src="/wp-content/uploads/2010/11/crud-form-1.png"/><p>Resultado Final</p>
+</div>
+
+Durante el tutorial se irá explicando el código necesario para realizarlo, recuerda que puedes descargar el código fuente si te es necesario.
+
+<h3>La Base de datos</h3>
+La información para el Grid estará en una base de datos de MySQL que contendrá una tabla llamada “contacts”, en esta tabla solo tenemos la información básica de un contacto. El código para generar la tabla se muestra a continuación.
+
+<pre class="prettyprint">-- phpMyAdmin SQL Dump
+-- version 3.2.0.1
+-- http://www.phpmyadmin.net
+--
+-- Servidor: localhost
+-- Tiempo de generación: 28-10-2010 a las 16:30:53
+-- Versión del servidor: 5.1.36
+-- Versión de PHP: 5.3.0
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Base de datos: `test`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `contacts`
+--
+
+CREATE TABLE IF NOT EXISTS `contacts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `firstName` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `lastName` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `age` varchar(3) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `country` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=5 ;
+
+--
+-- Volcar la base de datos para la tabla `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `email`, `firstName`, `lastName`, `age`, `phone`, `country`) VALUES
+(1, 'luiz@gmail.com', 'Luiz', 'Ortega', '19', '123 - 456 - 7893', 'Mexico'),
+(2, 'sasha@gmail.com', 'Sasha', 'Cohen', '25', '123 - 456 - 7892', 'USA'),
+(3, 'cr@gmail.com', 'Cristiano', 'Ronaldo', '24', '123 - 456 - 7891', 'Portugal'),
+(4, 'john@hotmail.com', 'John', 'Smith', '21', '123 - 456 - 7894', 'USA');
+</pre>
+
+La base de datos se llama “test” pero puedes usar el nombre que te agrade, solo recuerda cambiar el nombre cuando se haga la conexión mediante PHP.
+
+<h3>Exponer la información</h3>
+Como la información está almacenada en una base de datos, necesitamos realizar la conexión vía PHP o cualquier otro lenguaje de servidor y un simple “SELECT” de la siguiente manera. El siguiente código se debe escribir en un archivo llamado “serverside/getContacts.php”.
+
+<pre class="prettyprint">&lt;?php	//step 1
+	$connection= mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+	
+	$result= mysql_query("SELECT * FROM contacts");  //step 2
+	
+	$data= array();
+	
+	while($row= mysql_fetch_array($result)){  //step 3
+		array_push($data,array(
+			"id"	=&gt; $row["id"],
+			"first"	=&gt; $row["firstName"], 
+			"last"	=&gt; $row["lastName"], 
+			"email"	=&gt; $row["email"],	
+			"age"	=&gt; $row["age"],
+			"phone"	=&gt; $row["phone"],
+			"country"=&gt;$row["country"]
+		));
+	}
+
+	echo json_encode(  //step 4
+		array(  
+		"success"	=&gt; true,
+		"data"		=&gt; $data
+	));
+</pre>
+
+En el paso uno se realiza la conexión a la base de datos, recuerda que debes poner las credenciales adecuadas así como la base de datos que usarás, en mi caso es “test”.
+
+En el paso dos se hace el query que regresa todo lo que contiene la tabla “contacts”, es un query muy sencillo.
+En el paso tres se itera el resultset que regresó la consulta, dentro del ciclo creamos un arreglo con la información de cada uno de los contactos.
+
+En el paso cuatro se imprime la información en formato JSON, la respuesta será como el siguiente ejemplo: 
+
+<pre class="prettyprint">{"success":true,"data":[{"id":"1","first":"Luiz","last":"Ortega","email":"luiz@gmail.com","age":"19","phone":"123 - 456 - 7893","country":"Mexico"},{"id":"2","first":"Sasha","last":"Cohen","email":"sasha@gmail.com","age":"25","phone":"123 - 456 - 7892","country":"USA"},{"id":"3","first":"Cristiano","last":"Ronaldo","email":"cr@gmail.com","age":"24","phone":"123 - 456 - 7891","country":"Portugal"},{"id":"4","first":"John","last":"Smith","email":"john@hotmail.com","age":"21","phone":"123 - 456 - 7894","country":"USA"}]}
+</pre>
+
+Esto es suficiente para poder generar la interface del Grid mediante JavaScript ya que tenemos toda la información necesaria.
+
+<h3>Empaquetando el Tutorial</h3>
+Vamos a empaquetar el código para evitar conflictos con otras variables o librerías. Esto es algo muy importante y siempre lo debemos realizar.
+
+<pre class="prettyprint">Ext.ns("com.quizzpot.tutorials");
+
+com.quizzpot.tutorials.CrudForm = {
+	init : function() {
+		//code
+	}
+}
+Ext.onReady(com.quizzpot.tutorials.CrudForm.init,com.quizzpot.tutorials.CrudForm);
+</pre>
+
+La función “init” se ejecutará tan pronto como el DOM esté listo, por lo tanto ahí debemos colocar el código que necesitamos ejecutar primero.
+
+<h3>Creando el CRUD</h3>
+Lo que haremos a continuación es solicitar la información al servidor, esto será ya dentro de la función “init” de nuestro archivo “crudexample.js”. Como mencionamos anteriormente usaremos un “writer” que se encargue de hacer las operaciones básicas (leer, escribir, modificar y eliminar). Para logara esto es necesario definir la propiedad “api” con las URLs donde el “proxy” realizara las peticiones Ajax de manera automática. 
+
+<pre class="prettyprint">var proxy = new Ext.data.HttpProxy({  //step 1
+	api: {
+		read 	: "serverside/getContacts.php",
+		create 	: "serverside/createContact.php",
+		update	: "serverside/updateContact.php",
+		destroy	: "serverside/destroyContact.php"
+	}
+});
+</pre>
+
+En el paso uno se crea una instancia de “Ext.data.HttpProxy” esto es para que el “store” realice las peticiones Ajax de manera automática.
+
+A continuación haremos el “Reader” y el “Writer”:
+
+<pre class="prettyprint">var reader = new Ext.data.JsonReader({  //step 1
+	totalProperty	: 'total',
+	successProperty	: 'success',   // indica la propiedad que define si se ha insertado/actualizado o borrado con éxito
+	messageProperty	: 'message',
+	idProperty	: 'id',
+	root		: 'data'   //este es el nombre del parámetro que llega al servidor con el JSON modificado
+},[
+	{name: 'first'},
+	{name: 'last'},
+	{name: 'email'}
+]);
+			
+var writer = new Ext.data.JsonWriter({  //step 2
+	encode		: true,
+	writeAllFields	: true  //decide si se manda al servidor solamente los campos modificados o todo
+})
+
+this.store = new Ext.data.Store({
+	proxy		: proxy,
+	reader		: reader,
+	writer		: writer,
+	autoSave	: true
+});
+this.store.load();
+</pre>
+
+En el paso uno lo que hacemos es crear una instancia del “JsonReader” este componente nos permitirá leer e interpretar la respuesta del servidor para cada petición Ajax realizada.
+
+En el paso tres se crea la instancia del “JsonWriter”.
+
+Los tres fragmentos de código anteriores ya los hemos visto a detalle en tutoriales pasados, esa es la razón por la que no entramos a detalles de estructura solo hacemos mención algunos atributos. Si esto es nuevo para ti, te recomendamos revisar el tema sobre esto.//link a lo onda del CRUD :D
+
+<h3>Creado el Grid</h3>
+A continuación crearemos el Grid. Lo primero que haremos es desplegar la información que traemos desde la base de datos.
+
+<pre class="prettyprint">var sm = new Ext.grid.CheckboxSelectionModel(); //step 1
+
+ this.grid = new Ext.grid.GridPanel({  .//step 2
+	region		: "center",
+	margins		: "3 3 3 3",
+	width		: 300,
+	store		: this.store, // step 3
+	columns		: [
+			sm,
+			{header:'Name', dataIndex:'first',sortable: true,width:80},
+			{header:'Lastname', dataIndex:'last',sortable: true,width:80},
+			{header:'E-mail', dataIndex:'email',sortable: true,width:100}
+			],
+tbar		: [   //step  4
+			{text:"Delete", scope:this, handler:this.onDelete,iconCls:'delete-icon'}
+			],	
+ 	sm		: sm,
+	border		: false,
+	stripeRows	: true
+});
+</pre>
+
+En el paso uno creamos una instancia del componente “CheckboxSelectionModel” para hacer que el selectionModel funcine mediante un checkbox.
+
+En el paso dos se crea la instancia del GridPanel para formar la tabla que contendrá la información recibida de la base de datos.
+
+Notemos que esta tabla cuenta con el dos atributos especiales “region” y “margins” el primero es para poder colocar nuestra tabla en una ventana que use un layout de tipo “border”. Por esta razón nuestro tabla tiene este atributo el cual nos dice que queremos que la tabla esté en el centro de la ventana. El segundo solo crea un margen alrededor del componente a la distancia en pixeles que le especificamos.
+
+En el paso tres se le pasa a la tabla el “store” que contiene la información a desplegar en el grid.
+
+En el paso cuatro se está agregando el botón “eliminar” en la barra de herramientas. Notemos que al botón se le está agregando una imagen para esto es necesario  definir la case CSS (delete-icon) en nuestra hoja de estilos o documento HTML de la siguiente manera:
+
+<pre class="prettyprint">.delete-icon{background:transparent url(/courses/aprendiendo-ext-js-3/articles/icons/delete.png) 0 0 no-repeat !important;}
+</pre>
+
+Por el momento no trabajaremos con la función que está en el botón ya que lo haremos un poco más adelante así que puedes comentar el atributo “handler”.
+
+Por último colocaremos nuestra tabla en una ventana para poder mostrar los registros de esta. 
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title	: "Grid and Form Example",
+	layout	: "border",
+	width	: 600,
+	height	: 400,
+	items	: [this.grid]
+});
+win.show(); 
+</pre>
+
+Este es código ya muy común para nosotros. Solo mencionaremos algo relacionado con lo anterior, si notamos esta ventana tiene un layout de tipo “border” esto con el fin de acomodar los componentes en regiones. Por el momento solo contamos con nuestra tabla. 
+
+En estos momentos tendríamos algo semejante a esto:
+
+
+<div class="example">
+<img alt="colocando el grid" src="/wp-content/uploads/2010/11/crud-form-2.png"/><p>Colocando el Grid</p>
+</div>
+<h3>Creado el Formulario</h3>
+En la sección pasada creamos la tabla que muestra la información de la base de datos, ahora haremos el formulario para introducir y editar la información.
+
+Lo primero que haremos es crear el formulario.
+
+<pre class="prettyprint">this.form = new Ext.form.FormPanel({
+	region		: "west",
+	width		: 250,
+	bodyStyle	: "padding: 10px;",
+	url		: "serverside/updateContact.php", //step 1
+	margins		: "3 3 3 3",
+	border		: false,
+	defaults		: {allowBlank: false},
+	items		: [  //sptep 2
+			{xtype : "textfield", name : "first", fieldLabel : "Name"},
+			{xtype : "textfield", name : "last", fieldLabel : "Lastname"},
+			{xtype : "textfield", name : "email", fieldLabel : "E-mail", vtype :"email"},
+			{xtype : "textfield", name : "age", fieldLabel : "Age"},
+			{xtype : "textfield", name : "phone", fieldLabel : "Phone"},
+			{xtype : "textfield", name : "country", fieldLabel : "Contry"},
+			{xtype : "textfield", name : "id",hidden:true,allowBlank:true}
+			],			],
+	fbar		: [{text : "Update", scope : this, handler: this.onUpdate},  //step 3
+			   {text : "Create", scope : this, handler: this.addContact}],
+});
+</pre>
+
+Lo primero que hacemos es crear la instancia del FormPanel.
+
+Si notamos nuestro formulario cuenta con los atributos “region” y “margins” del mismo modo que en la sección anterior nuestra tabla. El tributo región coloca el formulario en la posición “oeste” y “margins” crea un margen alrededor del formulario.
+
+En el paso uno específicas con el atributo “url” el archivo que manejara el evento “submit” del formulario, esto lo veremos un poco más adelante.
+
+En el paso dos tenemos los campos que formarán el formulario, en general todos los “textfields” solo cuentan con un “nombre” y su “etiqueta”. Notemos el caso de el campo que recibe el correo electrónico que introduce el usuario, este cuenta con un “vtype” de tipo “email” esto es con el fin de validar que el usuario ingrese una dirección de correo electrónico válida al un cambio o crear un nuevo contacto.
+
+El campo de nombre “id” también es un caso especial, si notamos este campo está oculto ya que lo definimos así por medio del atributo “hidden”, este campo se puede quedar en blanco. El por qué de esto lo explicaremos más adelante.
+
+En el paso tres se crean los botones “actualizar” y “crear”. Por el momento no trabajaremos con las funciones que están en los botones ya que lo haremos un poco más adelante así que puedes comentar el atributo “handler”.
+
+Ya que tenemos el formulario listo lo siguiente es agregarlo a la venta, para poder mostrarlo.
+
+<pre class="prettyprint">var win = new Ext.Window({
+	title	: "Grid and Form Example",
+	layout	: "border",
+	width	: 600,
+	height	: 400,
+	items	: [this.grid,this.form] //step 1
+});
+win.show(); 
+</pre>
+
+En el paso uno solo agregamos el formulario a la ventana por medio del atributo “items”, en este momento deberíamos tener algo como la siguiente imagen:
+
+
+<div class="example">
+<img alt="colocando el formulario" src="/wp-content/uploads/2010/11/crud-form-3.png"/><p>Colocando el Formulario</p>
+</div>
+<h3>Grabar los Registros Modificados </h3>
+Hasta este punto tenemos la información en nuestro “Grid” lo siguiente que tenemos que hacer para poder cumplir una de las funciones del CRUD es editar los registros del “Grid” y guardarlos en la base de datos.
+
+Para esto tenemos que sacar la información del Grid y desplegarlo en el formulario. Lo primero que haremos es desplegar la información del Grid en el formulario, con la información ya en el formulario la podremos editar y guardar en la base de datos.
+
+Lo primero que haremos es obtener la información del contacto, esto lo haremos de la siguiente manera:
+
+this.grid.on("rowClick",this.loadRecord,this);
+
+Agregamos el evento “rowClick”, este evento se dispara cuando se da clic sobre un registro de la tabla, notemos que este evento es manejado por la función “loadRecord” es importante mencionar que también se le pasa el scope donde se ejecutará la función.
+
+La función loadRecord lo que hace es hacer una petición al servidor con el “id” del contacto para traer la información de este y desplegarla en el formulario, esta función la veremos a continuación:
+
+<pre class="prettyprint">loadRecord : function(Grid,index,ev){  //step 1
+	var rec = this.grid.store.getAt(index);  //step 2
+
+	this.form.getForm().load({  //step 3
+		url	: "serverside/fillForm.php", //archivo php que se encargará de hacer la petición al servidor
+		params	: {record:rec.id},  //step 4
+		failure	: function(form, action){
+		Ext.Msg.alert("Error","Load failed");
+		}
+});
+},
+</pre>
+
+En el paso uno se crea la función recibiendo los parámetros que nos manda el evento “rowClick”.
+
+En el paso dos usamos el parámetro “index” el cual nos marca la fila en la que se encuentra el registro sobre el cual se dio clic. Esto lo hacemos con el fin de obtener la información de ese registro para poder cargarla en el formulario.
+
+En el paso tres usamos el método “load” para cargar hacer la petición Ajax y desplegar el resultado en el formulario. 
+
+En el paso cuatro como parámetro de la petición mandamos el “id” del registro el cual obtuvimos en el paso uno.
+
+Con esto es suficiente para hacer la petición al servidor, lo que sigue es crear el archivo PHP (serverside/fillForm.php) que  es el que se comunicará con la base de datos.
+
+<pre class="prettyprint">&lt;?php	//step 1
+$connection = mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+
+	$id = $_POST["record"];
+	//step 2
+	$query = sprintf("SELECT * FROM contacts WHERE id =%d",
+			mysql_real_escape_string($id));
+			
+	$result = mysql_query($query);
+	
+	$info=array();
+	//step 3
+	if($row = mysql_fetch_array($result)){
+		$info = array(
+			"id"	=&gt; $row["id"],
+			"first"	=&gt; $row["firstName"], 
+			"last"	=&gt; $row["lastName"], 
+			"email"	=&gt; $row["email"],	
+			"age"	=&gt; $row["age"],
+			"phone"	=&gt; $row["phone"],
+			"country"=&gt; $row["country"]
+		);
+	}
+	//step 4
+	echo json_encode(array(
+		"success" =&gt; true,
+		"data"	=&gt; $info
+	));
+</pre>
+
+En el paso uno se realiza la conexión a la base de datos, recuerda que debes poner las credenciales adecuadas así como la base de datos que usarás, en mi caso es “test”.
+
+En el paso dos, al recibir la información que se manda en el evento “load” del formulario, hacemos  el query que regresa todo lo que contiene el registro con ese “id”, es un query muy sencillo.
+
+En el paso tres se itera el resultset que regresó la consulta, dentro del ciclo creamos un arreglo con la información del contacto.
+
+En el paso cuatro se imprime la información en formato JSON, la respuesta será como el siguiente ejemplo:
+
+<pre class="prettyprint">{"success":true,"data":{"id":"2","first":"Sasha","last":"Cohen","email":"sasha@gmail.com","age":"25","phone":"123 - 456 - 7892","country":"USA"}}
+</pre>
+
+Con esto cuando demos clic sobre un registro de la tabla la información de ese contacto será cargada automáticamente en el formulario. Y deberíamos tener algo como la siguiente imagen:
+
+
+<div class="example">
+<img alt="llenando el formulario" src="/wp-content/uploads/2010/11/crud-form-4.png"/><p>Llenando el Formulario</p>
+</div>
+
+Ahora sí, la información está lista para poder ser editada, lo que debemos hacer ahora es guardar esa información. Para esto usaremos la función (onUpdate) que fue asignada al botón “actualizar”, esta función nos ayudará a realizar lo antes mencionado.
+
+<pre class="prettyprint">onUpdate : function(){
+	if (this.form.getForm().isValid()){ //step 1
+		this.form.getForm().submit({  //step 2
+			scope	: this,
+			success	: function(){
+				this.store.load()},
+			failure	: function(response){
+				console.debug(response);
+			}
+		});
+	}else{
+		Ext.Msg.alert("Error","All fieds are requiered");
+	}		
+},
+</pre>
+
+En el paso uno verificamos que no se encuentre ningún campo vacío del formulario, de lo contrario se manda un mensaje de error.
+
+En el paso dos se hace un “submit” al formulario, con el atributo “scope” indicamos el contexto donde se ejecutarán las funciones definidas en “success” y “failure”.
+
+En la función definida para “success” lo único que hacemos es cargar el store con el propósito de actualizar la tabla con los cambios realizados a la información del contacto.
+
+En la función “failure” solo se imprime en consola la información para ver donde se originó el problema.
+
+Lo que debemos hacer ahora es crear el script PHP que va a actualizar la información en la base de datos, si recordamos en el formulario en el atributo “url” tenemos el archivo “serverside/updateContact.php”, este archivo se encarga de actualizar la base de datos.
+
+<pre class="prettyprint">&lt;?php	//step 1
+	$connection=mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+	
+	//step 2
+	$name	= htmlentities($_POST["first"], ENT_QUOTES);
+	$last	= htmlentities($_POST["last"], ENT_QUOTES);
+	$mail	= htmlentities($_POST["email"], ENT_QUOTES);
+	$age	= htmlentities($_POST["age"], ENT_QUOTES);
+	$phone	= htmlentities($_POST["phone"], ENT_QUOTES);
+	$country	= htmlentities($_POST["country"], ENT_QUOTES);
+	$id	= $_POST["id"];
+	
+	//step 3
+	$query = sprintf("UPDATE  contacts SET email = '%s', firstName = '%s', lastName = '%s', age = '%s' ,phone = '%s', country = '%s' WHERE id=%d",
+		mysql_real_escape_string($mail),
+		mysql_real_escape_string($name),
+		mysql_real_escape_string($last),
+		mysql_real_escape_string($age),
+		mysql_real_escape_string($phone),
+		mysql_real_escape_string($country),
+		mysql_real_escape_string($id));
+
+	$rs  = mysql_query($query);
+	
+	//step 4
+	echo json_encode(array(
+		"success" 	=&gt; mysql_errno() == 0,
+		"msg"		=&gt; mysql_errno() == 0?"Contact inserted successfully":mysql_error()
+	));
+</pre>
+
+En el paso uno se realiza la conexión a la base de datos, recuerda que debes poner las credenciales adecuadas así como la base de datos que usarás, en mi caso es “test”.
+
+En el paso dos lo que hacemos es obtener la información mandada por el submit, notemos que la información está siendo pasada por la función PHP “htmlentities” que elimina las etiquetas html en la información que fue introducida. Lo que esta función hacer es convertir la siguiente etiqueta html &lt;b&gt;Luiz&lt;/b&gt; a algo como lo siguiente &lt;b&gt;Luiz&lt;/b&gt; 
+
+En el paso tres hacemos un “update” a la tabla en la que están guardados nuestros contactos y le damos como valores la información que fue mandada por el “Store”.
+
+En el paso cuatro lo que hacemos es mandar un mensaje de éxito si es que todo sale bien, de lo contrario se manda el mensaje de error de MySQL. 
+
+Hasta este momento ya cumplimos con dos de las cuatro funciones de un CRUD leer y actualizar.
+
+<h3>Crear un Registro Nuevo</h3>
+En la sección anterior logramos guardar los registros que fueron modificados por el usuario, ahora vamos a insertar nuevos registros en el Grid, para esto usaremos la función (addContact) que fue asignada al botón “crear” esta función nos ayudara a realizar lo antes mencionado.
+
+<pre class="prettyprint">addContact : function(){	
+	if (this.form.getForm().isValid()){  //step 1
+		var contact = new this.store.recordType({  //step 2
+			first	: this.form.getForm().getValues().first,
+			last	: this.form.getForm().getValues().last,
+			email	: this.form.getForm().getValues().email,
+			country	: this.form.getForm().getValues().country,
+			phone	: this.form.getForm().getValues().phone,
+			age	: this.form.getForm().getValues().age
+		});
+		this.store.insert(0,contact);  //step 3
+	}else{
+		Ext.Msg.alert("Error","All fields are requiered");
+	}
+}
+</pre>
+
+Creamos la función dentro del objeto principal y en el paso uno verificamos que no se encuentren campos vacios en el formulario, de lo contrario se manda un mensaje de error.
+
+En el paso dos hacemos un registro nuevo asignándole en los campos del Grid la información que el usuario introduce en el formulario para este nuevo registro.
+
+En el paso tres insertamos el contacto nuevo para amostrarlo en el Grid, al tener un “Writer” configurado automáticamente se realizará una petición al servidor con la información a grabar.
+
+Lo siguiente que debemos hacer es guardar ese contacto nuevo en la base de datos. Para esto necesitamos crear el archivo “serverside/createContact.php”, el cual se encargará de introducir el nuevo registro a la base de datos.
+
+<pre class="prettyprint">&lt;?php	//step 1
+	$connection = mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+
+	$info = $_POST["data"];
+
+	$data = json_decode(stripslashes($info));  //step 2
+	
+	//step 3
+	$name	= htmlentities($data-&gt;first, ENT_QUOTES);
+	$last	= htmlentities($data-&gt;last, ENT_QUOTES);
+	$email	= htmlentities($data-&gt;email, ENT_QUOTES);
+	$age	= htmlentities($data-&gt;age,ENT_QUOTES);
+	$phone	= htmlentities($data-&gt;phone, ENT_QUOTES);
+	$country= htmlentities($data-&gt;country, ENT_QUOTES);
+
+	//step 4
+$query = sprintf("INSERT INTO contacts (email,firstName,lastName,age,phone,country) values ('%s','%s','%s','%s','%s','%s')",
+			mysql_real_escape_string($email),
+			mysql_real_escape_string($name),
+			mysql_real_escape_string($last),
+			mysql_real_escape_string($age),
+			mysql_real_escape_string($phone),
+			mysql_real_escape_string($country));
+			
+	$rs = mysql_query($query);
+
+	//step 5
+	echo json_encode(array(
+		"success" 	=&gt; mysql_errno() == 0,
+		"msg"		=&gt; mysql_errno() == 0?"Contact inserted successfully":mysql_error(),
+		"data"		=&gt; array(
+			array(
+				"id"	=&gt; mysql_insert_id(),
+				"first"	=&gt; $name,
+				"last"	=&gt; $last,
+				"email"	=&gt; $email,
+				"age"	=&gt; $age,
+				"phone"	=&gt; $phone,
+				"country"=&gt;$country
+			)
+		)
+	));
+</pre>
+
+En el paso uno se realiza la conexión a la base de datos.
+
+En el paso dos, una vez que recibimos la información que mando el “Store” lo decodificamos con la función json_decode() de PHP con esto ya podemos acceder a la información que fue editada en el formulario, la función “stripslashes” elimina el carácter “\” que Apache le agrega, es posible que la configuración de tu servidor no lo haga, pero es bueno prevenir esto para evitarnos errores en el futuro.
+
+En el paso tres revisamos que la información que recibimos del formulario no tenga etiquetas HTML  con la función php htmlentities().
+
+En el paso cuatro hacemos un “insert” y damos como valores la información que fue mandada por el formulario.
+
+En el paso cinco lo que hacemos es mandar un mensaje de éxito si es que todo sale bien, de lo contrario se manda el mensaje de error de MySQL.
+
+Es muy importante mencionar que el Json_encode se está haciendo después del “success” y el “msg” mandamos la información que fue insertada a la base de datos, es muy importante mandar el “id” del nuevo registro, esto nos permitirá que los métodos update y delete funcionen correctamente, si no lo hacemos no funcionarán.
+
+Con esto ya podremos insertar un nuevo registro en nuestro “Grid” y en nuestra base de datos.
+
+<h3>Eliminando un Registro</h3>
+En estos momentos solo hemos hecho lo necesario para poder leer los registros y desplegarlos en nuestro “Grid”, podemos añadir nuevo registros y editar los registros existentes por medio de nuestro formulario. Lo único que nos hace falta es eliminar registros y con esto tendríamos las cuatro funciones del CRUD.
+
+Para esto crearemos la función a la que hace referencia el botón “eliminar”, lo que haremos es lo siguiente:
+
+<pre class="prettyprint">onDelete : function(){  //step 1
+	var rows = this.grid.getSelectionModel().getSelections();  //step 2
+	if(rows.length === 0){  //step 3
+		return false;
+	}
+	this.store.remove(rows);  //step 4
+},
+</pre>
+
+En el paso uno creamos la función “onDelete” dentro del objeto principal.
+
+En el paso dos tomamos la instancia del “SelectionModel()” de nuestro “Grid”, con esto podemos obtener la información de las filas seleccionadas por el usuario mediante el método “getSelections()”.
+En el paso tres lo que hacemos es verificar que el usuario haya seleccionado algo, si no hay nada seleccionado o la selección del “Grid” está vacía no se eliminará ningún registro ya que hacemos un return.
+
+En el paso cuatro ya que se verificó que es un registro que puede ser borrado y lo eliminamos del “Grid” usando el método “remove” del store que contiene los records.
+
+Lo siguiente que debemos hacer es crear el archivo(serverside/destroyContact.php”) que se encargará de borrar el registro de la base de datos.
+
+<pre class="prettyprint">&lt;?php	//step 1
+	$connection=mysql_connect("localhost","root","") or die("Connection Failed".mysql_error());
+	mysql_select_db("test",$connection)or die("Error loading the DataBase".mysql_error());
+
+	$id = json_decode(stripslashes($_POST["data"])); //step 2
+
+	//step 3
+	$query = sprintf("DELETE FROM contacts WHERE id = %d",
+		mysql_real_escape_string($id));
+
+	$rs  = mysql_query($query);
+
+	//step 4
+	echo json_encode(array(
+		"success" 	=&gt; mysql_errno() == 0,
+		"msg"		=&gt; mysql_errno() == 0?"Contact deleted successfully":mysql_error()
+	));
+</pre>
+
+En el paso uno lo que hacemos es crear la conexión a la base de datos.
+
+En el paso dos obtenemos la información que nos fue mandada, la decodificamos con Json_decode() y la guardamos en la variable “id”. En este caso solo se nos envió el “id” del registro que se quiere eliminar.
+
+En el paso tres solo hacemos el query para eliminar el registro.
+
+En el paso cuatro mandamos como respuesta un mensaje de éxito y si ocurrió un error se manda el error como respuesta.
+
+Si intentamos eliminar un registro notaremos que esta vez también fue borrado de nuestra base de datos. Esta sería la respuesta del servidor:
+
+<pre class="prettyprint">{"success":true,"msg":"Contact deleted successfully"}  
+</pre>
+
+Con esto terminamos la última parte de nuestro CRUD que es eliminar un registro.
+
+<h3>Conclusión</h3>
+En esta ocasión vimos como podemos integrar un formulario y una tabla para poder realizar algunos cambios a la información que esta contiene, con esto podemos crear una nueva aplicación de una manera más dinámica.
+
+Si tienes algún comentario o sugerencia no dudes en comunicarnolos viá el formulario inferior, por el <a href="http://foro.quizzpot.com/" rel="nofollow" target="_blank">foro</a> o en alguna de las redes sociales como <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter</a> y <a href="http://www.facebook.com/pages/Quizzpot/299875756793?v=wall" rel="nofollow" target="_blank">Facebook</a>.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/editorgrid/crud-form.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

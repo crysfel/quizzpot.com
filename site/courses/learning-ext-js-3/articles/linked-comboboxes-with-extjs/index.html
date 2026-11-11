@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Linked ComboBoxes with ExtJS - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Linked ComboBoxes with ExtJS
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>9</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                Sometimes the information we use in our applications is grouped into categories, in these situations the linked combos will help us to maintain these connections in a simple way.
+
+In today's tutorial we will create two combos that are related to each other, we'll use the typical example countries and their respective states, the information of the state's combo will be loaded with Ajax depending on the country selected in the first combo. I recommend you <a href="/demos/extjs/forms/linked-cmb.html/" rel="nofollow" target="_blank">test the demo</a> to be able to see the final result.
+
+
+<div class="example"><img alt="Linked ComboBoxes with ExtJS" src="/wp-content/uploads/2009/11/linked-cmb1.jpg"/><p>Tutorial's demo</p></div>
+<h3>Resources</h3>
+Before I start explaning this tutorial you need to download the <a href="/wp-content/uploads/2009/11/linked-cmb.zip" rel="nofollow" target="_blank">resources</a> and copy the content into a Web server because we will be using Ajax to load information.
+
+<h3>The information source</h3>
+Let's write the code needed to generate the information the combos will display, for this example the information is in PHP arrays, but remember that you can retrieve it from a database, Web Service, a text file or elsewhere.
+
+<pre class="prettyprint"> 
+$countries = array('Argentina','España','México','Perú','United States'); //step 1
+
+$states = array( 			//step 2
+	array('Buenos Aires','Córdoba','La Pampa','Mendoza','Santa Fe'),
+	array('Asturias','Valencia','Barcelona','Toledo'),
+	array('Distrito Federal','Nuevo León','Jalisco'),
+	array('Arequipa','Puno','Tacna','Lima'),
+	array('Texas','California','New york','Virginia')
+);
+</pre>
+
+In step one I have been defined the countries we will use in the first combo, these are five countries but the array can be bigger or smaller.
+
+In step two I have defined the states of each country, it is important to mention that the connection is being made by the position in the arrays, let's write the following code to linked both combos:
+
+<pre class="prettyprint">$id = isset($_POST['id'])?$_POST['id']:-1;	//step 1
+	
+if($id &gt; -1){					//step 2
+	//show states
+	echo toJSON($states[$id]);		//step 3
+}else{
+	//show contries
+	echo toJSON($countries);		//step 4
+}
+</pre>
+
+In step one we retrieve the parameter "id" and verify the existence, if it hasn't been sent we assign the value "-1" to the variable.
+
+In step two we verify that the "id" is greater than "-1", this tells us that our application is requesting the states of a country, the variable "id" must have the position of the requested country so in this part we decide what is going to be displayed: countries or states.
+
+Step three is executed if the variable "id" contains the index of the selected country, so we can display the states of the requested index.
+
+Step four is only implemented if the "id" is less than or equal to -1, this tells us that the application has requested the countries.
+
+You probably noticed that we're invoking the function "toJSON", so let's go ahead an write the function like this:
+
+<pre class="prettyprint">function toJSON($array){
+	$data=array(); $i=0;			//step 1
+	$total = count($array);
+	foreach($array as $key=&gt;$value){	//step 2
+		array_push($data,array(
+			'value'=&gt;$i++,		//step 3
+			'label'=&gt;$value
+		));
+	}
+	
+	return json_encode(array(		//step 4
+		'total'=&gt;$total,
+		'data'=&gt;$data
+	));
+}
+</pre>
+
+The purpose of this function is to create the JSON we're going to send to the combos.
+
+In step one we created two variables: "data" and "i", in the variable "data" we will store each country or state we will display in the combos, the variable "i" is very important because we will use it to create the connection between the combos, I will explain this in step three.
+
+In step two, we create a loop that runs through the array we received as a parameter, this array contains the information we're going to display in the combos.
+
+In step three we are storing each element of the array in the variable "data", you can see that we are creating an array with two properties "value" and "label", these properties will be used by the combo, in the property "value" we assigned the value of "i", this is the value sent as a parameter to request the states of the country selected in the first combo, the property "label" is only the text that will display each option in the combo.
+
+In step four we return the information we collected previously in JSON format.
+
+<h3>Creating JsonStores</h3>
+Once we have defined the information we need to display we can create the combos, we already know that the combos use <a href="/2009/10/combo-box-loaded-dynamically-and-remotely/" rel="nofollow" target="_blank">a Store</a> to manipulate the information displayed. There is a JS file (linked-cmb.js) in the resources you downloaded at the beginning of this tutorial, so let's go ahead and edit it and within the function "getStore" you would write the following:
+
+<pre class="prettyprint">getStore: function(){
+	var store = new Ext.data.JsonStore({
+		url:'linked-cmb.php',
+		root:'data',
+		fields: ['value','label']
+	});
+	return store;
+}
+</pre>
+
+In here we only created a JsonStore, with the fields we defined on the server, the previous code should be easy to understand because we have used it on several occasions, but I'd like to mention that I have decided to create a function to generate a Store because I need two with the same properties, and I didn't want to rewrite the same code twice, so I just created a function that generates the stores as many time as necessary.
+
+<h3>Creating the Linked ComBoxes</h3>
+In the previous step we created a function that generates <a href="/2009/06/reading-information-in-json-format/" rel="nofollow" target="_blank">one JsonStore</a>, so let's create two of these so we can use them with each of the combos:
+
+<pre class="prettyprint">this.countryStore = this.getStore();
+this.stateStore = this.getStore();
+</pre>
+
+The combo that will display the countries will have the following properties:
+
+<pre class="prettyprint">this.countryCmb = new Ext.form.ComboBox({
+	store: this.countryStore,
+	id: 'country',
+	valueField: 'value',
+	displayField: 'label',
+	triggerAction: 'all',
+	emptyText: 'Select a Country',
+	fieldLabel: 'Country'
+});
+</pre>
+
+There's nothing complicated in the previous code, is just a typical configuration of a <a href="/2009/10/combo-box-loaded-dynamically-and-remotely/" rel="nofollow" target="_blank">ComboBox</a>, the next thing we need to do is create a combo that will display the states of the selected country.
+
+<pre class="prettyprint">this.stateCmb = new Ext.form.ComboBox({
+	store: this.stateStore,
+	disabled: true,		//Step 1
+	id: 'state',
+	valueField: 'value',
+	displayField: 'label',
+	triggerAction: 'all',
+	mode: 'local',		//Step 2
+	emptyText: 'Select a Contry first',
+	fieldLabel: 'State'
+});
+</pre>
+
+This configuration has some differences from the previous one, these differences are very important and I will explain you why:
+
+In step one we are disabling the combo, in order to force the user to select the country first, this step is optional but improves the usability by ensuring that the user does not make mistakes.
+
+Step two is very important, if we don't assign this configuration we will have a strange behavior because by assigning the property "mode: 'local'" we ensure that there is no Ajax requests to the server when the user clicks on the combo to see the options.
+
+<h3>Displaying the combos in a window</h3>
+So far we have written code but still can not see anything on the screen, so now it's time to render the components, for this example I will use a window with the following properties:
+
+<pre class="prettyprint">this.window = new Ext.Window({
+	title: 'Linked ComboBox',
+	layout:'form',
+	width:300,
+	height:200,
+	bodyStyle: 'padding:5px;background-color:#fff',
+	items: [this.countryCmb,this.stateCmb]
+});
+this.window.show();
+</pre>
+<div class="example"><img alt="Linked ComboBoxes with ExtJS" src="/wp-content/uploads/2009/11/linked-cmb2.jpg"/><p>Creation of the ComboBoxes</p></div>
+?
+<h3>Adding the “listener”</h3>
+At this point we can see the combos, the combo of countries displays the information correctly but the combo of states is disabled and we can not do anything with it.
+
+To interact with the components we need to add a <a href="/2009/05/handling-events-on-dom-elements-and-components/" rel="nofollow" target="_blank">"listener"</a> to the first combo, in order to enable the combo of states when the first combo is selected and load the appropriate information.
+
+<pre class="prettyprint">this.countryCmb.on('select',function(cmb,record,index){	//step 1
+	this.stateCmb.enable();			//step 2
+	this.stateCmb.clearValue();		//step 3
+	this.stateStore.load({			//step 4
+		params:{
+			id:record.get('value')	//step 5
+		}	
+	});
+},this);
+</pre>
+
+In step one we added a "listener" to the event "select", this event is triggered when the user selects an option from the combo, the function receives three parameters: the combo, the record and the index that has been selected.
+
+In step two we only enable the combo of states.
+
+In step three we remove the value of the combo of states, if the user has previously selected a country and state and we load new sates, the old value will be removed.
+
+En el paso tres limpiamos el valor del combo de estados, esto permitirá que si el usuario ha seleccionado anteriormente un estado, cuando se carguen nuevos estados se limpiará el valor anterior.
+
+In step four we are reloading the information of the Store of states with Ajax.
+
+In step five we pass the parameter "id" which is going to be used by the server to decided which states must be returned.
+
+
+<div class="example"><img alt="Linked ComboBoxes with ExtJS" src="/wp-content/uploads/2009/11/linked-cmb1.jpg"/><p>Linked combos</p></div>
+<h3>Conclusions</h3>
+Following the steps in this tutorial we can create linked combos on the levels we need, we just need to assign a "listener" to the event "select" of the combo and within this "listener" reload the store of the combo.
+
+Don't forget to follow us on <a href="http://twitter.com/quizzpot" rel="nofollow" target="_blank">Twitter (@quizzpot)</a> to be updated of the new tutorials we will be publishing and also if you have any questions or suggestions feel free to leave a comment on this post.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/forms/linked-cmb.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

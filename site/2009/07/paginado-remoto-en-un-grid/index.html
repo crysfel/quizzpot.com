@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Paginado remoto en un Grid - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Aprendiendo Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Paginado remoto en un Grid
+            <a class="bubble-tag article-header-link-videos" href="/courses/aprendiendo-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>31</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                El día de hoy voy a mostrar como podemos paginar los registros de una tabla, esta funcionalidad es muy utilizada cuando tenemos una gran cantidad de información para mostrar al usuario.
+
+El ejercicio de hoy lo puedes ver <a href="/demos/extjs/grids/paging.html/" rel="nofollow" target="_blank">en acción</a>, a continuación te muestro una imagen de lo que tendremos al final del tutorial.
+
+ 
+<div class="example"><img alt="" src="/wp-content/uploads/2009/07/paging1.jpg"/><p>Ejercicio final</p></div>
+<h3>Material de apoyo</h3>
+Antes de continuar es necesario <a href="/wp-content/uploads/2009/07/paging.zip" rel="nofollow" target="_blank">descargar el material de apoyo</a> y copiar los archivos dentro de la carpeta “grids” que se encuentra en el servidor Web que instalamos en <a href="/2009/02/instalacion-basica-del-framework/" rel="nofollow" target="_blank">el primer capitulo</a> y en el cual hemos estado trabajando.
+
+<h3>Definir el “namespace”</h3>
+Antes que cualquier otra cosa necesitamos definir el “<a href="/2009/03/paquetes-y-namespace/" rel="nofollow" target="_blank">namespace</a>” donde estaremos trabajando.
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.PagingTutorial = {
+	init: function(){		
+		//code goes here
+	}
+}
+
+Ext.onReady(com.quizzpot.tutorial.PagingTutorial.init,com.quizzpot.tutorial.PagingTutorial);
+</pre>
+<h3>El paginado</h3>
+Vamos a paginar la información en el servidor, éste recibirá dos parámetros, “start” y “limit”, estos parámetros son enviados automáticamente por la barra paginadora.
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$start = isset($_POST['start'])?$_POST['start']:0; //posición a iniciar
+	$limit = isset($_POST['limit'])?$_POST['limit']:5; //número de registros a mostrar
+	
+	$data = array(
+			array('city'=&gt;'Mexico city','visits'=&gt;684,'pageVisits'=&gt;4.11,'averageTime'=&gt;'00:06:53'),
+			array('city'=&gt;'La Victoria','visits'=&gt;443,'pageVisits'=&gt;4.39,'averageTime'=&gt;'00:07:28'),
+			array('city'=&gt;'Madrid','visits'=&gt;380,'pageVisits'=&gt;3.11,'averageTime'=&gt;'00:05:22'),
+			array('city'=&gt;'Providencia','visits'=&gt;204,'pageVisits'=&gt;3.83,'averageTime'=&gt;'00:08:20'),
+			array('city'=&gt;'Bogota','visits'=&gt;204,'pageVisits'=&gt;3.26,'averageTime'=&gt;'00:04:57'),
+			array('city'=&gt;'Puerto Madero','visits'=&gt;192,'pageVisits'=&gt;3.56,'averageTime'=&gt;'00:05:07'),
+			array('city'=&gt;'Monterrey','visits'=&gt;174,'pageVisits'=&gt;3.90,'averageTime'=&gt;'00:06:06'),
+			array('city'=&gt;'Barcelona','visits'=&gt;145,'pageVisits'=&gt;3.28,'averageTime'=&gt;'00:05:39'),
+			array('city'=&gt;'Caracas','visits'=&gt;132,'pageVisits'=&gt;4.55,'averageTime'=&gt;'00:06:27'),
+			array('city'=&gt;'Rosario','visits'=&gt;116,'pageVisits'=&gt;2.44,'averageTime'=&gt;'00:04:30'),
+			array('city'=&gt;'Oaxaca','visits'=&gt;108,'pageVisits'=&gt;1.73,'averageTime'=&gt;'00:02:37'),
+			array('city'=&gt;'Buenos Aires','visits'=&gt;100,'pageVisits'=&gt;5.43,'averageTime'=&gt;'00:07:37'),
+			array('city'=&gt;'Galicia','visits'=&gt;96,'pageVisits'=&gt;1.92,'averageTime'=&gt;'00:04:37'),
+			array('city'=&gt;'Guadalajara','visits'=&gt;90,'pageVisits'=&gt;5.92,'averageTime'=&gt;'00:03:37')
+	);
+	
+	$paging = array(
+		'success'=&gt;true,
+		'total'=&gt;count($data), //&lt;--- total de registros a paginar
+		'data'=&gt; array_splice($data,$start,$limit)
+	);
+	
+	
+	echo json_encode($paging);
+?&gt;
+</pre>
+
+El código anterior viene con <a href="/wp-content/uploads/2009/07/paging-src.zip" rel="nofollow" target="_blank">el material de apoyo</a>, realmente no tiene nada especial únicamente recibe los parámetros y mediante la función “array_splice” regresa los registros solicitados, es importante mencionar que esta información puede provenir de una base de datos o de cualquier otro lugar, pero lo que si debes tener en cuenta es que la paginación depende totalmente del servidor y éste es el responsable de regresar la información correcta.
+ 
+<h3>Crear el Store</h3>
+El siguiente paso es crear un JsonStore para solicitar los registros por medio de Ajax de la siguiente manera:
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'paging.php',
+	root: 'data',
+	totalProperty: 'total', // &lt;--- total de registros a paginar
+	fields: ['city','visits','pageVisits','averageTime']
+});
+
+store.load();
+</pre>
+
+Si has venido <a href="/2009/04/que-es-un-store-y-como-funciona/" rel="nofollow" target="_blank">siguiendo el curso</a> desde el principio el código anterior debe ser familiar, la única propiedad que quiero resaltar es “<em>totalProperty</em>” ya que esta propiedad define donde se encuentra (en la información que nos regresa el servidor) el total de los elementos a paginar; si no configuramos la propiedad antes mencionada, el componente no podrá calcular el número de páginas porque supone que el total es solamente los registros que se están mostrando actualmente, por lo tanto no permitirá seguir paginando la información.
+
+<h3>Crear el Grid</h3>
+Vamos a crear el Grid y asignárselo a una ventana para poder visualizarlo.
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store,
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'City', dataIndex:'city',sortable: true},
+		{header:'Visits', dataIndex:'visits',sortable: true},
+		{header:'Page/Visits', dataIndex:'pageVisits',sortable: true},
+		{header:'Average Time', dataIndex:'averageTime', width:150,sortable: true}
+	],
+	border: false,
+	stripeRows: true
+});
+		
+var win = new Ext.Window({
+	title: 'Grid example',
+	layout: 'fit',
+	width: 510,
+	height:350,
+	items: grid
+});
+
+win.show();
+</pre>
+
+El código anterior es muy semejante al del <a href="/2009/07/informacion-contenida-en-formato-json/" rel="nofollow" target="_blank">tutorial anterior</a>, lo único que hace es crear la tabla con las columnas necesarias y relacionar las columnas con los campos en el registro del store.
+
+
+<div class="example"><img alt="" src="/wp-content/uploads/2009/07/paging2.jpg"/><p>Creación de una tabla</p></div>
+<h3>Crear el PaggingToolbar</h3>
+Vamos a crear la barra de paginación de la siguiente manera:
+
+<pre class="prettyprint">var pager = new Ext.PagingToolbar({
+	store: store, // &lt;--grid and PagingToolbar using same store (required)
+	displayInfo: true,
+	displayMsg: '{0} - {1} of {2} Cities',
+	emptyMsg: 'No cities to display',
+	pageSize: 5
+});
+</pre>
+
+He configurado las propiedades más importantes, pero la única propiedad requerida es “store” el cual debe ser el mismo que se usa para la tabla.
+
+“displayInfo” (boolean): Define si se despliega información en la parte derecha del componente sobre el estado de la paginación, por defecto es “false”.
+
+“displayMsg” (string): Especifica el mensaje que se desea desplegar cuando la propiedad anterior (“displayInfo”) es seleccionada “true”, el mensaje por defecto es “Displaying {0} - {1} of {2}”, en este caso lo hemos cambiado, es importante notar que {0} será remplazado por el parámetro “start”, {1} se remplazará por “star + limit” y {2} se remplazará por “totalProperty”.
+
+“emptyMsg” (string): Este mensaje se mostrará cuando el servidor no regrese ningún registro, si no la configuramos mostrará “No data to display” por defecto.
+
+“pageSize” (number) : Aquí definimos el número de registros por página, en este caso le asignamos cinco, pero queda a criterio del desarrollador, solamente se debe tener en cuenta que a mayor registros por página más difícil será para el usuario encontrar lo que necesita, por defecto la configuración de esta propiedad es 20.
+
+<h3>Asignar la barra de paginación al Grid</h3>
+Una vez que hemos creado nuestra barra de paginación se la podemos asignar al grid en la barra superior (tbar) o inferior (bbar), en este caso se la voy asignar en la parte inferior de la siguiente manera:
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store, // &lt;--El grid y PagingToolbar usan el mismo store
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'City', dataIndex:'city',sortable: true},
+		{header:'Visits', dataIndex:'visits',sortable: true},
+		{header:'Page/Visits', dataIndex:'pageVisits',sortable: true},
+		{header:'Average Time', dataIndex:'averageTime', width:150,sortable: true}
+	],
+	bbar: pager, // &lt;--- Barra de paginación
+	border: false,
+	stripeRows: true
+});
+</pre>
+<div class="example"><img alt="" src="/wp-content/uploads/2009/07/paging1.jpg"/><p>Barra de paginación</p></div>
+
+El componente “Ext.PagingToolbar” se encarga de controlar la navegación entre las páginas, cuenta con botones para avanzar/retroceder página por página o avanzar hasta el final/inicio.
+
+<h3>Enviar parámetros extra</h3>
+Si en cada petición necesitamos mandar parámetros extra al servidor, podemos definirle al “store” la propiedad “baseParams” la cual recibe un objeto de la siguiente manera:
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'paging.php',
+	root: 'data',
+	totalProperty: 'total',
+	fields: ['city','visits','pageVisits','averageTime'],
+	baseParams: {x:10,y:20} //&lt;--- parámetros definidos
+});
+</pre>
+
+Al paginar la información automáticamente se mandarán los parámetros definidos en el código anterior, recordemos que estos parámetros normalmente nunca cambian.
+
+Existen situaciones en las que necesitamos enviar un parámetro “z” en algún momento en específico o necesitamos modificar este parámetro con diferentes valores, por lo tanto se los mandamos cuando hacemos el “load” del store:
+
+<pre class="prettyprint">//parámetros variables
+store.load({params:{z:10});
+</pre>
+<div class="example"><img alt="" src="/wp-content/uploads/2009/07/paging3.jpg"/><p>Error NaN en la barra de paginación</p></div>
+
+Al parecer esto nos resuelve el problema fácilmente, pero cuando actualizamos el explorador nos damos cuenta que aparecen algunos “NaN” en la barra de paginación en lugar de aparecer los números correctos, este error es muy común y sucede porque el componente no puede calcular la página en la que se encuentra, para resolverlo solamente necesitamos enviar los parámetros “start” y “limit” junto con el parámetro “z”.
+
+<pre class="prettyprint">//resolviendo el NaN
+store.load({params:{z:10,start:0,limit:5}});
+</pre>
+<div class="example"><img alt="" src="/wp-content/uploads/2009/07/paging1.jpg"/><p>Error NaN solucionado</p></div>
+
+Hemos resuelto el problema del NaN, pero ahora cada vez que paginamos el parámetro “z” se está perdiendo, para solucionar esto podemos utilizar un evento (“beforechange”) el cual se dispara antes de que el componente cambie de página, es decir antes de que se haga la llamada por medio de Ajax al servidor, este evento es el que necesitamos, porque aquí podemos agregar los parámetros que necesitemos, en este caso el parámetro “z”.
+
+<pre class="prettyprint">pager.on('beforechange',function(bar,params){
+	params.z = 30;
+});
+</pre>
+
+Con esto es suficiente para que el parámetro “z” se envíe en cada cambio de página.
+
+<h3>Conclusiones</h3>
+En este tema vimos como mostrar mucha información en partes, este componente es muy fácil de utilizar y sobretodo muy flexible, espero el funcionamiento haya quedado claro, si tienes dudas puedes inscribirte en el foro para poder platicar mejor, de igual forma puedes seguirnos en Twitter para estar actualizado en los nuevos tutoriales que vamos sacando.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/aprendiendo-ext-js-3/">Aprendiendo Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Es ingeniero de software con más de 7 años de experiencia en desarrollo web.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/grids/paging.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

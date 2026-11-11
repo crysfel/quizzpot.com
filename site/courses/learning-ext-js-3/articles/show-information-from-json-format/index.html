@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Show information from JSON format - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Learning Ext JS 3</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Show information from JSON format
+            <a class="bubble-tag article-header-link-videos" href="/courses/learning-ext-js-3/">Más videos</a>
+</h2>
+<div class="article-information">
+<span>Comentarios: <em>0</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>0.0 minutos</em></span>
+<span class="separator">Dificultad: <em>Intermedio</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+                In this tutorial I want to show how to load the information contained in JSON format in a "Grid", is really easy and basic, but I think it is important to mention for those who are starting to work with this library.
+
+This tutorial is very similar to the previous one where we saw how to <a href="/2010/01/show-information-from-an-xml-file/" rel="nofollow" target="_blank">load data from an XML file</a>, the only thing we will change from the previous tutorial is the record that specifies the information it will contain and the "reader" because now we want to be able to read the JSON information returned by the server.
+
+
+<div class="example"><img alt="Image of the grid" src="/wp-content/uploads/2009/07/gridjson1.jpg"/><p>Final Image</p></div>
+<h3>Resources</h3>
+Let's download the <a href="/wp-content/uploads/2009/07/gridjson.zip" rel="nofollow" target="_blank">resources</a> for this tutorial, unzip them and copy the files inside of the folder "grid" on our Web server already installed.
+
+<h3>Packaging the tutorial</h3>
+As we have always done it in this course, we will package the code we will use for this tutorial, remember that this is fundamental and very important, believe me I will never get tired of saying this.
+
+<pre class="prettyprint">Ext.ns('com.quizzpot.tutorial');
+
+com.quizzpot.tutorial.GridJsonTutorial = {
+	init: function(){		
+		//code goes here
+}
+
+Ext.onReady(com.quizzpot.tutorial.GridJsonTutorial.init,com.quizzpot.tutorial.GridJsonTutorial);
+</pre>
+<h3>The JSON we're going to use</h3>
+Now let's define the information that the grid will display, for simplicity I will write the information directly into the code, but remember that this information can be in a database, a text file, Web service or it can come from elsewhere, but for now we will "hardcoded" it.
+
+<pre class="prettyprint">&lt;?php
+	header("Content-Type: text/plain"); 
+	
+	$data = array(
+		'success'=&gt;true,
+		'total'=&gt;11,
+		'data'=&gt;array(
+			array('city'=&gt;'Mexico city','visits'=&gt;684,'pageVisits'=&gt;4.11,'averageTime'=&gt;'00:06:53'),
+			array('city'=&gt;'La Victoria','visits'=&gt;443,'pageVisits'=&gt;4.39,'averageTime'=&gt;'00:07:28'),
+			array('city'=&gt;'Madrid','visits'=&gt;380,'pageVisits'=&gt;3.11,'averageTime'=&gt;'00:05:22'),
+			array('city'=&gt;'Providencia','visits'=&gt;204,'pageVisits'=&gt;3.83,'averageTime'=&gt;'00:08:20'),
+			array('city'=&gt;'Bogota','visits'=&gt;204,'pageVisits'=&gt;3.26,'averageTime'=&gt;'00:04:57'),
+			array('city'=&gt;'Puerto Madero','visits'=&gt;192,'pageVisits'=&gt;3.56,'averageTime'=&gt;'00:05:07'),
+			array('city'=&gt;'Monterrey','visits'=&gt;174,'pageVisits'=&gt;3.90,'averageTime'=&gt;'00:06:06'),
+			array('city'=&gt;'Barcelona','visits'=&gt;145,'pageVisits'=&gt;3.28,'averageTime'=&gt;'00:05:39'),
+			array('city'=&gt;'Caracas','visits'=&gt;132,'pageVisits'=&gt;4.55,'averageTime'=&gt;'00:06:27'),
+			array('city'=&gt;'Rosario','visits'=&gt;116,'pageVisits'=&gt;2.44,'averageTime'=&gt;'00:04:30'),
+			array('city'=&gt;'Oaxaca','visits'=&gt;108,'pageVisits'=&gt;1.73,'averageTime'=&gt;'00:02:37')
+		)
+	);
+	
+	
+	echo json_encode($data);
+?&gt;
+</pre>
+<h3>Creating the “Record”</h3>
+Once we have defined the format in which the information is delivered to the client (via AJAX), we can create the "Record" we will display in the table.
+
+<pre class="prettyprint">var Record = Ext.data.Record.create([
+	{name: 'city'},
+	{name: 'visits', type:'float'},
+	{name: 'pageVisits', type:'float'},
+	{name: 'averageTime'}
+]);
+</pre>
+
+The previous code should look familiar because we have reviewed in <a href="/2009/06/reading-information-in-json-format/" rel="nofollow" target="_blank">previous tutorials</a>, basically we create a "record" with the fields we need to display and that are returned by the server, and define (in some cases) the type of information of the field.
+ 
+<h3>Creating the “Reader”</h3>
+Now let's write the "Reader" so the store can interpret the information given to us in JSON format.
+
+<pre class="prettyprint">var reader = new Ext.data.JsonReader({
+   totalRecords: "total", 
+   root: "data"               
+}, Record);
+</pre>
+
+For this case we used the component "JsonReader" and we configured the field of the total of records and the root field which is the principal information.
+
+<h3>Creating the Store and loading the information</h3>
+The next thing we need to do is create the store which shall contain the information locally in order to be manipulated by the grid.
+
+<pre class="prettyprint">var store = new Ext.data.Store({
+	url: 'gridjson.php',
+	reader: reader
+});
+
+store.load();
+</pre>
+
+You can see that we have configured the "url" that we are going to use to request the information with Ajax, also we have assigned the "Reader" we created earlier, finally we "load" the store.
+
+<h3>Saving a few lines of code</h3>
+So far all we've done is get the information from the server and save it on the store, all the previous lines of code can be reduced substantially as follows:
+
+<pre class="prettyprint">var store = new Ext.data.JsonStore({
+	url: 'gridjson.php',
+	root: 'data',
+	fields: ['city',{name:'visits',type:'float'},{name:'pageVisits',type:'float'},'averageTime']
+});
+
+store.load();
+</pre>
+
+With the previous lines we do exactly the same as we did before, this is convenient when using JSON as a format for information transfer, so the decision to do it in one way or another is up to the developer.
+
+<h3>Creating the Grid</h3>
+Let's create the grid to display the information contained in the store we created previously.
+
+<pre class="prettyprint">var grid = new Ext.grid.GridPanel({
+	store: store, // &lt;--- we assign the store with the information we're going to use
+	columns: [
+		new Ext.grid.RowNumberer(),
+		{header:'City', dataIndex:'city',sortable: true},
+		{header:'Visits', dataIndex:'visits',sortable: true},
+		{header:'Page/Visits', dataIndex:'pageVisits',sortable: true},
+		{header:'Average Time', dataIndex:'averageTime', width:150,sortable: true}
+	],
+	border: false,
+	stripeRows: true
+});
+</pre>
+
+We're not doing anything special, we only assigned the store to use, we defined the columns and assign a proper of the "Record" in the store to each column, we also created a column where the rows are numbered, we removed the border so when a table is entered the window will look good and at last we added alternating lines to the rows.
+
+<h3>Displaying the grid</h3>
+There are several ways to display the grid on the screen, this time we will use a window.
+<pre class="prettyprint">var win = new Ext.Window({
+	title: 'Grid example',
+	layout: 'fit',
+	width: 510,
+	height:350,
+	items: grid
+});
+
+win.show();
+</pre>
+
+If you update the browser you will see something like the following image.
+
+
+<div class="example"><img alt="Image of the grid" src="/wp-content/uploads/2009/07/gridjson1.jpg"/><p>Final Image</p></div>
+<h3>Conclusions</h3>
+So far we have seen how to display information in different formats, which is really simple. In the next chapter we will see how to page this information, every time it gets more interesting so don't forget to subscribe to the Feeds or by email, also remember that use Twitter (quizzpot) to show updates and what we are doing in Quizzpot.
+
+If you have any questions or suggestions please leave your comments and don't forget to become a fan in our Facebook page.
+
+
+                <h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/learning-ext-js-3/">Learning Ext JS 3</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Software engineer with more than 7 years of experience in web development.</p>
+</span>
+</div>
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/extjs/grids/gridjson.html">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

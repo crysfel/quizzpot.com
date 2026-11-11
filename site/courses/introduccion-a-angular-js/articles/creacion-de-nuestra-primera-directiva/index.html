@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Creación de nuestra primera directiva - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Introducción a Angular JS</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Creación de nuestra primera directiva
+            <a class="bubble-tag article-header-link-videos" href="/courses/introduccion-a-angular-js/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/9c4n7LG2Ias" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>3</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>9.01 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>Ya hemos visto como <a href="/courses/introduccion-a-angular-js/articles/actualizar-y-borrar-registros-con-ngresource/">manipular la información</a> de nuestra app, grabamos nuevos registros, los actualizamos y los borramos, todo esto usando un API en JSON. En este tema vamos a iniciar a realizar una directiva para integrar un plugin en jQuery que nos permita utilizar <a href="http://silviomoreto.github.io/bootstrap-select/" rel="nofollow" target="_blank" title="Link: http://silviomoreto.github.io/bootstrap-select/">un combo más amigable</a>.</p><p>Para integrar plugins de jQuery necesitamos utilizar una directiva. Siempre que necesitemos tocar el DOM, ya sea para agregar eventos, agregar elementos, modificarlos o cualquier otra cosa, necesitamos utilizar una directiva.</p><p>Las directivas son muy útiles, pero es un poco complicado entender el concepto, es por eso que en este tema vamos a integrar un plugin hecho en jQuery, esto nos permitirá exponer los conceptos y enfrentarnos a los problemas reales, así podremos aprender a solucionarlos.</p><p>Lo primero que necesitamos es descargar el plugin desde la <a href="http://silviomoreto.github.io/bootstrap-select/" rel="nofollow" target="_blank" title="Link: http://silviomoreto.github.io/bootstrap-select/">página oficial</a>, luego agregamos el JavaScript y el CSS a nuestra app (<i>index.html</i>).</p><pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="/courses/introduccion-a-angular-js/articles/css/bootstrap-select.css"&gt;
+&lt;script src="/courses/introduccion-a-angular-js/articles/js/bootstrap-select.js"&gt;&lt;/script&gt;<br/></pre><p>Una vez que lo hemos importado vamos a crear nuestra directiva de la siguiente manera (<i>app.js</i>).</p><pre class="prettyprint">.directive('bootstrapSelect',function(){ //Step 1
+
+    return {
+        require : 'ngModel',            //Step 2
+        link: function (scope, element, attrs, ngModel) { //step 3
+             console.log('My directive');
+        }
+    }
+})</pre><ol><li>En el paso uno utilizamos el método <i>directive</i> para crear una directiva, aquí definimos el nombre de la directiva y la función encargada de crear la directiva.</li><li>En el segundo paso importamos la directiva <i>ngModel</i>, también podríamos utilizar un arreglo para requerir varias otras dependencias, el <i>ngModel</i> lo usaremos más adelante.</li><li>En el tercer paso definimos la función <i>link</i>, esta función será ejecutada cada que nuestra directiva sea creada, esto significa que cuando el template se esté compilando, esta función será llamada.</li></ol><p>Los parámetros que recibe la función <i>link</i> son muy importantes, y hablaremos de ellos por separado más adelante. Para utilizar la directiva simplemente la agregamos en el template de la siguiente manera.</p><pre class="prettyprint">&lt;select bootstrap-select="categories" ng-model="bookmark.category" class="form-control"&gt;&lt;/select&gt;<br/></pre><p>Vamos a remplazar el <i>select</i> que ya teníamos en nuestro formulario y ahora usamos como atributo la directiva que hemos creado, además le pasaremos el arreglo que usará para crear las opciones del <i>select</i>.</p><p>Como se puede observar estamos usando un guión en el nombre de la directiva, Angular automáticamente buscará la directiva correcta. Por cada guión se utilizará una letra mayúscula en el nombre.</p><h3>El scope</h3><p>Cada directiva recibe un <i>scope</i>, si no definimos ninguno, automáticamente la directiva recibe el mismo <i>scope</i> del controlador que maneja el template desde donde fue utilizada esta directiva.</p><p>También podemos crear un nuevo <i>scope</i> específicamente para cada instancia de la directiva, en este ejemplo usaremos el <i>scope</i> principal, ya que necesitamos acceder a la colección de categorías de la siguiente manera.</p><pre class="prettyprint">scope.categories
+scope.bookmarks
+scope.currentCategory</pre><p>Por defecto el <i>scope</i> es el mismo que el que estamos usando en el controlador, esto a nosotros nos funcionará para agregar al <i>select</i> las opciones cuando el servidor las entregue a nuestra app.</p><h3>El element</h3><p>El parámetro element corresponde al elemento sobre el que se está aplicando la directiva, en este caso será el <i>select</i>, este parámetro nos servirá para utilizar el plugin de jQuery de la siguiente manera.</p><pre class="prettyprint">$(element).selectpicker();<br/></pre><p>Dentro de la función <i>link</i> definimos el código anterior. Con esto veremos como el select que teniamos se transofrma en un nuevo componente. </p>
+<div class="example"><img alt="Directivas en Angular JS" src="https://s3.amazonaws.com/quizzpot/images/158-angular-directive.png" title="Image: https://s3.amazonaws.com/quizzpot/images/158-angular-directive.png"/><p>Directivas en Angular JS</p></div><p>Ya tenemos nuestra primera directiva funcionando! Solo nos falta llenar el combo de opciones, cuando se seleccione una opción necesitamos modificar el objeto <i>category</i>, también necesitamos actualizar el valor del combo cuando se edite un bookmark, entre otras cosas más. Mas adelante veremos como realizar todas estas operaciones.</p><h3>Atributos</h3><p>El tercer parámetro que recibe la función <i>link</i> son los atributos que han sido definidos en la directiva, en este caso necesitamos definir que propiedad de los objetos, que representan cada categoría, será el <i>label</i> y el <i>value</i> de cada option.</p><p>Vamos a modificar el markup del <i>select</i> de la siguiente manera.</p><pre class="prettyprint">&lt;select bootstrap-select="categories" select-value="id" select-label="name" ng-model="bookmark.category" class="form-control"&gt;&lt;/select&gt;<br/></pre><p>Aquí solamente agregamos los atributos <i>select-value </i>y <i>select-label</i>, estos atributos nos servirán para seleccionar que propiedades usaremos para desplegar los <i>options</i>. En la directiva los podemos acceder de la siguiente manera.</p><pre class="prettyprint">var collection = attrs.bootstrapSelect,
+    valueProperty = attrs.selectValue,
+    labelProperty = attrs.selectLabel,
+    model = attrs.ngModel;<br/></pre><p>Y los vamos a usar más adelante, por el momento solamente los guardaremos en variables para accederlos rápidamente.  </p><h3>Conclusiones</h3><p>Hasta ahora hemos utilizado un plugin de jQuery desde una directiva, esto nos permitió remplazar el select tradicional por uno que utiliza estilos de bootstrap. Es importante entender los conceptos aquí expuestos, los parámetros scope, elemento y los atributos nos serán muy útiles para poder acceder a la información, configurar algunas opciones y manipular el DOM.</p><p>Por el momento hasta aquí llegaremos, en el siguiente tutorial vamos a llenar al <i>select</i> con opciones de manera dinámica. Si te ha gustado este tutorial puedes registrarte al sitio para recibir más tutoriales como este en tu correo.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/introduccion-a-angular-js/">Introducción a Angular JS</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Ha participado en varios proyectos con Angular y es participante activo del grupo de Angular NYC.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/intro-angularjs/13-directives/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

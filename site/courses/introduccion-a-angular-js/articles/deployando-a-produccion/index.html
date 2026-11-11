@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Deployando a producción - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Introducción a Angular JS</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Deployando a producción
+            <a class="bubble-tag article-header-link-videos" href="/courses/introduccion-a-angular-js/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/l16K8G6oXC0" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>9</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>12.56 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>Ya tenemos nuestro app completa, ahora vamos a prepararla para deployarla a producción, para eso necesitamos ofuscar y comprimir nuestro código JavaScript, así como el CSS.</p><p>Para comprimir el código usaremos Grunt, ya he escrito un <a href="/blog/instalar-grunt-y-preparar-nuestro-codigo-javascript-para-produccion/" rel="nofollow" target="_blank">tutorial de como instalarlo</a>, así que te recomiendo hacerlo en este momento antes de seguir adelante. Una vez que tenemos instalado Grunt necesitamos instalar dos plugins.  </p><ol><li><a href="https://github.com/gruntjs/grunt-contrib-concat" rel="nofollow" target="_blank">grunt-contrib-concat</a>, para concatenar nuestro código fuente en un solo archivo.<br/></li><li><a href="https://github.com/gruntjs/grunt-contrib-cssmin" rel="nofollow" target="_blank">grunt-contrib-cssmin</a>, para comprimir el CSS.</li><li><a href="https://github.com/gruntjs/grunt-contrib-uglify" rel="nofollow" target="_blank">grunt-contrib-uglify</a>, para ofuscar y comprimir el JavaScript.<br/></li><li><a href="https://github.com/dciccale/grunt-processhtml" rel="nofollow" target="_blank">grunt-processhtml</a>, para remplazar los archivos de producción en el index.html.<br/></li></ol><p>Para instalar estas dos plugins usamos NPM.</p><pre class="prettyprint">$ npm install grunt-contrib-concat grunt-contrib-cssmin grunt-contrib-uglify grunt-processhtml</pre><p>Con esto tendremos lo necesario para seguir adelante. Vamos a ir creando las tareas paso a paso para ir explicando cada configuración a detalle.</p><h3>Concatenar los archivos</h3><p>Actualmente tenemos dos archivos CSS y dos archivos JS, antes de comprimir y ofuscar el código necesitamos concatenar todos los archivos en uno solo, para eso usamos el primer plugin que instalamos. Vamos a crear el archivo <i>Gruntfile.js</i> en el directorio raíz de nuestra app, luego agregamos el siguiente código.</p><pre class="prettyprint">module.exports = function(grunt) {
+
+  grunt.initConfig({
+    concat: {           //Step 1
+      css: {            //Step 2
+        src: [
+          'css/*'
+        ],
+        dest: 'build/css/app.css'
+      },
+      js : {
+        src : [
+          'js/bootstrap-select.js',
+          'js/app.js'
+        ],
+        dest : 'build/js/app.js'
+      }
+    }
+  });
+
+  // Load the plugins
+  grunt.loadNpmTasks('grunt-contrib-concat'); //Step 3
+
+  // Default task(s).
+  grunt.registerTask('default', ['concat:css','concat:js']);  //Step 4
+};<br/></pre><ol><li>En el primer paso definimos las configuraciones de cada tarea, en este caso configuramos el plugin concat creando dos subtareas, una para concatenar los archivos CSS y otra para el JavaScript. </li><li>Dos configuraciones son necesarias para cada subtarea, indicar donde está el código fuente (<i>src</i>) a concatenar y el nombre del archivo donde pondrá el resultado de la concatenación (<i>dest</i>). </li><li>En el paso tres cargamos el plugin que nos hará la concatenación.</li><li>En el paso cuatro definimos la tarea que se ejecutará por <i>default</i>, es importante notar que estamos indicando el order de las tareas a ejecutar mediante el arreglo del segundo parámetro.</li></ol><p>Una vez que configuramos estas dos tareas podemos ejecutar Grunt de la siguiente manera. El siguiente comando debe ser ejecutado en el directorio raíz de nuestra app.</p><pre class="prettyprint">$ grunt</pre><p>Ya que no le estamos indicando que tarea ejecutar, por defecto ejecutará la tarea <i>default</i>. Cuando termina la ejecución podremos ver que se han creados los dos archivos correctamente, uno para el CSS y otro para el JS, todo dentro del folder <i>build</i>.</p><h3>Comprimir el CSS</h3><p>Lo siguiente es tomar el resultado obtenido en la tarea anterior y comprimirlo con el segundo plugin que instalamos al inicio del tutorial.</p><p>Vamos a agregar las siguiente configuraciones al archivo <i>Gruntfile.js</i>.</p><pre class="prettyprint">module.exports = function(grunt) {
+
+  grunt.initConfig({
+    
+    // ...
+
+    cssmin : {                                //Step 1
+        css:{
+            src: 'build/css/app.css',
+            dest: 'build/css/app.min.css'
+        }
+    },
+  });
+
+  // Load the plugins
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');  //Step 2
+
+  // Default task(s).
+  grunt.registerTask('default', ['concat:css','concat:js','cssmin:css']); //Step 3
+
+};<br/></pre><ol><li>En el paso uno definimos las configuraciones para la tarea cssmin, unicamente es necesario indicar el archivo fuente, que en este caso es el resultado de la tarea anterior y el archivo destino donde se guardará el código comprimido.</li><li>En el paso dos cargamos el plugin que realizará la compresión.</li><li>En el paso tres agregamos la nueva tarea a la tarea <i>default</i>.</li></ol><p>Al ejecutar nuevamente Grunt desde la consola, veremos que se ha comprimido el CSS de 24.35KB a 7.67KB, esto es genial! Ya tenemos listo nuestro CSS para deployarlo a producción.</p>
+<div class="example"><img alt="Comprimir CSS con Grunt" src="https://s3.amazonaws.com/quizzpot/images/198-grunt-compress-css.png" title="Image: https://s3.amazonaws.com/quizzpot/images/198-grunt-compress-css.png"/><p>Comprimir CSS con Grunt</p></div>
+<h3>Comprimir el JavaScript</h3><p>Ahora usaremos uglify para comprimir el JavaScript, vamos a configurar la tarea de la siguiente manera.</p><pre class="prettyprint">module.exports = function(grunt) {
+
+  grunt.initConfig({
+
+    //...
+
+    uglify: {     //Step 1
+        js: {
+            files: {
+                'build/js/app.min.js': ['build/js/app.js']
+            }
+        }
+    }
+  });
+
+  // Load the plugins
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-uglify');  //Step 2
+
+  // Default task(s).
+  grunt.registerTask('default', ['concat:css','concat:js','cssmin:css','uglify:js']); //Step 3
+
+};<br/></pre><ol><li>En el paso uno configuramos el archivo a comprimir, dentro de la propiedad files indicamos el archivo donde pondrá el código ofuscado y comprimido, así como el archivo que procesará.</li><li>En el paso dos agregamos el plugin que hará la compresión.</li><li>En el paso tres agregamos la nueva tarea a la tarea <i>default</i>.</li></ol><p>Si ejecutamos Grunt nuevamente, veremos que se ha creado un archivo con el código JavaScript ofuscado y comprimido, el archivo original pesaba 49kb y el compreso pesa solo 25kb. Ya tenemos el JavaScript listo para subir a producción.</p><h3>Cambiar los archivos de producción en el HTML</h3><p>Ya que tenemos listo el CSS y el JavaScript para subirlo a producción, necesitamos preparar el index.html para que ahora llame los archivos de producción en lugar de los de desarrollo, para eso vamos a utilizar el plugin grunt-processhtml que instalamos al inicio de este tutorial.</p><p>Vamos a modificar el archivo <i>Gruntfile.js</i> agregando el siguiente código.</p><pre class="prettyprint">module.exports = function(grunt) {
+
+  grunt.initConfig({
+    
+    //...
+
+    processhtml : {   //Step 1
+      dist: {
+        files : {
+          'build/index.html' : 'index.html'
+        }
+      }
+    }
+  });
+
+  // Load the plugins
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-processhtml'); //Step 2
+
+  // Default task(s).
+  grunt.registerTask('default', [
+    'concat:css',
+    'concat:js',
+    'cssmin:css',
+    'uglify:js',
+    'processhtml:dist' //Step 3
+  ]);
+
+};<br/></pre><ol><li>En el paso uno agregamos las configuraciones de la tarea, aquí solamente definimos el archivo que modificaremos y el nombre del archivo que resultará, usamos la propiedad <i>files</i>.</li><li>En el paso dos incluimos el plugin que realizará el procesamiento necesario.</li><li>Por último agregamos la nueva tarea a las dependencias de la tarea <i>default</i>.</li></ol><p>Antes de ejecutar la nueva tarea, necesitamos modificar el <i>index.html</i> de la siguiente manera.</p><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html ng-app="Bookmarks"&gt;
+&lt;head&gt;
+    &lt;title&gt;Installation - Angular JS&lt;/title&gt;
+    &lt;meta charset="utf-8"&gt; 
+
+    &lt;!-- Latest compiled and minified CSS --&gt;
+    &lt;link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"&gt;
+
+    &lt;!-- build:css css/app.min.css --&gt;
+    &lt;link rel="stylesheet" type="text/css" href="/courses/introduccion-a-angular-js/articles/css/bootstrap-select.css"&gt;
+    &lt;link rel="stylesheet" type="text/css" href="/courses/introduccion-a-angular-js/articles/css/style.css"&gt;
+    &lt;!-- /build --&gt;
+&lt;/head&gt;
+&lt;body ng-controller="MainController"&gt;
+
+    //...
+
+
+    &lt;!-- Latest compiled and minified JavaScript --&gt;
+    &lt;script type="text/javascript" src="//code.jquery.com/jquery-2.1.1.min.js"&gt;&lt;/script&gt;
+    &lt;script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-resource.min.js"&gt;&lt;/script&gt;
+    
+    &lt;!-- build:js js/app.min.js --&gt;
+    &lt;script src="/courses/introduccion-a-angular-js/articles/js/bootstrap-select.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="/courses/introduccion-a-angular-js/articles/js/app.js"&gt;&lt;/script&gt;
+    &lt;!-- /build --&gt;
+&lt;/body&gt;
+&lt;/html&gt;<br/></pre><p>Aquí estamos agregando unos comentarios a las hojas de estilos y a los scripts que incluimos, esto porque en desarrollo si vamos a cargar todos y cada uno de los archivos, pero en producción cargaremos los comprimidos. </p><p>Para las hojas de estilos utilizamos este comentario: <i>&lt;!-- build:css css/app.min.css --&gt;</i>, con esto le indicamos al plugin que procesará este documento, que remplezarémos desde el inicio de este comentario hasta que encuentre este otro comentario: <i>&lt;!-- /build --&gt;</i>.</p><p>Todo lo que esté dentro de esos dos comentario será remplazado por el archivo que le indicamos en el comentario, en este caso le indicamos que será una hoja de estilos <i>css</i> y le pasamos la ruta del archivo que tiene que incluir. Esto nos permitirá generar una versión del <i>index.html</i> para producción.</p><p>Lo mismo hacemos para el javascript, algo interesante que notar es que no estamos incluyendo en el bloque las dependencias de Angular, jQuery y bootstrap, esto es porque estamos importando estos archivos desde el CDN. Si usáramos Bower o tuviéramos esas librerías en nuestro proyecto entonces podríamos comprimirlas y generar un único archivo.</p><p>Una vez que agregamos esos comentarios en el HTML podemos correr las tareas y ver que el html se está generando correctamente, incluyendo las versiones de producción! Lo mejor de todo es que hemos automatizado el proceso usando Grunt!</p><h3>Consideraciones al comprimir Angular</h3><p>Ahora bien, si en este momento probamos la versión de producción, veremos que no funciona correctamente. Sucede que las dependencias no se están inyectando correctamente, esto es porque cuando el JavaScript se comprime el nombre de las variables cambia, así como el de los parámetros. Por lo tanto Angular no puede encontrar correctamente los servicios, directivas ni nada de lo que hicimos.</p><p>Para solucionar esto debemos indicarle el nombre de cada parámetro a inyectar mediante un string, vamos a modificar todos nuestros componentes de la siguiente manera.</p><pre class="prettyprint">(function(){
+    "use strict";
+
+    angular.module('Bookmarks',[
+        //dependencies here
+        'ngResource'
+    ])
+
+    .service('Category',['$http',function($http){ //&lt;---
+
+        //...
+    }])
+
+    .factory('Bookmark',['$resource',function($resource){ //&lt;---
+
+        //...
+
+    }])
+
+    .directive('bootstrapSelect',['$parse',function($parse){ //&lt;---
+
+        //...
+
+    }])
+
+    .controller('MainController',['$scope','Category','Bookmark',function($scope,Category,Bookmark){ //&lt;---
+        
+        //...
+
+    }]);
+
+})();<br/></pre><p>Ahora para el segundo parámetro de cada componente le estamos enviando un arreglo, este arreglo contiene las dependencias que usaremos y por último la función que creará cada componente. Algo importante por mencionar es que tanto los strings como los parámetros de la función deben estar en el mismo orden.</p><p>Con esto es suficiente para que Angular pueda hacer el dependency injection aún cuando el código este ofuscado y comprimido, si ejecutamos nuevamente las tareas de deployment con Grunt podremos ver la app funcionando correctamente. </p>
+<div class="example"><img alt="Deployando Angular JS" src="https://s3.amazonaws.com/quizzpot/images/199-angular-deployment.png" title="Image: https://s3.amazonaws.com/quizzpot/images/199-angular-deployment.png"/><p>Deployando Anguar JS</p></div>
+<h3>Conclusiones</h3><p>Todo esto podría parecer complicado e intimidante al principio, pero realmente que el uso de Grunt nos ayudará mucho en la productividad, ya que con un simple comando podemos ejecutar todas estas tareas que de otra forma tendríamos que hacerlo de manera manual.</p><p>Mi recomendación es que desde un principio prepares tu app pensando en como vas a deployarla, agregues las dependencias a Angular usando el arreglo que vimos, yo decidí hacerlo al último por que es una app pequeña y quería mostrar el error que apareció.</p><p>Hoy en día tenemos muchas herramientas, este proceso que acabo de mostrar recuerdo hacerlo allá por el 2008 de manera manual, usando algunas herramientas caseras con mi equipo de desarrollo, realmente que era complicado y tedioso hacer los deployments, hoy Grunt nos facilita la vida.</p><p>Si te ha gustado este tutorial recuerda compartirlo en tus redes sociales eso me ayudará a seguir publicando contenidos de calidad.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/introduccion-a-angular-js/">Introducción a Angular JS</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Ha participado en varios proyectos con Angular y es participante activo del grupo de Angular NYC.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/intro-angularjs/16-deployment/build/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>

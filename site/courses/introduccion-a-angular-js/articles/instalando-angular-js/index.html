@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" dir="ltr" lang="es-MX"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" dir="ltr" lang="es-MX"> <!--<![endif]-->
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Instalando Angular JS - Quizzpot</title>
+<meta content="Crysfel Villa" name="author"/>
+<link href="/favicon.png" rel="icon" type="image/png"/>
+<link href="/assets/application-c38033cc27e372c3e8e77d35d92838ba.css" media="screen" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css"/>
+<script src="/assets/application-cdec8d43f2b4ece94e1e45197999d779.js" type="text/javascript"></script>
+
+</link></head>
+<body>
+<div class="wrap" id="top">
+<div class="main">
+<header class="clearfix">
+
+<div class="container_12">
+<div class="logo grid_12">
+<h1><a href="/"><img alt="Quizzpot" class="" src="/assets/logo-38cde1152ba36e012f244ab29add115b.png"/></a></h1>
+</div>
+<nav class="main_menu container_12 clearfix">
+<ul class="sf-menu" id="menu-main">
+<li><a class="option" href="/">Inicio</a></li>
+<li><a class="option" href="/courses/">Cursos</a></li>
+
+<li><a class="option" href="/blog/">Blog</a></li>
+<li><a class="option" href="/contact/">Contacto</a></li>
+
+
+</ul>
+</nav>
+</div>
+</header>
+<section class="None" id="pagetitle">
+<div class="page_bottom">
+<div class="header-icon" style="background-image:url(/assets/article-header-icon.png)">
+<div class="container_12">
+<div class="grid_6">
+<h1>Introducción a Angular JS</h1>
+</div>
+<div class="grid_6 extratitle">
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="container_12" id="contentarea">
+<div class="grid_12 articles-show-page">
+<div class="entry-content course-article">
+<div class="two_third">
+<h2 class="article-header">
+            Instalando Angular JS
+            <a class="bubble-tag article-header-link-videos" href="/courses/introduccion-a-angular-js/">Más videos</a>
+</h2>
+<iframe allowfullscreen="" frameborder="0" height="380" src="https://www.youtube.com/embed/mjssmRITqJI" width="600"></iframe>
+<div class="article-information">
+<span>Comentarios: <em>30</em></span>
+<span class="separator">Likes: <em>0 Persona</em></span>
+<span class="separator">Duración: <em>8.1 minutos</em></span>
+<span class="separator">Dificultad: <em>Principiante</em></span>
+</div>
+<script type="text/javascript">
+            $(function() {
+                $('#scrollToComments').click(function() {
+                    $('body,html').animate({scrollTop:$('#comments').offset().top},500);
+                    return false;
+                }); 
+                $('#scrollToAddComment').click(function() {
+                    $('body,html').animate({scrollTop:$('#addcomment').offset().top},500);
+                    return false;
+                }); 
+            });
+        </script>
+<div class="article-description">
+<h3 class="bubble-tag">Descripción del tema
+                <a class="article-icon-comments" href="#comments" id="scrollToComments"><i class="icon-comments"></i></a>
+</h3>
+<div class="article-description-text">
+<p>En este tema vamos a instalar la Angular JS para poder iniciar un proyecto, existen varias manera de hacerlo, bien podemos <a href="http://bower.io/" rel="nofollow" target="_blank">utilizar bower</a>, <a href="https://angularjs.org/" rel="nofollow" target="_blank">descargar el archivo JS</a> de la librería o <a href="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.1/angular.min.js" rel="nofollow" target="_blank">usar el CDN</a> que Angular nos proporciona.</p><p>Para este curso estaremos usando la versión 1.3.0, que es la última versión al momento de escribir este tutorial, además de que esta versión esta siendo desarrollada activamente.</p><p>Vamos a crear un HTML completamente vacío donde lo único que haremos será incluir la librería de angular desde el CDN.</p><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Installation - Angular JS&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+    &lt;script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.1/angular.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;<br/></pre><p>Lo siguiente que haremos será agregar en el body del HTML anterior el siguiente código:</p><pre class="prettyprint">&lt;div ng-init="name='John Smith'"&gt;
+    &lt;h1&gt;Welcome {{name}}&lt;/h1&gt;
+&lt;/div&gt;<br/></pre><p>En el código anterior se esta inicializando una variable <i>name</i> mediante el atributo <i>ng-init</i>, luego se imprime esta variable dentro del título, para imprimir una variable usamos <i>{{</i> y <i>}}</i>. Obviamente el código anterior es una muy mala práctica, más adelante veremos como usar controllers donde inicializaremos variables, arreglos, etc. Por el momento lo hacemos directamente en el html.</p><p>Si vamos a nuestro navegador y visualizamos estos cambios, veremos que no ha sucedido nada del otro mundo, simplemente veremos <i>Welcome {{name}}</i>.</p>
+<div class="example"><img alt="Incluyendo la librera de Angular" src="https://s3.amazonaws.com/quizzpot/images/98-intro-angular-include.png" title="Image: https://s3.amazonaws.com/quizzpot/images/98-intro-angular-include.png"/><p>Incluyendo la librería de Angular JS</p></div>
+<p>Para que la angular inicialíze la aplicación necesitamos definir el atributo <i>ng-app</i> en el documento HTML, generalmente esto lo hacemos en el tag <i>&lt;html&gt;</i>, pero bien lo podríamos hacer en el <i>&lt;body&gt;</i> o en cualquier otro lugar.</p><pre class="prettyprint">&lt;!DOCTYPE html&gt;
+&lt;html ng-app&gt;
+
+//...
+
+&lt;/html&gt;<br/></pre><p>Cuando la página se carga angular busca el atributo <i>ng-app</i>, y comienza a evaluar el resto de atributos o etiquetas que se encuentren por debajo del nodo que donde hemos definido el <i>ng-app</i>, en este caso lo definimos en el nodo principal, esto significa que todo el documento será una aplicación angular. Si actualizamos el navegador ahora veremos algo como la siguiente imagen.</p>
+<div class="example"><img alt="Inicializando Angular" src="https://s3.amazonaws.com/quizzpot/images/99-intro-angular-initialize-app.png" title="Image: https://s3.amazonaws.com/quizzpot/images/99-intro-angular-initialize-app.png"/><p>Inicializando Angular JS</p></div>
+<p>Como se puede apreciar, ya se esta evaluando correctamente la variable <i>name</i><span>. Lo siguiente que haremos es agregar un input para poder modificar el contenido de la variable <i>name</i>.</span></p><pre class="prettyprint">&lt;div ng-init="name='John Smith'"&gt;
+    &lt;h1&gt;Welcome {{name}}&lt;/h1&gt;
+
+    &lt;p&gt;&lt;input ng-model="name" type="text" /&gt;&lt;/p&gt;
+&lt;/div&gt;<br/></pre><p>Aquí estamos usando el atributo <i>ng-model</i>, en angular a estos atributos se les llaman <strong>directivas</strong>, <a href="https://docs.angularjs.org/guide/directive" rel="nofollow" target="_blank">existen directivas</a> de tipo elemento, atributo y clase (css), ya hablaremos más adelante sobre como crearlas, por el momento solo es necesario conocer el término.</p><p>Si refrescar el navegador y comienzas a escribir en la caja de texto, verás que automáticamente se refresca el título, a esto se le llama <strong>Two way data binding</strong> y es una de las características que más llaman la atención de angular.</p>
+<div class="example"><img alt="Two way data binding" src="https://s3.amazonaws.com/quizzpot/images/100-intro-angular-two-way-data-binding.png" title="Image: https://s3.amazonaws.com/quizzpot/images/100-intro-angular-two-way-data-binding.png"/><p>Two way data binding</p></div>
+<p>Pues bien, así es como instalamos Angular JS, ya estamos listos para comenzar a desarrollar alguna app o proyecto interesante. En el siguiente tutorial veremos <a href="/courses/introduccion-a-angular-js/articles/definicion-de-modulos/">como crear módulos</a> para comenzar a ordenar nuestro código de una mejor manera.</p><p>Puede descargar el código fuente de este tutorial así como <a href="http://demos.bleext.com/quizzpot/intro-angularjs/01-installation/" rel="nofollow" target="_blank" title="Link: http://demos.bleext.com/quizzpot/intro-angularjs/01-installation/">ver el demo</a>. Te agradecería en gran manera que puedas compartir este tutorial en tus redes sociales, me ayudarías mucho de esa manera.</p>
+<h3>Te gustaría recibir más tutoriales como este en tu correo?</h3>
+<p>Este tutorial pertenece al curso <a href="/courses/introduccion-a-angular-js/">Introducción a Angular JS</a>, te recomiendo revises el resto de los tutoriales ya que están en secuencia de menor a mayor complejidad.</p>
+<p>Si deseas recibir más tutoriales como este en tu correo te recomiendo registrarte al curso, si ya eres miembro solo identifícate y registrate al curso, si no eres miembro te puedes registrar gratuitamente!</p>
+
+</div>
+</div>
+
+</div>
+<div class="one_third last">
+<div class="course-author">
+<h3 class="course-author-title">Instructor del curso</h3>
+<span class="course-author-gravatar"><img alt="Crysfel3" class="gravatar" src="https://s3.amazonaws.com/quizzpot/users/1/custom/crysfel3.jpg?1418615390" width="100"/></span>
+<span class="course-author-info">
+<p>Autor: <a href="/about/">Crysfel Villa</a></p>
+<p>Ha participado en varios proyectos con Angular y es participante activo del grupo de Angular NYC.</p>
+</span>
+</div>
+
+
+<a class="quizzpot-button" href="http://demos.bleext.com/quizzpot/intro-angularjs/01-installation/">
+<i class="icon-beaker quizzpot-button-line"></i>
+<span>Ver Demostración</span>
+</a>
+
+</div>
+</div>
+<!-- Modal -->
+
+<!--script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script-->
+<script type="text/javascript">
+$(function(){
+    $("#comments i.timeago").timeago();
+
+    Quizzpot.pages.Contact.treeComments({
+        clear     :  true 
+    });
+
+    Quizzpot.pages.Article.init(
+        '/messages/score',
+        '/messages/report'
+    );
+
+    PR.prettyPrint();
+});
+</script>
+</div>
+</section>
+</div>
+<footer>
+<script type="text/javascript">
+	$(function() {
+		$('#scrollUp').click(function() {
+			$('body,html').animate({scrollTop:0},500);
+			return false;
+		});
+
+        $('small.timeago').timeago();
+	});
+</script>
+<section id="totop">
+<div class="container_12">
+<div class="grid_12">
+<a href="#top" id="scrollUp"></a>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_additional">
+<div class="footer_additional_gradient">
+<div class="container_12">
+<aside class="grid_12"></aside>
+</div>
+</div>
+</section>
+<section class="clearfix" id="footer_widgets">
+<div class="footer_widgets_gradient">
+<div class="container_12">
+<aside class="grid_3">
+<div class="widget widget_text" id="text-1">
+<h4 class="widgettitle">Sobre Quizzpot</h4>
+<div class="textwidget">
+	   				Quizzpot nace como un blog, donde se publican artículos y tutoriales de ExtJS y JavaScript, en febrero del 2009. Con el tiempo se comienzan a impartir cursos de entrenamiento y en enero del 2010 se ofrece servicio de desarrollo de componentes.
+					<br><br>
+<a href="/about/">Leer más...</a>
+</br></br></div>
+</div>
+</aside>
+<aside class="grid_3">
+<div class="widget widget_nav_menu" id="nav_menu-1">
+<h4 class="widgettitle">Beneficios</h4>
+<div class="menu-features-container">
+<ul class="menu" id="menu-features">
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-781" id="menu-item-781">
+<p>Instructores expertos en el área</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-779" id="menu-item-779">
+<p>Cursos 100% prácticos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-780" id="menu-item-780">
+<p>Quizzes para probar tus conocimientos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-785" id="menu-item-785">
+<p>Ejercicios durante los temas impartidos</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-786" id="menu-item-786">
+<p>Videos y materiales disponibles a cualquier hora</p>
+</li>
+<li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-782" id="menu-item-782">
+<p>Aprende a tu propio ritmo</p>
+</li>
+</ul>
+</div>
+</div>
+</aside>
+<aside class="grid_3">
+
+</aside>
+<aside class="grid_3">
+
+</aside>
+</div>
+</div></section>
+<div class="footer_light">
+<div class="container_12">
+<p class="grid_12">
+    		Quizzpot 2026 © por <a href="http://www.bleext.com">Bleext S de RL MI</a>
+</p>
+<nav class="container_12 clearfix">
+<ul class="menu" id="menu-social">
+<li><a href="/blog/"><i class="icon-pushpin"></i> Blog</a></li>
+<li><a href="http://www.youtube.com/channel/UCL863CN9FoIB7IGeL2Lnecw"><i class="icon-youtube-play"></i> Youtube</a></li>
+<li><a href="http://twitter.com/quizzpot"><i class="icon-twitter-sign"></i> Twitter</a></li>
+<li><a href="http://facebook.com/quizzpot"><i class="icon-facebook-sign"></i> Facebook</a></li>
+<li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-7" id="menu-item-7"><a href="http://www.linkedin.com/company/bleext?trk=quizzpot"><i class="icon-linkedin-sign"></i> LinkedIn</a></li>
+
+</ul>
+</nav>
+</div>
+</div>
+</footer>
+<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js?lang=css"></script>
+
+
+</div>
+</body>
+</html>
+</html>
